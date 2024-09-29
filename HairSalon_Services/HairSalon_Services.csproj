@@ -5,7 +5,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
   <ItemGroup>
     <Folder Include="INTERFACE\" />
     <Folder Include="SERVICES\" />
@@ -14,5 +13,4 @@
   <ItemGroup>
     <ProjectReference Include="..\HairSalon_Repository\HairSalon_Repository.csproj" />
   </ItemGroup>
-
 </Project>

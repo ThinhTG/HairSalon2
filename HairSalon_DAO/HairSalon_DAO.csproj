@@ -14,5 +14,4 @@
   <ItemGroup>
     <ProjectReference Include="..\HairSalon_BusinessObject\HairSalon_BusinessObject.csproj" />
   </ItemGroup>
-
 </Project>
