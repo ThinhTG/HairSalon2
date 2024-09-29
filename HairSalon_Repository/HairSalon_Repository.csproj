@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="INTERFACE\" />
+    <Folder Include="REPOSITORY\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HairSalon_DAO\HairSalon_DAO.csproj" />
+  </ItemGroup>
+
+</Project>
