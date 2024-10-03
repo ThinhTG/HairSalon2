@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HairSalon_Services.INTERFACE;
+using HairSalon_Services.SERVICES;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,30 @@ namespace HairSalon.Pages
     /// </summary>
     public partial class BookingPage : Page
     {
+        private IStylistService stylistService;
+        private ISalonServiceService serviceService;
         public BookingPage()
         {
             InitializeComponent();
+            stylistService = new StylistService();
+            serviceService = new SalonServiceService();
+
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            LoadDataInit();
+        }
+
+        private void LoadDataInit()
+        {
+            this.stylistComboBox.ItemsSource = stylistService.GetStylists();
+            this.stylistComboBox.DisplayMemberPath = "FullName";
+            this.stylistComboBox.SelectedValuePath = "StylistId";
+
+            this.serviceComboBox.ItemsSource = serviceService.GetServiceList();
+            this.serviceComboBox.DisplayMemberPath = "ServiceName";
+            this.serviceComboBox.SelectedValuePath = "ServiceId";
         }
     }
 }

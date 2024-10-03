@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 namespace HairSalon_BusinessObject.Models;
 
-public partial class Role
+public partial class Slot
 {
-    public int RoleId { get; set; }
+    public int SlotId { get; set; }
 
-    public string RoleName { get; set; }
+    public TimeOnly StartTime { get; set; }
 
-    public virtual ICollection<User> User { get; set; } = new List<User>();
+    public TimeOnly EndStart { get; set; }
 }

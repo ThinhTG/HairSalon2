@@ -7,7 +7,7 @@ namespace HairSalon_BusinessObject.Models;
 
 public partial class Service
 {
-    public string ServiceId { get; set; }
+    public int ServiceId { get; set; }
 
     public string ServiceName { get; set; }
 
