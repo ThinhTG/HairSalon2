@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 namespace HairSalon_BusinessObject.Models;
 
-public partial class Stylsit
+public partial class Stylist
 {
-    public string StylistId { get; set; }
+    public int StylistId { get; set; }
 
     public string FullName { get; set; }
 

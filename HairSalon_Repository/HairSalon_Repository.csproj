@@ -6,11 +6,6 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="INTERFACE\" />
-    <Folder Include="REPOSITORY\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\HairSalon_DAO\HairSalon_DAO.csproj" />
   </ItemGroup>
 </Project>

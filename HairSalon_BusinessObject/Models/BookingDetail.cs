@@ -7,13 +7,13 @@ namespace HairSalon_BusinessObject.Models;
 
 public partial class BookingDetail
 {
-    public string BookingDetailId { get; set; }
+    public int BookingDetailId { get; set; }
 
-    public string BookingId { get; set; }
+    public int BookingId { get; set; }
 
-    public string ServiceId { get; set; }
+    public int ServiceId { get; set; }
 
-    public string StylistId { get; set; }
+    public int StylistId { get; set; }
 
     public DateTime ScheduledWorkingDay { get; set; }
 
@@ -21,5 +21,5 @@ public partial class BookingDetail
 
     public virtual Service Service { get; set; }
 
-    public virtual Stylsit Stylist { get; set; }
+    public virtual Stylist Stylist { get; set; }
 }

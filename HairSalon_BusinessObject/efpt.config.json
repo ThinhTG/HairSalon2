@@ -27,6 +27,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[Payment]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Role]",
          "ObjectType": 0
       },
@@ -35,7 +39,15 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Stylsit]",
+         "Name": "[dbo].[ServiceSlot]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Slot]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Stylist]",
          "ObjectType": 0
       },
       {
