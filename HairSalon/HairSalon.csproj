@@ -9,7 +9,31 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="image\close.png" />
+    <None Remove="image\password.png" />
+    <None Remove="image\png-200x200.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\HairSalon_Services\HairSalon_Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="image\close.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="image\password.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="image\png-200x200.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -7,7 +7,7 @@ namespace HairSalon_BusinessObject.Models;
 
 public partial class Booking
 {
-    public string BookingId { get; set; }
+    public int BookingId { get; set; }
 
     public string Status { get; set; }
 

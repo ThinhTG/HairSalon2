@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using HairSalon_Services;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,10 +17,14 @@ namespace HairSalon
     /// </summary>
     public partial class MainWindow : Window
     {
+
+ 
         public MainWindow()
         {
             InitializeComponent();
         }
+
+        
 
         private void sidebar_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
