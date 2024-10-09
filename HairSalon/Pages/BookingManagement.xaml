@@ -8,7 +8,10 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="BookingManagement">
 
-    <Grid Background="#f1f3f5">
-        <TextBlock Text="BookingManagement" FontFamily="ubuntu"  HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFB197FC" FontSize="60" FontWeight="Bold"/>
+    
+    <Grid Background="Beige">
+        <TextBlock Text="BookingManagement" FontFamily="ubuntu"  HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FFB197FC" FontSize="25" FontWeight="Bold" Margin="22,10,0,0"/>
+        <DataGrid HorizontalAlignment="Center" Height="278" Margin="0,162,0,0" VerticalAlignment="Top" Width="780" d:ItemsSource="{d:SampleData ItemCount=5}" />
+
     </Grid>
 </Page>
