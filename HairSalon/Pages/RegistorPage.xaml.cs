@@ -48,7 +48,7 @@ namespace HairSalon.Pages
             string phoneNumber = PhoneNumberTextBox.Text;
 
             // Validate phone number to contain only digits
-            if (!phoneNumber.All(char.IsDigit) || phoneNumber.Length == 10)
+            if (!phoneNumber.All(char.IsDigit) || phoneNumber.Length == 9)
             {
                 MessageBox.Show("Please enter a valid phone number with digits only.");
                 return;
@@ -64,10 +64,13 @@ namespace HairSalon.Pages
             user.RoleId = roleId;
             user.CreatedAt = createdAt;
 
-            if (userService.AddUser(user) || password.Equals(confirmPassword)){
+            if (userService.AddUser(user) && password.Equals(confirmPassword)){
                 MessageBox.Show($"Username: {username}\nEmail: {email}\nPhone Number: {phoneNumber}", "Registration Successful");
-                NavigationService.Navigate(new Uri("LoginWindow.xaml", UriKind.Relative));
-            } else
+                LoginWindow loginWindow = new LoginWindow();
+                loginWindow.Show();  // This opens the LoginWindow as a separate window
+        
+            }
+            else
             {
                 MessageBox.Show("Contact 113!");
             }
@@ -75,6 +78,13 @@ namespace HairSalon.Pages
 
             
             
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            LoginWindow loginWindow = new LoginWindow();
+            loginWindow.Show();  // This opens the LoginWindow as a separate window
+
         }
     }
 }

@@ -11,7 +11,7 @@ public partial class Service
 
     public string ServiceName { get; set; }
 
-    public decimal Price { get; set; }
+    public decimal? Price { get; set; }
 
     public string Description { get; set; }
 

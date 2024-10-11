@@ -9,11 +9,9 @@ public partial class Earning
 {
     public int EarningId { get; set; }
 
-    public int StylistId { get; set; }
+    public int UserId { get; set; }
 
-    public decimal Commission { get; set; }
+    public decimal? Commission { get; set; }
 
-    public decimal TotalSalary { get; set; }
-
-    public virtual Stylist Stylist { get; set; }
+    public virtual User User { get; set; }
 }

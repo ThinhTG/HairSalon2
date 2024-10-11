@@ -13,13 +13,15 @@ public partial class BookingDetail
 
     public int ServiceId { get; set; }
 
-    public int StylistId { get; set; }
+    public DateTime? ScheduledWorkingDay { get; set; }
 
-    public DateTime ScheduledWorkingDay { get; set; }
+    public int AvailableSlotId { get; set; }
+
+    public decimal? Price { get; set; }
+
+    public bool? Status { get; set; }
 
     public virtual Booking Booking { get; set; }
 
     public virtual Service Service { get; set; }
-
-    public virtual Stylist Stylist { get; set; }
 }

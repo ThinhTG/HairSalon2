@@ -9,6 +9,7 @@
       Title="RegistorPage">
 
     <Grid>
+        
         <Grid.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                 <GradientStop Color="#FFB6C1" Offset="0.0"/>
@@ -37,6 +38,9 @@
                 <TextBox x:Name="PhoneNumberTextBox" Margin="0,0,0,10" Padding="5"/>
 
                 <Button Content="Register" Width="100" HorizontalAlignment="Center" Click="RegisterButton_Click" Background="#FF69B4" Foreground="White" Padding="5"/>
+                
+                <Button Content="Back" Width="100" HorizontalAlignment="Center" Click="BackButton_Click" Background="Gray" Foreground="White" Padding="5"/>
+                
             </StackPanel>
         </Border>
     </Grid>

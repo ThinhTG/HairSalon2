@@ -5,9 +5,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
   <ItemGroup>
-    <Folder Include="INTERFACE\" />
-    <Folder Include="SERVICES\" />
+    <Compile Remove="INTERFACE\**" />
+    <Compile Remove="SERVICES\**" />
+    <EmbeddedResource Remove="INTERFACE\**" />
+    <EmbeddedResource Remove="SERVICES\**" />
+    <None Remove="INTERFACE\**" />
+    <None Remove="SERVICES\**" />
   </ItemGroup>
 
   <ItemGroup>

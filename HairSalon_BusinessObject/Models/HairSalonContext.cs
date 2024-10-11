@@ -28,14 +28,11 @@ public partial class HairSalonContext : DbContext
 
     public virtual DbSet<Service> Service { get; set; }
 
-    public virtual DbSet<Stylist> Stylist { get; set; }
-
     public virtual DbSet<User> User { get; set; }
-
 
     /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=LAPTOP-QBE6FHLI\\SQLEXPRESS;Initial Catalog=CandidateManagement;User ID=sa;Password=12345;Encrypt=False");
+        => optionsBuilder.UseSqlServer("Data Source=LAPTOP-QBE6FHLI\\SQLEXPRESS;Initial Catalog=HairSalonService;User ID=sa;Password=12345;Encrypt=False");
 */
     public static string GetConnectionString(string connectionStringName)
     {
@@ -49,40 +46,45 @@ public partial class HairSalonContext : DbContext
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer(GetConnectionString("DefaultConnection"));
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Booking>(entity =>
         {
             entity.Property(e => e.BookingId).HasColumnName("bookingId");
+            entity.Property(e => e.Amount)
+                .HasColumnType("money")
+                .HasColumnName("amount");
             entity.Property(e => e.BookingDate)
                 .HasColumnType("datetime")
                 .HasColumnName("bookingDate");
-            entity.Property(e => e.CreateBy)
-                .IsRequired()
-                .HasMaxLength(50)
-                .HasColumnName("createBy");
+            entity.Property(e => e.CreateBy).HasColumnName("createBy");
             entity.Property(e => e.Discount)
                 .HasColumnType("decimal(3, 0)")
                 .HasColumnName("discount");
             entity.Property(e => e.Status)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasColumnName("status");
-            entity.Property(e => e.TotalPrice)
-                .HasColumnType("money")
-                .HasColumnName("totalPrice");
+            entity.Property(e => e.UserId).HasColumnName("userId");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Booking)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Booking_User1");
         });
 
         modelBuilder.Entity<BookingDetail>(entity =>
         {
             entity.Property(e => e.BookingDetailId).HasColumnName("bookingDetailId");
+            entity.Property(e => e.AvailableSlotId).HasColumnName("availableSlotId");
             entity.Property(e => e.BookingId).HasColumnName("bookingId");
+            entity.Property(e => e.Price)
+                .HasColumnType("money")
+                .HasColumnName("price");
             entity.Property(e => e.ScheduledWorkingDay)
                 .HasColumnType("datetime")
                 .HasColumnName("scheduledWorkingDay");
             entity.Property(e => e.ServiceId).HasColumnName("serviceId");
-            entity.Property(e => e.StylistId).HasColumnName("stylistId");
+            entity.Property(e => e.Status).HasColumnName("status");
 
             entity.HasOne(d => d.Booking).WithMany(p => p.BookingDetail)
                 .HasForeignKey(d => d.BookingId)
@@ -93,11 +95,6 @@ public partial class HairSalonContext : DbContext
                 .HasForeignKey(d => d.ServiceId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_BookingDetail_Service");
-
-            entity.HasOne(d => d.Stylist).WithMany(p => p.BookingDetail)
-                .HasForeignKey(d => d.StylistId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_BookingDetail_Stylist");
         });
 
         modelBuilder.Entity<Earning>(entity =>
@@ -106,22 +103,18 @@ public partial class HairSalonContext : DbContext
             entity.Property(e => e.Commission)
                 .HasColumnType("money")
                 .HasColumnName("commission");
-            entity.Property(e => e.StylistId).HasColumnName("stylistId");
-            entity.Property(e => e.TotalSalary)
-                .HasColumnType("money")
-                .HasColumnName("totalSalary");
+            entity.Property(e => e.UserId).HasColumnName("userId");
 
-            entity.HasOne(d => d.Stylist).WithMany(p => p.Earning)
-                .HasForeignKey(d => d.StylistId)
+            entity.HasOne(d => d.User).WithMany(p => p.Earning)
+                .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Earning_Stylsit");
+                .HasConstraintName("FK_Earning_User");
         });
 
         modelBuilder.Entity<Role>(entity =>
         {
             entity.Property(e => e.RoleId).HasColumnName("roleId");
             entity.Property(e => e.RoleName)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasColumnName("roleName");
         });
@@ -130,42 +123,17 @@ public partial class HairSalonContext : DbContext
         {
             entity.Property(e => e.ServiceId).HasColumnName("serviceId");
             entity.Property(e => e.Description)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasColumnName("description");
             entity.Property(e => e.Image)
-                .IsRequired()
                 .HasColumnType("image")
                 .HasColumnName("image");
             entity.Property(e => e.Price)
                 .HasColumnType("money")
                 .HasColumnName("price");
             entity.Property(e => e.ServiceName)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasColumnName("serviceName");
-        });
-
-        modelBuilder.Entity<Stylist>(entity =>
-        {
-            entity.HasKey(e => e.StylistId).HasName("PK_Stylsit");
-
-            entity.Property(e => e.StylistId).HasColumnName("stylistId");
-            entity.Property(e => e.FullName)
-                .IsRequired()
-                .HasMaxLength(50)
-                .HasColumnName("fullName");
-            entity.Property(e => e.PhoneNumber)
-                .IsRequired()
-                .HasMaxLength(10)
-                .HasColumnName("phoneNumber");
-            entity.Property(e => e.Salary)
-                .HasColumnType("money")
-                .HasColumnName("salary");
-            entity.Property(e => e.Specialty)
-                .IsRequired()
-                .HasMaxLength(50)
-                .HasColumnName("specialty");
         });
 
         modelBuilder.Entity<User>(entity =>
@@ -175,20 +143,16 @@ public partial class HairSalonContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("createdAt");
             entity.Property(e => e.Email)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasColumnName("email");
             entity.Property(e => e.Password)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasColumnName("password");
             entity.Property(e => e.PhoneNumber)
-                .IsRequired()
                 .HasMaxLength(10)
                 .HasColumnName("phoneNumber");
             entity.Property(e => e.RoleId).HasColumnName("roleId");
             entity.Property(e => e.UserName)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasColumnName("userName");
 

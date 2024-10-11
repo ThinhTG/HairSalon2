@@ -15,11 +15,15 @@ public partial class User
 
     public string Password { get; set; }
 
-    public DateTime CreatedAt { get; set; }
+    public DateTime? CreatedAt { get; set; }
 
     public int RoleId { get; set; }
 
     public string PhoneNumber { get; set; }
+
+    public virtual ICollection<Booking> Booking { get; set; } = new List<Booking>();
+
+    public virtual ICollection<Earning> Earning { get; set; } = new List<Earning>();
 
     public virtual Role Role { get; set; }
 }

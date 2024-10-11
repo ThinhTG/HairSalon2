@@ -11,13 +11,17 @@ public partial class Booking
 
     public string Status { get; set; }
 
-    public DateTime BookingDate { get; set; }
+    public DateTime? BookingDate { get; set; }
 
-    public decimal TotalPrice { get; set; }
+    public decimal? Amount { get; set; }
 
-    public string CreateBy { get; set; }
+    public int? CreateBy { get; set; }
 
-    public decimal Discount { get; set; }
+    public decimal? Discount { get; set; }
+
+    public int UserId { get; set; }
 
     public virtual ICollection<BookingDetail> BookingDetail { get; set; } = new List<BookingDetail>();
+
+    public virtual User User { get; set; }
 }

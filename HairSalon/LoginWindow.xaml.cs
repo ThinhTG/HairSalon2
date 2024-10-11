@@ -85,9 +85,24 @@ namespace HairSalon
                 User user = userService.GetUserByEmail(txtEmail.Text);
                 if (user != null && txtPassword.Password.Equals(user.Password))
                 {
-                    MainWindow mainWindow = new MainWindow();
-                    mainWindow.Show();
-                    this.Close();
+
+
+                    if (user.RoleId == 1)
+                    {
+                        CustomerPage customerPage = new CustomerPage();
+                        customerPage.Show();
+                        this.Close();
+                    }
+                    if (user.RoleId == 2)
+                    {
+                        
+                    }
+                    else if (user.RoleId == 3)
+                    {
+                        StaffPage staffPage = new StaffPage();
+                        staffPage.Show();
+                    }
+
                 }
                 else
                 {
@@ -111,6 +126,9 @@ namespace HairSalon
             RegistorPage registerPage = new RegistorPage();
             this.Content = registerPage; // This replaces the window content with the Register Page
             MainFrame.Navigate(new RegistorPage());
+
+
+
         }
     }
     }
