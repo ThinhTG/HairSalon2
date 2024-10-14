@@ -68,8 +68,8 @@ namespace HairSalon.Pages
             {
                 MessageBox.Show($"Username: {username}\nEmail: {email}\nPhone Number: {phoneNumber}", "Registration Successful");
                 LoginWindow loginWindow = new LoginWindow();
-                loginWindow.Show();  // This opens the LoginWindow as a separate window
-
+                loginWindow.Show();
+                Window.GetWindow(this).Close();
             }
             else
             {
@@ -84,8 +84,8 @@ namespace HairSalon.Pages
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             LoginWindow loginWindow = new LoginWindow();
-            loginWindow.Show();   // Mở lại LoginWindow
-            Window.GetWindow(this).Close();  // Đóng cửa sổ chứa RegistorPage (hoặc cửa sổ hiện tại)
+            loginWindow.Show();
+            Window.GetWindow(this).Close();
         }
 
 
