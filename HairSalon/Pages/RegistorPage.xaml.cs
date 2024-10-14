@@ -64,11 +64,12 @@ namespace HairSalon.Pages
             user.RoleId = roleId;
             user.CreatedAt = createdAt;
 
-            if (userService.AddUser(user) && password.Equals(confirmPassword)){
+            if (userService.AddUser(user) && password.Equals(confirmPassword))
+            {
                 MessageBox.Show($"Username: {username}\nEmail: {email}\nPhone Number: {phoneNumber}", "Registration Successful");
                 LoginWindow loginWindow = new LoginWindow();
                 loginWindow.Show();  // This opens the LoginWindow as a separate window
-        
+
             }
             else
             {
@@ -76,15 +77,19 @@ namespace HairSalon.Pages
             }
 
 
-            
-            
+
+
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             LoginWindow loginWindow = new LoginWindow();
-            loginWindow.Show();  // This opens the LoginWindow as a separate window
-
+            loginWindow.Show();   // Mở lại LoginWindow
+            Window.GetWindow(this).Close();  // Đóng cửa sổ chứa RegistorPage (hoặc cửa sổ hiện tại)
         }
+
+
+
     }
 }
+
