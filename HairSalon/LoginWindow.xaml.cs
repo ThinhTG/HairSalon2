@@ -124,7 +124,7 @@ namespace HairSalon
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             RegistorPage registerPage = new RegistorPage();
-            this.Content = registerPage; // This replaces the window content with the Register Page
+            this.Content = registerPage;
             MainFrame.Navigate(new RegistorPage());
 
 
