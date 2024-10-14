@@ -93,11 +93,11 @@ namespace HairSalon
                         customerPage.Show();
                         this.Close();
                     }
-                    if (user.RoleId == 2)
+                    if (user.RoleId == 3)
                     {
                         
                     }
-                    else if (user.RoleId == 3)
+                    else if (user.RoleId == 2)
                     {
                         StaffPage staffPage = new StaffPage();
                         staffPage.Show();

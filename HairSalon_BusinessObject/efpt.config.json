@@ -35,10 +35,6 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Stylsit]",
-         "ObjectType": 0
-      },
-      {
          "Name": "[dbo].[User]",
          "ObjectType": 0
       }
