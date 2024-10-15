@@ -7,7 +7,7 @@ namespace HairSalon_BusinessObject.Models;
 
 public partial class User
 {
-    public string UserId { get; set; }
+    public int UserId { get; set; }
 
     public string UserName { get; set; }
 
@@ -15,11 +15,17 @@ public partial class User
 
     public string Password { get; set; }
 
-    public string CreatedAt { get; set; }
+    public DateTime? CreatedAt { get; set; }
 
-    public string RoleId { get; set; }
+    public int RoleId { get; set; }
 
-    public decimal PhoneNumber { get; set; }
+    public string PhoneNumber { get; set; }
+
+    public virtual ICollection<AvailableSlot> AvailableSlot { get; set; } = new List<AvailableSlot>();
+
+    public virtual ICollection<Booking> Booking { get; set; } = new List<Booking>();
+
+    public virtual ICollection<Earning> Earning { get; set; } = new List<Earning>();
 
     public virtual Role Role { get; set; }
 }
