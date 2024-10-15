@@ -7,13 +7,11 @@ namespace HairSalon_BusinessObject.Models;
 
 public partial class Earning
 {
-    public string EarningId { get; set; }
+    public int EarningId { get; set; }
 
-    public string StylistId { get; set; }
+    public int UserId { get; set; }
 
-    public decimal Commission { get; set; }
+    public decimal? Commission { get; set; }
 
-    public decimal TotalSalary { get; set; }
-
-    public virtual Stylsit Stylist { get; set; }
+    public virtual User User { get; set; }
 }
