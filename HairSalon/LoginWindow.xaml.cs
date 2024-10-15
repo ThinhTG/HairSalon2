@@ -24,7 +24,7 @@ namespace HairSalon
     public partial class LoginWindow : Window
     {
 
-        private UserService userService;
+        private IUserService userService;
 
         public LoginWindow()
         {

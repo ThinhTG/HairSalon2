@@ -8,30 +8,30 @@ using System.Threading.Tasks;
 
 namespace HairSalon_Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
-        private UserRepository UserRepository;
+        private readonly IUserRepository iuserRepository;
 
         public UserService() {
-            UserRepository = new UserRepository();
+            iuserRepository = new UserRepository();
         }
         public User GetUserByEmail(string email) {
-            return UserRepository.GetUserByEmail(email);
+            return iuserRepository.GetUserByEmail(email);
         }
 
         public User GetUserByName(string username)
         {
-            return UserRepository.GetUserByName(username);
+            return iuserRepository.GetUserByName(username);
         }
 
         public List<User> GetUsers()
         {
-            return UserRepository.GetUsers();
+            return iuserRepository.GetUsers();
         }
 
         public bool AddUser(User user)
         {
-            return UserRepository.AddUser(user);
+            return iuserRepository.AddUser(user);
         }
 
     }

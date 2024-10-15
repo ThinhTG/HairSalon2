@@ -25,7 +25,7 @@ namespace HairSalon.Pages
     public partial class RegistorPage : Page
     {
 
-        private UserService userService;
+        private IUserService userService;
         public RegistorPage()
         {
             InitializeComponent();

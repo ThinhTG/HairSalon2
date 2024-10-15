@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HairSalon_Repository
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
         public User GetUserByEmail(string email) => UserDAO.Instance.GetUserByEmail(email);
 
