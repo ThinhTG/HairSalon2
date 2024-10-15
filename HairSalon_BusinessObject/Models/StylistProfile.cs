@@ -5,13 +5,15 @@ using System.Collections.Generic;
 
 namespace HairSalon_BusinessObject.Models;
 
-public partial class Earning
+public partial class StylistProfile
 {
-    public int EarningId { get; set; }
-
     public int UserId { get; set; }
 
-    public decimal? Commission { get; set; }
+    public decimal? Salary { get; set; }
+
+    public double? DailySalary { get; set; }
+
+    public DateOnly? Date { get; set; }
 
     public virtual User User { get; set; }
 }
