@@ -10,7 +10,7 @@ namespace HairSalon_DAO.DAO
 {
     public class BookingDetailDAO
     {
-        private HairSalonContext dbContext;
+        private HairSalonServiceContext dbContext;
 
         private static BookingDetailDAO instance = null;
 
@@ -28,7 +28,7 @@ namespace HairSalon_DAO.DAO
 
         public BookingDetailDAO()
         {
-            dbContext = new HairSalonContext();
+            dbContext = new HairSalonServiceContext();
         }
 
         public List<BookingDetail> GetBookingDetailsByBookingId(int bookingId)

@@ -9,12 +9,12 @@ namespace HairSalon_DAO.DAO
 {
     public class BookingManagementDAO
     {
-        private HairSalonContext context;
+        private HairSalonServiceContext context;
         private static BookingManagementDAO instance;
 
         public BookingManagementDAO()
         {
-            context = new HairSalonContext();
+            context = new HairSalonServiceContext();
         }
 
         public static BookingManagementDAO Instance

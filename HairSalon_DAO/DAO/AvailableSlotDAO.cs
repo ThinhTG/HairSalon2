@@ -10,13 +10,13 @@ namespace HairSalon_DAO.DAO
 {
     public class AvailableSlotDAO
     {
-        private HairSalonContext dbContext;
+        private HairSalonServiceContext dbContext;
         private static AvailableSlotDAO instance;
 
 
         public AvailableSlotDAO()
         {
-            dbContext = new HairSalonContext();
+            dbContext = new HairSalonServiceContext();
         }
         public static AvailableSlotDAO Instance
         {

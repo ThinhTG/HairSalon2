@@ -10,7 +10,7 @@ namespace HairSalon_DAO.DAO
 
     public class UserDAO
     {
-        private HairSalonContext _context;
+        private HairSalonServiceContext _context;
         private static UserDAO instance = null;
 
         public static UserDAO Instance
@@ -27,7 +27,7 @@ namespace HairSalon_DAO.DAO
 
         public UserDAO()
         {
-            _context = new HairSalonContext();
+            _context = new HairSalonServiceContext();
         }
 
         public User GetUser(string email, string password)

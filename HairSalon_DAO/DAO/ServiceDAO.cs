@@ -9,13 +9,13 @@ namespace HairSalon_DAO.DAO
 {
     public class ServiceDAO
     {
-        private HairSalonContext dbContext;
+        private HairSalonServiceContext dbContext;
         private static ServiceDAO instance;
 
 
         public ServiceDAO()
         {
-            dbContext = new HairSalonContext();
+            dbContext = new HairSalonServiceContext();
         }
 
         public static ServiceDAO Instance

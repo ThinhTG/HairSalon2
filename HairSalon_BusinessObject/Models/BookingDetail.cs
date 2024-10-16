@@ -23,7 +23,6 @@ public partial class BookingDetail
 
     public virtual AvailableSlot AvailableSlot { get; set; }
 
-
     public virtual Booking Booking { get; set; }
 
     public virtual Service Service { get; set; }

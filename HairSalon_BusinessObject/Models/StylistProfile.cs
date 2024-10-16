@@ -11,7 +11,7 @@ public partial class StylistProfile
 
     public decimal? Salary { get; set; }
 
-    public decimal? DailySalary { get; set; }
+    public double? DailySalary { get; set; }
 
     public DateOnly? Date { get; set; }
 

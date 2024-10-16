@@ -11,7 +11,7 @@ namespace HairSalon_DAO.DTO
         public string ServiceName { get; set; }
         public string UserName { get; set; }
         public DateTime ScheduledWorkingDay { get; set; }
-        public TimeOnly? StartTime { get; set; } // Chuyển sang TimeOnly?
+        public TimeOnly? StartTime { get; set; }
         public decimal Price { get; set; }
         public bool Status { get; set; }
     }
