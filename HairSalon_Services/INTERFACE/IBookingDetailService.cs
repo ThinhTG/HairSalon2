@@ -13,7 +13,6 @@ namespace HairSalon_Services.INTERFACE
         bool AddBookingDetail(BookingDetail bookingDetail);
         bool UpdateBookingDetailStatus(int bookingDetailId, string newStatus);
         List<BookingDetail> GetPendingBookingDetails();
-
         bool SaveChanges();
     }
 }

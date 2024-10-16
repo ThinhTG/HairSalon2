@@ -12,15 +12,8 @@ namespace HairSalon_Repository.REPOSITORY
 {
     public class BookingDetailRepo : IBookingDetailRepo
     {
-        private readonly BookingDetailDAO _bookingDetailDAO;
-
-        public BookingDetailRepo()
-        {
-            _bookingDetailDAO = BookingDetailDAO.Instance;
-        }
-
         public List<BookingDetail> GetBookingDetailsByBookingId(int bookingId)
-            => BookingDetailDAO.Instance.GetBookingDetailsByBookingId(bookingId);
+          => BookingDetailDAO.Instance.GetBookingDetailsByBookingId(bookingId);
 
 
         public bool AddBookingDetail(BookingDetail bookingDetail)

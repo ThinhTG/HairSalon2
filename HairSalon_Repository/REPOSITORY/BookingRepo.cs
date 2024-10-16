@@ -13,13 +13,6 @@ namespace HairSalon_Repository.REPOSITORY
 {
     public class BookingRepo : IBookingRepo
     {
-        private readonly BookingDAO _bookingDAO;
-
-        public BookingRepo()
-        {
-            _bookingDAO = BookingDAO.Instance;
-        }
-
         public bool AddBooking(Booking booking)
             => BookingDAO.Instance.AddBooking(booking);
 
@@ -31,6 +24,5 @@ namespace HairSalon_Repository.REPOSITORY
 
         public bool SaveChanges()
             => BookingDAO.Instance.SaveChanges();
-
     }
 }

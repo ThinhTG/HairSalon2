@@ -37,7 +37,6 @@ namespace HairSalon_DAO.DAO
 
         public List<AvailableSlot> GetAvailableSlotsByDate(DateTime date)
         {
-            // Kiểm tra trạng thái không phải là null và không booked
             return dbContext.AvailableSlot
                             .Where(a => a.Date == date && (!a.Status.HasValue || !a.Status.Value))
                             .ToList();
@@ -45,7 +44,7 @@ namespace HairSalon_DAO.DAO
         public List<AvailableSlot> GetAvailableSlotsByStylist(int stylistId, DateTime date)
         {
             return dbContext.AvailableSlot
-                            .Include(a => a.Slot) // Include bảng Slot để lấy thông tin Slot
+                            .Include(a => a.Slot)
                             .Where(a => a.UserId == stylistId && a.Date == date && (!a.Status.HasValue || a.Status == false))
                             .ToList();
         }
@@ -53,7 +52,7 @@ namespace HairSalon_DAO.DAO
         {
             return dbContext.AvailableSlot
                 .Where(a => a.SlotId == slotId && a.Date == date && (!a.Status.HasValue || !a.Status.Value))
-                .Select(a => a.User) // Lấy thông tin stylist
+                .Select(a => a.User) 
                 .Distinct()
                 .ToList();
         }
@@ -63,12 +62,11 @@ namespace HairSalon_DAO.DAO
             var slot = GetAvailableSlotById(availableSlotId);
             if (slot != null)
             {
-                slot.Status = status; // Update status to true/false
-                SaveChanges(); // Lưu lại thay đổi
+                slot.Status = status; 
+                SaveChanges(); 
             }
             else
             {
-                // Có thể log hoặc xử lý khi slot không tồn tại
                 throw new Exception("AvailableSlot not found.");
             }
         }
@@ -76,7 +74,6 @@ namespace HairSalon_DAO.DAO
 
         public List<User> GetStylists()
         {
-            // Giả sử roleId = 1 đại diện cho stylist
             return dbContext.User.Where(u => u.RoleId == 2).ToList();
         }
 
@@ -84,11 +81,9 @@ namespace HairSalon_DAO.DAO
         {
             return dbContext.Slot.ToList();
         }
-
-
         public void SaveChanges()
         {
-            dbContext.SaveChanges(); // Lưu tất cả thay đổi vào cơ sở dữ liệu
+            dbContext.SaveChanges(); 
         }
     }
 

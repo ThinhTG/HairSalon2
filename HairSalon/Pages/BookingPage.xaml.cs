@@ -26,6 +26,9 @@ namespace HairSalon.Pages
             _bookingService = new BookingService();
             _serviceService = new ServiceService();
             bookingSummaryDataGrid.ItemsSource = tempBookingDetails;
+            datePicker.DisplayDateStart = DateTime.Now;
+
+
         }
 
         private void LoadServices()
@@ -155,7 +158,7 @@ namespace HairSalon.Pages
                 };
 
                 _bookingService.AddBooking(booking);
-              
+
 
                 foreach (var detail in tempBookingDetails)
                 {
@@ -165,8 +168,6 @@ namespace HairSalon.Pages
                     if (service != null && slot != null)
                     {
                         detail.BookingId = booking.BookingId;
-
-                        MessageBox.Show("❌ Không thể thêm booking detail cho dịch vụ: " + "BookingId" + detail.BookingId + "ServiceId" + detail.Service.ServiceId + "Schedule" + detail.ScheduledWorkingDay + "AvailableSlot" + detail.AvailableSlotId + "Price" + detail.Price + "Status" +detail.Status );
                         bool success = _bookingDetailService.AddBookingDetail(detail);
 
                         if (success)

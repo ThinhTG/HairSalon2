@@ -52,23 +52,24 @@ namespace HairSalon_DAO.DAO
                     isSuccess = true;
                 }
             }
+            catch (DbUpdateException dbEx)
+            {
+                Console.WriteLine("Database update error: " + dbEx.Message);
+                if (dbEx.InnerException != null)
+                {
+                    Console.WriteLine("Inner exception: " + dbEx.InnerException.Message);
+                }
+            }
             catch (Exception ex)
             {
-                
-                Console.WriteLine("Error while adding BookingDetail: " + ex.Message);
-
-                
+                Console.WriteLine("General error while adding BookingDetail: " + ex.Message);
                 if (ex.InnerException != null)
                 {
                     Console.WriteLine("Inner exception: " + ex.InnerException.Message);
                 }
-
-                throw;
             }
             return isSuccess;
         }
-
-
 
         public bool UpdateBookingDetailStatus(int bookingDetailId, string newStatus)
         {
@@ -102,12 +103,11 @@ namespace HairSalon_DAO.DAO
         {
             try
             {
-                dbContext.SaveChanges();  // Thực hiện lưu thay đổi vào database
+                dbContext.SaveChanges(); 
                 return true;
             }
             catch (Exception ex)
             {
-                // Log lỗi nếu có
                 throw new Exception("Error saving changes: " + ex.Message);
             }
         }

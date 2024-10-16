@@ -50,17 +50,13 @@ namespace HairSalon_DAO.DAO
                 }
             }
             catch (Exception ex)
-            {
-                // Log thông tin chi tiết về lỗi
-                Console.WriteLine("Error while adding BookingDetail: " + ex.Message);
-
-                // Nếu có InnerException, log thêm thông tin từ InnerException
+            {          
+                Console.WriteLine("Error while adding BookingDetail: " + ex.Message);             
                 if (ex.InnerException != null)
                 {
                     Console.WriteLine("Inner exception: " + ex.InnerException.Message);
                 }
-
-                throw; // Ném lại ngoại lệ để gọi ra ngoài có thể tiếp tục bắt lỗi
+                throw; 
             }
             return isSuccess;
         }
@@ -90,12 +86,11 @@ namespace HairSalon_DAO.DAO
         {
             try
             {
-                dbContext.SaveChanges();  // Thực hiện lưu thay đổi vào database
+                dbContext.SaveChanges();
                 return true;
             }
             catch (Exception ex)
             {
-                // Log lỗi nếu có
                 throw new Exception("Error saving changes: " + ex.Message);
             }
         }

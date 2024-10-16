@@ -9,55 +9,35 @@ namespace HairSalon_Repository.REPOSITORY
 {
     public class AvailableSlotRepo : IAvailableSlotRepo
     {
-        private readonly AvailableSlotDAO _availableSlotDAO;
+        public AvailableSlot GetAvailableSlotById(int id) 
+            => AvailableSlotDAO.Instance.GetAvailableSlotById(id);
 
-        public AvailableSlotRepo()
-        {
-            _availableSlotDAO = AvailableSlotDAO.Instance;
-        }
 
-        public AvailableSlot GetAvailableSlotById(int id)
-        {
-            return _availableSlotDAO.GetAvailableSlotById(id);
-        }
-
-        public List<AvailableSlot> GetAvailableSlotsByDate(DateTime date)
-        {
-            return _availableSlotDAO.GetAvailableSlotsByDate(date);
-        }
+        public List<AvailableSlot> GetAvailableSlotsByDate(DateTime date) 
+            => AvailableSlotDAO.Instance.GetAvailableSlotsByDate(date);
+       
 
         public void UpdateSlotStatus(int availableSlotId, bool status)
-        {
-            _availableSlotDAO.UpdateSlotStatus(availableSlotId, status);
-        }
+            => AvailableSlotDAO.Instance.UpdateSlotStatus(availableSlotId, status);  
+       
 
-        public void SaveChanges()
-        {
-            _availableSlotDAO.SaveChanges();
-        }
+        public void SaveChanges() 
+            => AvailableSlotDAO.Instance.SaveChanges();
+      
 
-        // Cập nhật để lấy danh sách stylist (User với RoleId = 1)
-        public List<User> GetStylists()
-        {
-            // Gọi đến DAO để lấy danh sách stylist
-            return _availableSlotDAO.GetStylists();
-        }
+        public List<User> GetStylists() 
+            => AvailableSlotDAO.Instance.GetStylists();
+       
 
-        // Cập nhật để lấy danh sách slot
         public List<Slot> GetSlots()
-        {
-            // Gọi đến DAO để lấy danh sách slot
-            return _availableSlotDAO.GetSlots();
-        }
+            => AvailableSlotDAO.Instance.GetSlots();
 
-        public List<AvailableSlot> GetAvailableSlotsByStylist(int stylistId, DateTime date)
-        {
-            return _availableSlotDAO.GetAvailableSlotsByStylist(stylistId, date);
-        }
+
+        public List<AvailableSlot> GetAvailableSlotsByStylist(int stylistId, DateTime date) 
+            => AvailableSlotDAO.Instance.GetAvailableSlotsByStylist(stylistId, date);
+       
 
         public List<User> GetAvailableStylistsBySlotAndDate(int slotId, DateTime date)
-        {
-            return _availableSlotDAO.GetAvailableStylistsBySlotAndDate((int)slotId, date);
-        }
+            => AvailableSlotDAO.Instance.GetAvailableStylistsBySlotAndDate(slotId, date);      
     }
 }

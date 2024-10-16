@@ -43,6 +43,7 @@
          "ObjectType": 0
       },
       {
+<<<<<<< HEAD
          "Name": "[dbo].[Slot]",
          "ObjectType": 0
       },
@@ -51,6 +52,8 @@
          "ObjectType": 0
       },
       {
+=======
+>>>>>>> 491c731b33f96e5a1a6a71384d1f30dd41e81a37
          "Name": "[dbo].[User]",
          "ObjectType": 0
       }
