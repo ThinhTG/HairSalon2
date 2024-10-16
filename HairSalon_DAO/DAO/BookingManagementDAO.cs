@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HairSalon_DAO
+namespace HairSalon_DAO.DAO
 {
     public class BookingManagementDAO
     {
@@ -28,7 +28,6 @@ namespace HairSalon_DAO
                 return instance;
             }
         }
-
 
     }
 }

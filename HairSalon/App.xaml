@@ -136,7 +136,7 @@
 
         <Style x:Key="imgClose" TargetType="Image">
             <Setter Property="Width" Value="38" />
-            <Setter Property="Height" Value="30" /> 
+            <Setter Property="Height" Value="30" />
             <Setter Property="VerticalAlignment" Value="Top" />
             <Setter Property="HorizontalAlignment" Value="Right" />
             <Setter Property="Margin" Value="0 10 10 0" />
@@ -152,7 +152,6 @@
             </Style.Triggers>
 
         </Style>
-
-
     </Application.Resources>
+
 </Application>

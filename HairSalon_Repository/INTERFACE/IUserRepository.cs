@@ -1,14 +1,14 @@
 ﻿using HairSalon_BusinessObject.Models;
-using HairSalon_Repository;
+using HairSalon_DAO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HairSalon_Services
+namespace HairSalon_Repository.INTERFACE
 {
-    public interface IUserService
+    public interface IUserRepository
     {
         public User GetUserByEmail(string email);
 

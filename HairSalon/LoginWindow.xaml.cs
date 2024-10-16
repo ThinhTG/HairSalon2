@@ -1,6 +1,8 @@
 ﻿using HairSalon.Pages;
 using HairSalon_BusinessObject.Models;
 using HairSalon_Services;
+using HairSalon_Services.INTERFACE;
+using HairSalon_Services.SERVICE;
 using System;
 using System.Collections.Generic;
 using System.Linq;

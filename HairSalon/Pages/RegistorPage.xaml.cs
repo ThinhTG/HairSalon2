@@ -16,6 +16,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Text.RegularExpressions;
+using HairSalon_Services.INTERFACE;
+using HairSalon_Services.SERVICE;
 
 namespace HairSalon.Pages
 {

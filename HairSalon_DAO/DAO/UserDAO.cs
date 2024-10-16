@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HairSalon_DAO
+namespace HairSalon_DAO.DAO
 {
-    
+
     public class UserDAO
     {
         private HairSalonContext _context;
@@ -52,7 +52,7 @@ namespace HairSalon_DAO
 
         public bool AddUser(User user)
         {
-            User user1 = this.GetUserByEmail(user.Email);
+            User user1 = GetUserByEmail(user.Email);
             try
             {
                 if (user1 != null)
