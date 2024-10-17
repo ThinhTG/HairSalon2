@@ -50,7 +50,7 @@ namespace HairSalon.Pages
             string phoneNumber = PhoneNumberTextBox.Text;
 
             // Validate phone number to contain only digits
-            if (!phoneNumber.All(char.IsDigit) || phoneNumber.Length == 9)
+            if (!phoneNumber.All(char.IsDigit) || phoneNumber.Length != 10)
             {
                 MessageBox.Show("Please enter a valid phone number with digits only.");
                 return;
@@ -66,16 +66,21 @@ namespace HairSalon.Pages
             user.RoleId = roleId;
             user.CreatedAt = createdAt;
 
-            if (userService.AddUser(user) && password.Equals(confirmPassword))
+            if (userService.AddUser(user))
             {
-                MessageBox.Show($"Username: {username}\nEmail: {email}\nPhone Number: {phoneNumber}", "Registration Successful");
-                LoginWindow loginWindow = new LoginWindow();
-                loginWindow.Show();
-                Window.GetWindow(this).Close();
+                if (password.Equals(confirmPassword))
+                {
+                    MessageBox.Show($"Username: {username}\nEmail: {email}\nPhone Number: {phoneNumber}", "Registration Successful");
+                    LoginWindow loginWindow = new LoginWindow();
+                    loginWindow.Show();
+                    Window.GetWindow(this).Close();
+                } else {
+                    MessageBox.Show("Passwords do not match.");
+                }
             }
             else
             {
-                MessageBox.Show("Contact 113!");
+                MessageBox.Show("Gmail da trung!");
             }
 
 
