@@ -43,7 +43,7 @@ namespace HairSalon.Pages
             }
 
 
-            string username = UsernameTextBox.Text;
+            string username = UsernameTextBox.Text.ToUpper();
             string password = PasswordBox.Password;
             string confirmPassword = ConfirmPasswordBox.Password;
             string email = EmailTextBox.Text;

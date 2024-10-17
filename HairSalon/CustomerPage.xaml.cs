@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using HairSalon.ViewModel;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,10 +17,21 @@ namespace HairSalon
     /// </summary>
     public partial class CustomerPage : Window
     {
+        private int userId;
+
+        private string userName;
         public CustomerPage()
         {
             InitializeComponent();
         }
+
+        public CustomerPage(int id, string name)
+        {
+            this.DataContext = new CustomerViewModel { Name = name };
+            InitializeComponent();
+        }
+
+
 
         private void sidebar_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
