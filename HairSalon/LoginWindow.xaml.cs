@@ -1,6 +1,8 @@
 ﻿using HairSalon.Pages;
 using HairSalon_BusinessObject.Models;
 using HairSalon_Services;
+using HairSalon_Services.INTERFACE;
+using HairSalon_Services.SERVICE;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +26,7 @@ namespace HairSalon
     public partial class LoginWindow : Window
     {
 
-        private UserService userService;
+        private IUserService userService;
 
         public LoginWindow()
         {
@@ -89,7 +91,7 @@ namespace HairSalon
 
                     if (user.RoleId == 1)
                     {
-                        CustomerPage customerPage = new CustomerPage();
+                        CustomerPage customerPage = new CustomerPage(user.UserId,user.UserName);
                         customerPage.Show();
                         this.Close();
                     }
@@ -124,7 +126,7 @@ namespace HairSalon
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             RegistorPage registerPage = new RegistorPage();
-            this.Content = registerPage; // This replaces the window content with the Register Page
+            this.Content = registerPage;
             MainFrame.Navigate(new RegistorPage());
 
 

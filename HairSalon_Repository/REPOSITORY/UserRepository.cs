@@ -1,14 +1,15 @@
 ﻿using HairSalon_BusinessObject.Models;
-using HairSalon_DAO;
+using HairSalon_DAO.DAO;
+using HairSalon_Repository.INTERFACE;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HairSalon_Repository
+namespace HairSalon_Repository.REPOSITORY
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
         public User GetUserByEmail(string email) => UserDAO.Instance.GetUserByEmail(email);
 

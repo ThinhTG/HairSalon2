@@ -16,6 +16,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Text.RegularExpressions;
+using HairSalon_Services.INTERFACE;
+using HairSalon_Services.SERVICE;
 
 namespace HairSalon.Pages
 {
@@ -25,7 +27,7 @@ namespace HairSalon.Pages
     public partial class RegistorPage : Page
     {
 
-        private UserService userService;
+        private IUserService userService;
         public RegistorPage()
         {
             InitializeComponent();
@@ -41,14 +43,14 @@ namespace HairSalon.Pages
             }
 
 
-            string username = UsernameTextBox.Text;
+            string username = UsernameTextBox.Text.ToUpper();
             string password = PasswordBox.Password;
             string confirmPassword = ConfirmPasswordBox.Password;
             string email = EmailTextBox.Text;
             string phoneNumber = PhoneNumberTextBox.Text;
 
             // Validate phone number to contain only digits
-            if (!phoneNumber.All(char.IsDigit) || phoneNumber.Length == 9)
+            if (!phoneNumber.All(char.IsDigit) || phoneNumber.Length != 10)
             {
                 MessageBox.Show("Please enter a valid phone number with digits only.");
                 return;
@@ -64,27 +66,37 @@ namespace HairSalon.Pages
             user.RoleId = roleId;
             user.CreatedAt = createdAt;
 
-            if (userService.AddUser(user) && password.Equals(confirmPassword)){
-                MessageBox.Show($"Username: {username}\nEmail: {email}\nPhone Number: {phoneNumber}", "Registration Successful");
-                LoginWindow loginWindow = new LoginWindow();
-                loginWindow.Show();  // This opens the LoginWindow as a separate window
-        
+            if (userService.AddUser(user))
+            {
+                if (password.Equals(confirmPassword))
+                {
+                    MessageBox.Show($"Username: {username}\nEmail: {email}\nPhone Number: {phoneNumber}", "Registration Successful");
+                    LoginWindow loginWindow = new LoginWindow();
+                    loginWindow.Show();
+                    Window.GetWindow(this).Close();
+                } else {
+                    MessageBox.Show("Passwords do not match.");
+                }
             }
             else
             {
-                MessageBox.Show("Contact 113!");
+                MessageBox.Show("Gmail da trung!");
             }
 
 
-            
-            
+
+
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             LoginWindow loginWindow = new LoginWindow();
-            loginWindow.Show();  // This opens the LoginWindow as a separate window
-
+            loginWindow.Show();
+            Window.GetWindow(this).Close();
         }
+
+
+
     }
 }
+

@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HairSalon_DAO
+namespace HairSalon_DAO.DAO
 {
-    
+
     public class UserDAO
     {
-        private HairSalonContext _context;
+        private HairSalonServiceContext _context;
         private static UserDAO instance = null;
 
         public static UserDAO Instance
@@ -27,7 +27,7 @@ namespace HairSalon_DAO
 
         public UserDAO()
         {
-            _context = new HairSalonContext();
+            _context = new HairSalonServiceContext();
         }
 
         public User GetUser(string email, string password)
@@ -52,7 +52,7 @@ namespace HairSalon_DAO
 
         public bool AddUser(User user)
         {
-            User user1 = this.GetUserByEmail(user.Email);
+            User user1 = GetUserByEmail(user.Email);
             try
             {
                 if (user1 != null)
