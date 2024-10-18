@@ -1,4 +1,5 @@
 ﻿using HairSalon_BusinessObject.Models;
+using HairSalon_Repository;
 using HairSalon_Repository.INTERFACE;
 using HairSalon_Repository.REPOSITORY;
 using HairSalon_Services.INTERFACE;
@@ -24,6 +25,10 @@ namespace HairSalon_Services.SERVICE
             return _bookingRepo.AddBooking(booking);
         }
 
+        public List<Booking> GetBookings()
+        {
+            return _bookingRepo.GetBookingsList();
+        }
 
         public Booking GetBookingById(int bookingId)
         {

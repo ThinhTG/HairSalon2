@@ -1,4 +1,5 @@
 ﻿using HairSalon_BusinessObject.Models;
+using HairSalon_DAO;
 using HairSalon_DAO.DAO;
 using HairSalon_DAO.DTO;
 using HairSalon_Repository.INTERFACE;
@@ -24,5 +25,9 @@ namespace HairSalon_Repository.REPOSITORY
 
         public bool SaveChanges()
             => BookingDAO.Instance.SaveChanges();
+
+        public List<Booking> GetBookingsList() => BookingDAO.Instance.GetAll();
+
     }
+
 }
