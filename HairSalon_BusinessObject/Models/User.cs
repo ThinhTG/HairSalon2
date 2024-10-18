@@ -21,6 +21,8 @@ public partial class User
 
     public string PhoneNumber { get; set; }
 
+    public virtual ICollection<AvailableSlot> AvailableSlot { get; set; } = new List<AvailableSlot>();
+
     public virtual ICollection<Booking> Booking { get; set; } = new List<Booking>();
 
     public virtual ICollection<Earning> Earning { get; set; } = new List<Earning>();

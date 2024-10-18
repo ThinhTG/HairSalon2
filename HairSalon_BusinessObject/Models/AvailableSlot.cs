@@ -5,25 +5,21 @@ using System.Collections.Generic;
 
 namespace HairSalon_BusinessObject.Models;
 
-public partial class Booking
+public partial class AvailableSlot
 {
-    public int BookingId { get; set; }
+    public int AvailableSlotId { get; set; }
 
-    public string Status { get; set; }
+    public int SlotId { get; set; }
 
-    public DateTime? BookingDate { get; set; }
-
-    public decimal? Amount { get; set; }
-
-    public int? CreateBy { get; set; }
-
-    public decimal? Discount { get; set; }
+    public DateTime? Date { get; set; }
 
     public int UserId { get; set; }
 
+    public bool? Status { get; set; }
+
     public virtual ICollection<BookingDetail> BookingDetail { get; set; } = new List<BookingDetail>();
 
-    public virtual ICollection<Payment> Payment { get; set; } = new List<Payment>();
+    public virtual Slot Slot { get; set; }
 
     public virtual User User { get; set; }
 }

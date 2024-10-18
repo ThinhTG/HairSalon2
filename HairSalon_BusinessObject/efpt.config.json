@@ -15,6 +15,10 @@
    "T4TemplatePath": null,
    "Tables": [
       {
+         "Name": "[dbo].[AvailableSlot]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Booking]",
          "ObjectType": 0
       },
@@ -27,11 +31,23 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[Payment]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Role]",
          "ObjectType": 0
       },
       {
          "Name": "[dbo].[Service]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Slot]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[StylistProfile]",
          "ObjectType": 0
       },
       {

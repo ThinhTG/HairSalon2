@@ -14,4 +14,8 @@
   <ItemGroup>
     <ProjectReference Include="..\HairSalon_BusinessObject\HairSalon_BusinessObject.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DAO\" />
+  </ItemGroup>
 </Project>
