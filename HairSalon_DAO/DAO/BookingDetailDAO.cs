@@ -47,6 +47,16 @@ namespace HairSalon_DAO.DAO
             {
                 if (bookingDetail != null)
                 {
+                    var existingService = dbContext.Service.Find(bookingDetail.ServiceId);
+                    var existingSlot = dbContext.AvailableSlot.Find(bookingDetail.AvailableSlotId);
+
+                    if (existingService == null || existingSlot == null)
+                    {
+                        throw new InvalidOperationException("One or more related entities do not exist.");
+                    }
+                    bookingDetail.Service = existingService;
+                    bookingDetail.AvailableSlot = existingSlot;
+
                     dbContext.BookingDetail.Add(bookingDetail);
                     dbContext.SaveChanges();
                     isSuccess = true;

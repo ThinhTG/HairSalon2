@@ -38,26 +38,34 @@ namespace HairSalon_DAO.DAO
         public List<AvailableSlot> GetAvailableSlotsByDate(DateTime date)
         {
             return dbContext.AvailableSlot
-                            .Where(a => a.Date == date && (!a.Status.HasValue || !a.Status.Value))
+                            .Where(a => a.Date.HasValue && a.Date.Value.Date == date.Date
+                                        && (string.IsNullOrEmpty(a.Status) || a.Status == "Unbooked"))
                             .ToList();
         }
+
         public List<AvailableSlot> GetAvailableSlotsByStylist(int stylistId, DateTime date)
         {
             return dbContext.AvailableSlot
                             .Include(a => a.Slot)
-                            .Where(a => a.UserId == stylistId && a.Date == date && (!a.Status.HasValue || a.Status == false))
+                            .Where(a => a.UserId == stylistId
+                                        && a.Date.HasValue && a.Date.Value.Date == date.Date 
+                                        && (string.IsNullOrEmpty(a.Status) || a.Status == "Unbooked"))
                             .ToList();
         }
+
         public List<User> GetAvailableStylistsBySlotAndDate(int slotId, DateTime date)
         {
             return dbContext.AvailableSlot
-                .Where(a => a.SlotId == slotId && a.Date == date && (!a.Status.HasValue || !a.Status.Value))
-                .Select(a => a.User) 
+                .Where(a => a.SlotId == slotId
+                            && a.Date.HasValue && a.Date.Value.Date == date.Date
+                            && (string.IsNullOrEmpty(a.Status) || a.Status == "Unbooked"))
+                .Select(a => a.User)
                 .Distinct()
                 .ToList();
         }
 
-        public void UpdateSlotStatus(int availableSlotId, bool status)
+
+        public void UpdateSlotStatus(int availableSlotId, string status)
         {
             var slot = GetAvailableSlotById(availableSlotId);
             if (slot != null)
