@@ -14,11 +14,8 @@ namespace HairSalon
         public static readonly DependencyProperty IconProperty =
              DependencyProperty.Register("Icon", typeof(ImageSource), typeof(NavButton2), new PropertyMetadata(null));
 
-        public string Navlink
-        {
-            get { return (string)GetValue(NavlinkProperty); }
-            set { SetValue(NavlinkProperty, value); }
-        }
+        public string Navlink { get; set; } = string.Empty; // Initialize with a default value
+
 
         public ImageSource Icon
         {
@@ -26,7 +23,12 @@ namespace HairSalon
             set { SetValue(IconProperty, value); }
         }
 
-        public event Action<int> OnNavigateToPage;
+        public event Action<int>? OnNavigateToPage;
+
+        public void RaiseOnNavigateToPage(int userId)
+        {
+            OnNavigateToPage?.Invoke(userId);
+        }
 
         public NavButton2()
         {
@@ -35,7 +37,6 @@ namespace HairSalon
 
         private void NavButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            // Gọi sự kiện OnNavigateToPage khi nhấn vào NavButton
             if (Application.Current.MainWindow is CustomerPage customerPage)
             {
                 OnNavigateToPage?.Invoke(customerPage.UserId);
