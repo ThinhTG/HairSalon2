@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HairSalon_BusinessObject.Models;
 
-public partial class HairSalonServiceContext : DbContext
+public partial class HairSalonContext : DbContext
 {
-    public HairSalonServiceContext()
+    public HairSalonContext()
     {
     }
 
-    public HairSalonServiceContext(DbContextOptions<HairSalonServiceContext> options)
+    public HairSalonContext(DbContextOptions<HairSalonContext> options)
         : base(options)
     {
     }
@@ -39,7 +39,7 @@ public partial class HairSalonServiceContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=HairSalonService;User ID=SA;Password=12345;Encrypt=False");
+        => optionsBuilder.UseSqlServer("Data Source=LAPTOPTHINH;Initial Catalog=HairSalonService3;User ID=sa;Password=12345;Encrypt=False");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -111,7 +111,7 @@ public partial class HairSalonServiceContext : DbContext
             entity.HasOne(d => d.AvailableSlot).WithMany(p => p.BookingDetail)
                 .HasForeignKey(d => d.AvailableSlotId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_BookingDetail_AvailableSlot");
+                .HasConstraintName("FK_BookingDetail_ServiceSlot");
 
             entity.HasOne(d => d.Booking).WithMany(p => p.BookingDetail)
                 .HasForeignKey(d => d.BookingId)
@@ -199,8 +199,6 @@ public partial class HairSalonServiceContext : DbContext
         {
             entity.HasNoKey();
 
-            entity.Property(e => e.DailySalary).HasColumnName("dailySalary");
-            entity.Property(e => e.Date).HasColumnName("date");
             entity.Property(e => e.Salary)
                 .HasColumnType("money")
                 .HasColumnName("salary");
@@ -208,7 +206,6 @@ public partial class HairSalonServiceContext : DbContext
 
             entity.HasOne(d => d.User).WithMany()
                 .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_StylistProfile_User");
         });
 

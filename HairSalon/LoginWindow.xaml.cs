@@ -91,7 +91,7 @@ namespace HairSalon
 
                     if (user.RoleId == 1)
                     {
-                        CustomerPage customerPage = new CustomerPage();
+                        CustomerPage customerPage = new CustomerPage(user.UserId,user.UserName);
                         customerPage.Show();
                         this.Close();
                     }

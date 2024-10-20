@@ -1,4 +1,8 @@
-﻿using System;
+﻿using HairSalon_BusinessObject.Models;
+using HairSalon_Services;
+using HairSalon_Services.INTERFACE;
+using HairSalon_Services.SERVICE;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +24,30 @@ namespace HairSalon.Pages
     /// </summary>
     public partial class BookingManagement : Page
     {
+        private IBookingService bookingService;
+
         public BookingManagement()
         {
             InitializeComponent();
+            bookingService = new BookingService();
+        }
+
+        private void loadDataInit()
+        {
+            this.dtgBooking.ItemsSource = bookingService.GetBookings();
+        }
+
+
+        
+
+        private void WindowLoad(object sender, RoutedEventArgs e)
+        {
+            loadDataInit();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }
