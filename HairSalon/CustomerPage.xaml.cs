@@ -39,20 +39,16 @@ namespace HairSalon
             this.DataContext = new CustomerViewModel { Name = name };
             InitializeComponent();
 
-            //AddResourceIfNotExists("closeIcon", "pack://application:,,,/HairSalon;component/image/close.png");
-            //AddResourceIfNotExists("passwordIcon", "pack://application:,,,/HairSalon;component/image/password.png");
-            //AddResourceIfNotExists("qrCodeIcon", "pack://application:,,,/HairSalon;component/image/qrCode.png");
-
         }
 
 
-        //private void AddResourceIfNotExists(string key, string uri)
-        //{
-        //    if (!this.Resources.Contains(key))
-        //    {
-        //        this.Resources.Add(key, new BitmapImage(new Uri(uri)));
-        //    }
-        //}
+        private void AddResourceIfNotExists(string key, string uri)
+        {
+            if (!this.Resources.Contains(key))
+            {
+                this.Resources.Add(key, new BitmapImage(new Uri(uri)));
+            }
+        }
 
 
         /* private void sidebar_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -62,24 +58,30 @@ namespace HairSalon
              navframe.Navigate(selected.Navlink);
          }*/
 
-        private void sidebar_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void CustomerHomePage_Click(object sender, MouseButtonEventArgs e)
         {
-            var selected = sidebar.SelectedItem as NavButton2;
+            navframe.Navigate(new Uri("/Pages/CustomerHomePage.xaml", UriKind.Relative));
+        }
 
+        private void BookingPage_Click(object sender, MouseButtonEventArgs e)
+        {
+            var selected = sender as NavButton2;
             if (selected != null)
             {
-
                 selected.OnNavigateToPage += userId =>
                 {
-
                     BookingPage bookingPage = new BookingPage(userId);
                     navframe.Navigate(bookingPage);
                 };
-
-
-                navframe.Navigate(new Uri(selected.Navlink, UriKind.Relative));
+                selected.RaiseOnNavigateToPage(userId);
             }
         }
+
+        private void FeedbackPage_Click(object sender, MouseButtonEventArgs e)
+        {
+            navframe.Navigate(new Uri("/Pages/FeedbackPage.xaml", UriKind.Relative));
+        }
+
 
     }
 }

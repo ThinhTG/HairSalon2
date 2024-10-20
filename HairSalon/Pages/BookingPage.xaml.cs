@@ -36,7 +36,6 @@ namespace HairSalon.Pages
         {
             InitializeComponent();
             this.userId = id;
-            MessageBox.Show("UserId: " + userId);
             _availableSlotService = new AvailableSlotService();
             _bookingDetailService = new BookingDetailService();
             _bookingService = new BookingService();
@@ -67,7 +66,6 @@ namespace HairSalon.Pages
         {
             slotComboBox.ItemsSource = null;
             slotComboBox.Items.Clear();
-            MessageBox.Show("UserId bk " + userId);
             if (stylistComboBox.SelectedItem != null && datePicker.SelectedDate != null)
             {
                 var selectedStylist = stylistComboBox.SelectedItem as User;
@@ -82,15 +80,28 @@ namespace HairSalon.Pages
                 }
                 else
                 {
-                    slotComboBox.ItemsSource = availableSlots
-                        .Where(a => a.Slot != null)
+                    var now = DateTime.Now;
+                    var filteredSlots = availableSlots
+                        .Where(a => a.Slot != null &&
+                                   (selectedDate.Date != now.Date ||
+                                   (a.Slot.StartTime.HasValue && a.Slot.StartTime.Value.ToTimeSpan() > now.TimeOfDay)))
                         .ToList();
 
-                    slotComboBox.DisplayMemberPath = "Slot.StartTime";
-                    slotComboBox.SelectedValuePath = "AvailableSlotId";
+
+                    if (!filteredSlots.Any())
+                    {
+                        MessageBox.Show("❌ Không có slot nào hợp lệ cho stylist và ngày đã chọn.", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
+                    else
+                    {
+                        slotComboBox.ItemsSource = filteredSlots;
+                        slotComboBox.DisplayMemberPath = "Slot.StartTime";
+                        slotComboBox.SelectedValuePath = "AvailableSlotId";
+                    }
                 }
             }
         }
+
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
@@ -176,6 +187,8 @@ namespace HairSalon.Pages
 
                 _bookingService.AddBooking(booking);
 
+                int successfulDetails = 0;
+                int failedDetails = 0;
 
                 foreach (var detail in tempBookingDetails)
                 {
@@ -190,21 +203,30 @@ namespace HairSalon.Pages
                         if (success)
                         {
                             _availableSlotService.UpdateSlotStatus(detail.AvailableSlotId, "Booked");
-                            MessageBox.Show("✅ Booking detail đã được thêm thành công.", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
+                            successfulDetails++;
                         }
                         else
                         {
-                            MessageBox.Show("❌ Không thể thêm booking detail cho dịch vụ: " + detail.Service.ServiceName, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                            failedDetails++;
                         }
                     }
                     else
                     {
-                        MessageBox.Show("❌ Dịch vụ hoặc Slot không tồn tại.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                        failedDetails++;
                     }
                 }
 
                 tempBookingDetails.Clear();
                 LoadBookingSummary();
+
+                if (successfulDetails > 0)
+                {
+                    MessageBox.Show($"✅ Đã thêm thành công {successfulDetails} booking detail(s).", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                if (failedDetails > 0)
+                {
+                    MessageBox.Show($"❌ Có {failedDetails} booking detail(s) không thể thêm do dịch vụ hoặc slot không tồn tại.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
 
                 serviceComboBox.SelectedItem = null;
                 stylistComboBox.SelectedItem = null;
@@ -217,6 +239,7 @@ namespace HairSalon.Pages
                 MessageBox.Show("⚠️ Không có thông tin booking detail để xác nhận.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
+
 
         private void LoadBookingSummary()
         {
