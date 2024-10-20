@@ -12,6 +12,7 @@ namespace HairSalon.Pages
 {
     public partial class BookingPage : Page
     {
+        private int userId;
         private readonly AvailableSlotService _availableSlotService;
         private readonly BookingDetailService _bookingDetailService;
         private readonly BookingService _bookingService;
@@ -27,6 +28,22 @@ namespace HairSalon.Pages
             _serviceService = new ServiceService();
             bookingSummaryDataGrid.ItemsSource = tempBookingDetails;
             datePicker.DisplayDateStart = DateTime.Now;
+            datePicker.DisplayDateEnd = DateTime.Now.AddDays(31);
+
+        }
+
+        public BookingPage(int id)
+        {
+            InitializeComponent();
+            this.userId = id;
+            MessageBox.Show("UserId: " + userId);
+            _availableSlotService = new AvailableSlotService();
+            _bookingDetailService = new BookingDetailService();
+            _bookingService = new BookingService();
+            _serviceService = new ServiceService();
+            bookingSummaryDataGrid.ItemsSource = tempBookingDetails;
+            datePicker.DisplayDateStart = DateTime.Now;
+            datePicker.DisplayDateEnd = DateTime.Now.AddDays(31);
 
 
         }
@@ -50,7 +67,7 @@ namespace HairSalon.Pages
         {
             slotComboBox.ItemsSource = null;
             slotComboBox.Items.Clear();
-
+            MessageBox.Show("UserId bk " + userId);
             if (stylistComboBox.SelectedItem != null && datePicker.SelectedDate != null)
             {
                 var selectedStylist = stylistComboBox.SelectedItem as User;
@@ -154,7 +171,7 @@ namespace HairSalon.Pages
                     Status = "Pending",
                     CreateBy = 1,
                     Discount = 0,
-                    UserId = 3
+                    UserId = userId
                 };
 
                 _bookingService.AddBooking(booking);
@@ -172,6 +189,7 @@ namespace HairSalon.Pages
 
                         if (success)
                         {
+                            _availableSlotService.UpdateSlotStatus(detail.AvailableSlotId, "Booked");
                             MessageBox.Show("✅ Booking detail đã được thêm thành công.", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
                         }
                         else
@@ -187,6 +205,12 @@ namespace HairSalon.Pages
 
                 tempBookingDetails.Clear();
                 LoadBookingSummary();
+
+                serviceComboBox.SelectedItem = null;
+                stylistComboBox.SelectedItem = null;
+                datePicker.SelectedDate = null;
+                slotComboBox.ItemsSource = null;
+                slotComboBox.Items.Clear();
             }
             else
             {
@@ -287,6 +311,7 @@ namespace HairSalon.Pages
             if (selectedService == null || selectedSlot == null || datePicker.SelectedDate == null)
             {
                 MessageBox.Show("⚠️ Vui lòng điền đầy đủ thông tin để cập nhật.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+
                 return;
             }
 
@@ -308,6 +333,12 @@ namespace HairSalon.Pages
 
                 LoadBookingSummary();
                 MessageBox.Show("✅ Đã cập nhật dịch vụ thành công.", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                serviceComboBox.SelectedItem = null;
+                stylistComboBox.SelectedItem = null;
+                datePicker.SelectedDate = null;
+                slotComboBox.ItemsSource = null;
+                slotComboBox.Items.Clear();
             }
             else
             {

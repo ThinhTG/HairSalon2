@@ -40,7 +40,7 @@ namespace HairSalon_Services.SERVICE
             return _availableSlotRepo.GetSlots();
         }
 
-        public void UpdateSlotStatus(int availableSlotId, bool status)
+        public void UpdateSlotStatus(int availableSlotId, string status)
         {
             _availableSlotRepo.UpdateSlotStatus(availableSlotId, status);
             SaveChanges();

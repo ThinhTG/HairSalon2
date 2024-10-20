@@ -14,7 +14,7 @@ namespace HairSalon_Repository.INTERFACE
         List<AvailableSlot> GetAvailableSlotsByDate(DateTime date);
         List<AvailableSlot> GetAvailableSlotsByStylist(int stylistId, DateTime date);
         List<User> GetAvailableStylistsBySlotAndDate(int slotId, DateTime date);
-        void UpdateSlotStatus(int availableSlotId, bool status);
+        void UpdateSlotStatus(int availableSlotId, string status);
         void SaveChanges();
         List<User> GetStylists();
         List<Slot> GetSlots();

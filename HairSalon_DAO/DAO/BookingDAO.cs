@@ -49,22 +49,29 @@ namespace HairSalon_DAO.DAO
             {
                 if (booking != null)
                 {
+                
+                    foreach (var detail in booking.BookingDetail)
+                    {
+                        detail.Booking = booking;
+                    }
+
                     dbContext.Booking.Add(booking);
-                    dbContext.SaveChanges(); 
+                    dbContext.SaveChanges();
                     isSuccess = true;
                 }
             }
             catch (Exception ex)
-            {          
-                Console.WriteLine("Error while adding BookingDetail: " + ex.Message);             
+            {
+                Console.WriteLine("Error while adding BookingDetail: " + ex.Message);
                 if (ex.InnerException != null)
                 {
                     Console.WriteLine("Inner exception: " + ex.InnerException.Message);
                 }
-                throw; 
+                throw;
             }
             return isSuccess;
         }
+
 
         public bool UpdateBookingStatus(int bookingId, string newStatus)
         {
