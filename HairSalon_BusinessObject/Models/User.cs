@@ -21,11 +21,11 @@ public partial class User
 
     public string PhoneNumber { get; set; }
 
-    public virtual ICollection<AvailableSlot> AvailableSlot { get; set; } = new List<AvailableSlot>();
+    public virtual ICollection<AvailableSlot> AvailableSlots { get; set; } = new List<AvailableSlot>();
 
-    public virtual ICollection<Booking> Booking { get; set; } = new List<Booking>();
+    public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 
     public virtual Role Role { get; set; }
 
-    public virtual ICollection<StylistProfile> StylistProfile { get; set; } = new List<StylistProfile>();
+    public virtual ICollection<StylistProfile> StylistProfiles { get; set; } = new List<StylistProfile>();
 }

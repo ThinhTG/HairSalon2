@@ -15,9 +15,5 @@ public partial class DailySalaryOfStylist
 
     public int DailySalaryOfStylistId { get; set; }
 
-    public int? BookingDetailId { get; set; }
-
-    public virtual BookingDetail BookingDetail { get; set; }
-
     public virtual StylistProfile StylistProfile { get; set; }
 }

@@ -51,7 +51,7 @@ namespace HairSalon_DAO.DAO
                 if (booking != null)
                 {
                 
-                    foreach (var detail in booking.BookingDetail)
+                    foreach (var detail in booking.BookingDetails)
                     {
                         detail.Booking = booking;
                     }

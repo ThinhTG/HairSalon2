@@ -25,7 +25,5 @@ public partial class BookingDetail
 
     public virtual Booking Booking { get; set; }
 
-    public virtual ICollection<DailySalaryOfStylist> DailySalaryOfStylist { get; set; } = new List<DailySalaryOfStylist>();
-
     public virtual Service Service { get; set; }
 }
