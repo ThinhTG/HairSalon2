@@ -15,7 +15,7 @@ public partial class AvailableSlot
 
     public int UserId { get; set; }
 
-    public bool? Status { get; set; }
+    public string Status { get; set; }
 
     public virtual ICollection<BookingDetail> BookingDetail { get; set; } = new List<BookingDetail>();
 

@@ -11,7 +11,7 @@ public partial class Slot
 
     public TimeOnly? StartTime { get; set; }
 
-    public TimeOnly? EndStart { get; set; }
+    public TimeOnly? EndTime { get; set; }
 
     public virtual ICollection<AvailableSlot> AvailableSlot { get; set; } = new List<AvailableSlot>();
 }

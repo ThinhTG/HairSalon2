@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Candidate_DAO
+namespace HairSalon_DAO.DAO
 {
     public class GenericDAO<T> where T : class
     {
@@ -18,32 +18,32 @@ namespace Candidate_DAO
             _dbSet = _context.Set<T>();
         }
 
-        public  List<T> GetAll()
+        public List<T> GetAll()
         {
-            return  _dbSet.ToList();
+            return _dbSet.ToList();
         }
 
-        public  T GetById(int id)
+        public T GetById(int id)
         {
             return _dbSet.Find(id);
         }
 
-        public void  Add(T entity)
+        public void Add(T entity)
         {
-             _dbSet.Add(entity);
-             _context.SaveChanges();
+            _dbSet.Add(entity);
+            _context.SaveChanges();
         }
 
-        public void  Update(T entity)
+        public void Update(T entity)
         {
-           
+
             _context.Entry(entity).State = EntityState.Modified;
-             _context.SaveChanges();
+            _context.SaveChanges();
         }
 
-        public void  Delete(int id)
+        public void Delete(int id)
         {
-            var entity =  GetById(id);
+            var entity = GetById(id);
             if (entity != null)
             {
                 _dbSet.Remove(entity);

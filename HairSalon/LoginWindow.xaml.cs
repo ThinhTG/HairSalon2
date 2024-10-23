@@ -91,13 +91,13 @@ namespace HairSalon
 
                     if (user.RoleId == 1)
                     {
-                        CustomerPage customerPage = new CustomerPage(user.UserId,user.UserName);
+                        CustomerPage customerPage = new CustomerPage(user.UserId, user.UserName);
                         customerPage.Show();
                         this.Close();
                     }
                     if (user.RoleId == 3)
                     {
-                        
+
                     }
                     else if (user.RoleId == 2)
                     {
@@ -113,15 +113,15 @@ namespace HairSalon
 
             }
         }
-            private void Image_MouseUp(object sender, MouseButtonEventArgs e)
-            {
-                Application.Current.Shutdown();
-            }
+        private void Image_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
 
-            private void Button_Click(object sender, RoutedEventArgs e)
-            {
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
 
-            }
+        }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
@@ -133,5 +133,4 @@ namespace HairSalon
 
         }
     }
-    }
-
+}

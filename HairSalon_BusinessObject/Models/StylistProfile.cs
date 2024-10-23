@@ -7,9 +7,13 @@ namespace HairSalon_BusinessObject.Models;
 
 public partial class StylistProfile
 {
-    public int? UserId { get; set; }
+    public int StylistProfileId { get; set; }
+
+    public int UserId { get; set; }
 
     public decimal? Salary { get; set; }
+
+    public virtual ICollection<DailySalaryOfStylist> DailySalaryOfStylist { get; set; } = new List<DailySalaryOfStylist>();
 
     public virtual User User { get; set; }
 }

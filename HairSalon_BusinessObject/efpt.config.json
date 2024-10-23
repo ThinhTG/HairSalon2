@@ -27,7 +27,7 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Earning]",
+         "Name": "[dbo].[DailySalaryOfStylist]",
          "ObjectType": 0
       },
       {

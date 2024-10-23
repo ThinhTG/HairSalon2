@@ -23,7 +23,7 @@ public partial class HairSalonServiceContext : DbContext
 
     public virtual DbSet<BookingDetail> BookingDetail { get; set; }
 
-    public virtual DbSet<Earning> Earning { get; set; }
+    public virtual DbSet<DailySalaryOfStylist> DailySalaryOfStylist { get; set; }
 
     public virtual DbSet<Payment> Payment { get; set; }
 
@@ -39,7 +39,7 @@ public partial class HairSalonServiceContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=LAPTOPTHINH;Initial Catalog=HairSalonService3;User ID=sa;Password=12345;Encrypt=False");
+        => optionsBuilder.UseSqlServer("Data Source=LAPTOPTHINH;Initial Catalog=HairSalonService;User ID=sa;Password=12345;Encrypt=False");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -47,20 +47,20 @@ public partial class HairSalonServiceContext : DbContext
         {
             entity.HasKey(e => e.AvailableSlotId).HasName("PK_ServiceSlot");
 
-            entity.Property(e => e.AvailableSlotId)
-                .ValueGeneratedNever()
-                .HasColumnName("availableSlotId");
+            entity.Property(e => e.AvailableSlotId).HasColumnName("availableSlotId");
             entity.Property(e => e.Date)
                 .HasColumnType("datetime")
                 .HasColumnName("date");
             entity.Property(e => e.SlotId).HasColumnName("slotId");
-            entity.Property(e => e.Status).HasColumnName("status");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .HasColumnName("status");
             entity.Property(e => e.UserId).HasColumnName("userId");
 
             entity.HasOne(d => d.Slot).WithMany(p => p.AvailableSlot)
                 .HasForeignKey(d => d.SlotId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_ServiceSlot_Slot");
+                .HasConstraintName("FK_AvailableSlot_Slot");
 
             entity.HasOne(d => d.User).WithMany(p => p.AvailableSlot)
                 .HasForeignKey(d => d.UserId)
@@ -111,7 +111,7 @@ public partial class HairSalonServiceContext : DbContext
             entity.HasOne(d => d.AvailableSlot).WithMany(p => p.BookingDetail)
                 .HasForeignKey(d => d.AvailableSlotId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_BookingDetail_ServiceSlot");
+                .HasConstraintName("FK_BookingDetail_AvailableSlot");
 
             entity.HasOne(d => d.Booking).WithMany(p => p.BookingDetail)
                 .HasForeignKey(d => d.BookingId)
@@ -124,25 +124,29 @@ public partial class HairSalonServiceContext : DbContext
                 .HasConstraintName("FK_BookingDetail_Service");
         });
 
-        modelBuilder.Entity<Earning>(entity =>
+        modelBuilder.Entity<DailySalaryOfStylist>(entity =>
         {
-            entity.Property(e => e.EarningId).HasColumnName("earningId");
-            entity.Property(e => e.Commission)
+            entity.Property(e => e.DailySalaryOfStylistId).HasColumnName("dailySalaryOfStylistId");
+            entity.Property(e => e.BookingDetailId).HasColumnName("bookingDetailId");
+            entity.Property(e => e.DailySalary)
                 .HasColumnType("money")
-                .HasColumnName("commission");
-            entity.Property(e => e.UserId).HasColumnName("userId");
+                .HasColumnName("dailySalary");
+            entity.Property(e => e.Date).HasColumnName("date");
+            entity.Property(e => e.StylistProfileId).HasColumnName("stylistProfileId");
 
-            entity.HasOne(d => d.User).WithMany(p => p.Earning)
-                .HasForeignKey(d => d.UserId)
+            entity.HasOne(d => d.BookingDetail).WithMany(p => p.DailySalaryOfStylist)
+                .HasForeignKey(d => d.BookingDetailId)
+                .HasConstraintName("FK_DailySalaryOfStylist_BookingDetail");
+
+            entity.HasOne(d => d.StylistProfile).WithMany(p => p.DailySalaryOfStylist)
+                .HasForeignKey(d => d.StylistProfileId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Earning_User");
+                .HasConstraintName("FK_DailySalaryOfStylist_StylistProfile");
         });
 
         modelBuilder.Entity<Payment>(entity =>
         {
-            entity.Property(e => e.PaymentId)
-                .ValueGeneratedNever()
-                .HasColumnName("paymentId");
+            entity.Property(e => e.PaymentId).HasColumnName("paymentId");
             entity.Property(e => e.Amount)
                 .HasColumnType("money")
                 .HasColumnName("amount");
@@ -191,21 +195,21 @@ public partial class HairSalonServiceContext : DbContext
         modelBuilder.Entity<Slot>(entity =>
         {
             entity.Property(e => e.SlotId).HasColumnName("slotId");
-            entity.Property(e => e.EndStart).HasColumnName("endStart");
+            entity.Property(e => e.EndTime).HasColumnName("endTime");
             entity.Property(e => e.StartTime).HasColumnName("startTime");
         });
 
         modelBuilder.Entity<StylistProfile>(entity =>
         {
-            entity.HasNoKey();
-
+            entity.Property(e => e.StylistProfileId).HasColumnName("stylistProfileId");
             entity.Property(e => e.Salary)
                 .HasColumnType("money")
                 .HasColumnName("salary");
             entity.Property(e => e.UserId).HasColumnName("userId");
 
-            entity.HasOne(d => d.User).WithMany()
+            entity.HasOne(d => d.User).WithMany(p => p.StylistProfile)
                 .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_StylistProfile_User");
         });
 

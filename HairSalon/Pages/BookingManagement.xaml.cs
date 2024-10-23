@@ -121,6 +121,7 @@ namespace HairSalon.Pages
             dtgBooking.ItemsSource = filteredBookings.ToList();
         }
 
+
         private void Cancel_Button_Click(object sender, RoutedEventArgs e)
         {
             // Xóa nội dung trong các ô TextBox và DatePicker

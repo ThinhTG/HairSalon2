@@ -25,7 +25,7 @@ public partial class User
 
     public virtual ICollection<Booking> Booking { get; set; } = new List<Booking>();
 
-    public virtual ICollection<Earning> Earning { get; set; } = new List<Earning>();
-
     public virtual Role Role { get; set; }
+
+    public virtual ICollection<StylistProfile> StylistProfile { get; set; } = new List<StylistProfile>();
 }
