@@ -5,38 +5,72 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:HairSalon.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="750"
+      d:DesignHeight="750" d:DesignWidth="1200"
       Title="BookingManagement"  >
 
 
-    <Grid Background="Beige" Loaded="WindowLoad">
-        <TextBlock Text="BookingManagement" FontFamily="ubuntu"  HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FFB197FC" FontSize="25" FontWeight="Bold" Margin="22,10,0,0"/>
+    <Grid Background="#5483B3" Loaded="WindowLoad" VerticalAlignment="Bottom">
+        <TextBlock Text="BOOKING MANAGEMENT" 
+           FontFamily="Arial" 
+           HorizontalAlignment="Center" 
+           VerticalAlignment="Top" 
+           Foreground="White" 
+           FontSize="40" 
+           FontWeight="Bold" 
+           Margin="0,20,0,0" 
+           Width="Auto" 
+           TextAlignment="Center">
+    <!-- Thêm hiệu ứng đổ bóng -->
+            <TextBlock.Effect>
+                <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="5" Direction="320"/>
+            </TextBlock.Effect>
+        </TextBlock>
         <DataGrid x:Name="dtgBooking" 
           HorizontalAlignment="Center" 
-          Height="278" 
-          Margin="0,162,0,0" 
+          Height="573" 
+          Margin="0,167,0,0" 
           VerticalAlignment="Top" 
-          Width="730" 
-          AutoGenerateColumns="False" >
+          Width="1180" 
+          AutoGenerateColumns="False" 
+          ItemsSource="{Binding BookingUserList}">
 
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Booking ID" Binding="{Binding BookingId}" Width="*" />
                 <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*" />
                 <DataGridTextColumn Header="Booking Date" Binding="{Binding BookingDate}" Width="*" />
                 <DataGridTextColumn Header="Amount" Binding="{Binding Amount}" Width="*" />
-                <DataGridTextColumn Header="Created By" Binding="{Binding CreateBy}" Width="*" />
                 <DataGridTextColumn Header="Discount" Binding="{Binding Discount}" Width="*" />
-                <DataGridTextColumn Header="User Name" Binding="{Binding User}" Width="*" />
-                <DataGridTextColumn Header="" Binding="{Binding Discount}" Width="*" />
-                <DataGridTextColumn Header="" Binding="{Binding User}" Width="*" />
-                <!-- BookingDetail and User columns are intentionally not added -->
+                <DataGridTextColumn Header="User Name" Binding="{Binding UserName}" Width="*" />
+                <!-- Hiển thị UserName -->
+                <DataGridTextColumn Header="Phone Number" Binding="{Binding PhoneNumber}" Width="*" />
+                <!-- Hiển thị PhoneNumber -->
+                <DataGridTemplateColumn Header="Action" Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Check In" 
+                            Width="80" 
+                            Click="CheckInButton_Click" 
+                            Tag="{Binding BookingId}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBox HorizontalAlignment="Left" Height="27" Margin="22,113,0,0" TextWrapping="Wrap" Text="UserName" VerticalAlignment="Top" Width="189"/>
-        <TextBox HorizontalAlignment="Left" Height="27" Margin="216,113,0,0" TextWrapping="Wrap" Text="PhoneNumber" VerticalAlignment="Top" Width="189"/>
-        <DatePicker HorizontalAlignment="Left" Height="27" Margin="410,113,0,0" VerticalAlignment="Top" Width="201"/>
-        <Button Content="Search" HorizontalAlignment="Left" Height="27" Margin="645,113,0,0" VerticalAlignment="Top" Width="95"/>
-        <Button Content="X" HorizontalAlignment="Left" Height="27" Margin="712,14,0,0" VerticalAlignment="Top" Width="28" Click="Button_Click"/>
+        <TextBox x:Name="txtUserName" HorizontalAlignment="Left" Height="27" Margin="159,119,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="189" />
+        <TextBox x:Name="txtPhoneNumber" HorizontalAlignment="Left" Height="27" Margin="465,119,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="188" />
+        <DatePicker x:Name="txtDatePicker" Background="#AFB3B7" HorizontalAlignment="Left" Height="27" Margin="761,118,0,0" VerticalAlignment="Top" Width="201"/>
+
+        <Button x:Name="Search_Button" BorderBrush="Black" BorderThickness="2" Background="#C1E8FF" Content="SEARCH" HorizontalAlignment="Left" Height="28" Margin="1081,118,0,0" VerticalAlignment="Top" Width="109" Click="Search_Button_Click" FontSize="14" FontWeight="Bold"/>
+
+        <Button Content="X" HorizontalAlignment="Left" BorderBrush="Black" BorderThickness="2" Background="#AFB3B7" Height="21" Margin="1152,22,0,0" VerticalAlignment="Top" Width="38" Click="Button_Click"/>
+        <Label BorderBrush="Black" 
+        BorderThickness="2" 
+        Foreground="Black"  Content="USERNAME" HorizontalAlignment="Left" Height="28" Margin="63,119,0,0" Background="#AFB3B7" VerticalAlignment="Top" Width="91" FontWeight="Bold"/>
+        <Label  BorderBrush="Black" 
+        BorderThickness="2"  Content="PHONENUMBER" HorizontalAlignment="Left" Height="27" Margin="353,118,0,0"  Background="#AFB3B7" VerticalAlignment="Top" Width="107" FontWeight="Bold"/>
+        <Button x:Name="Cancel" BorderBrush="Black" BorderThickness="2" Background="#C1E8FF" Content="CANCEL" HorizontalAlignment="Left" Height="28" Margin="967,118,0,0" VerticalAlignment="Top" Width="109" Click="Cancel_Button_Click" FontSize="14" FontWeight="Bold"/>
+        <Label  BorderBrush="Black" 
+            BorderThickness="2"  Content="DATE" HorizontalAlignment="Left" Height="28" Margin="667,118,0,0"  Background="#AFB3B7" VerticalAlignment="Top" Width="89" FontWeight="Bold" Panel.ZIndex="1" RenderTransformOrigin="1.217,1.161"/>
 
 
 

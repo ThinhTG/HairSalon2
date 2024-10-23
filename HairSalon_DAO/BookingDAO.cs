@@ -32,6 +32,7 @@ namespace HairSalon_DAO.DAO
             dbContext = new HairSalonServiceContext();
         }
 
+
         public List<Booking> GetAll()
         {
             return dbContext.Booking.ToList();

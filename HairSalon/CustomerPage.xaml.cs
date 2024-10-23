@@ -1,4 +1,5 @@
-﻿using HairSalon.ViewModel;
+﻿using HairSalon.Pages;
+using HairSalon.ViewModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -38,6 +39,12 @@ namespace HairSalon
             var selected = sidebar.SelectedItem as NavButton;
 
             navframe.Navigate(selected.Navlink);
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            var HomePage = new CustomerHomePage();
+            navframe.Navigate(HomePage);
         }
     }
 }

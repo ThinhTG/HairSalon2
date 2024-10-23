@@ -39,5 +39,12 @@ namespace HairSalon_Services.SERVICE
             return iuserRepository.AddUser(user);
         }
 
+        public string GetUserNameByUserId(int userid)
+        {
+            User user= iuserRepository.GetUserByUserId(userid);
+            return user.UserName;
+        }
+
+        
     }
 }

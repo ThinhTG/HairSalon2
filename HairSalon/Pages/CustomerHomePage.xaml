@@ -9,6 +9,6 @@
       Title="CustomerHomePage">
 
     <Grid Background="#f1f3f5">
-        <TextBlock Text="HomePage" FontFamily="ubuntu" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFB197FC" FontSize="60" FontWeight="Bold"/>
+        <TextBlock Text="HomePage chung hehehe" FontFamily="ubuntu" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFB197FC" FontSize="60" FontWeight="Bold"/>
     </Grid>
 </Page>

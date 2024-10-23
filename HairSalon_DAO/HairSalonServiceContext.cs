@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HairSalon_BusinessObject.Models;
 
-public partial class HairSalonContext : DbContext
+public partial class HairSalonServiceContext : DbContext
 {
-    public HairSalonContext()
+    public HairSalonServiceContext()
     {
     }
 
-    public HairSalonContext(DbContextOptions<HairSalonContext> options)
+    public HairSalonServiceContext(DbContextOptions<HairSalonServiceContext> options)
         : base(options)
     {
     }

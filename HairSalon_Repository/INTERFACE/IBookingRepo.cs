@@ -15,6 +15,8 @@ namespace HairSalon_Repository.INTERFACE
         bool UpdateBookingStatus(int bookingId, string newStatus);
         bool SaveChanges();
         public List<Booking> GetBookingsList();
+
+        
     }
 
 }
