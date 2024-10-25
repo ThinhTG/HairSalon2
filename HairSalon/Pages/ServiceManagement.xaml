@@ -9,6 +9,18 @@
       Title="ServiceManagement">
 
     <Grid Background="#f1f3f5">
-        <TextBlock Text="Quan Ly Service" FontFamily="ubuntu"  HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFB197FC" FontSize="60" FontWeight="Bold"/>
+        <Label Content="Service Management" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"/>
+        <DataGrid  d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,163,0,84"/>
+        <Button x:Name="btnAdd" Content="Add" HorizontalAlignment="Left" Margin="87,387,0,0" VerticalAlignment="Top" Height="42" Width="89" Click="btnAdd_Click"/>
+        <Button x:Name="btnDelete" Content="Delete" HorizontalAlignment="Left" Margin="430,387,0,0" VerticalAlignment="Top" Height="42" Width="105" Click="btnDelete_Click"/>
+        <Button x:Name="btnUpdate" Content="Update" HorizontalAlignment="Left" Margin="258,387,0,0" VerticalAlignment="Top" Height="42" Width="94" Click="btnUpdate_Click"/>
+        <Label Content="Service Name :" HorizontalAlignment="Left" Margin="23,40,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.726,0.231"/>
+        <Label Content="Price :" HorizontalAlignment="Left" Margin="23,105,0,0" VerticalAlignment="Top" RenderTransformOrigin="-3.474,0.3"/>
+        <Label Content="Description :" HorizontalAlignment="Left" Margin="418,40,0,0" VerticalAlignment="Top"/>
+        <Label Content="Image :" HorizontalAlignment="Left" Margin="418,105,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.542,-0.031"/>
+        <TextBox x:Name="txtServiceName" HorizontalAlignment="Left" Margin="116,44,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="284"/>
+        <TextBox x:Name="txtPrice" HorizontalAlignment="Left" Margin="116,109,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="284"/>
+        <TextBox x:Name="txtDescription" HorizontalAlignment="Left" Margin="506,44,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="284"/>
+        <TextBox x:Name="txtImage" HorizontalAlignment="Left" Margin="506,109,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="284"/>
     </Grid>
 </Page>
