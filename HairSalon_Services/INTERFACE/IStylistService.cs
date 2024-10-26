@@ -1,5 +1,6 @@
 ﻿using HairSalon_BusinessObject.Models;
 using HairSalon_DAO;
+using HairSalon_DAO.DTO;
 using HairSalon_Repository;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,14 @@ namespace HairSalon_Services
 
         public bool InsertDailySalaryOfStylist(DateTime? selectedDate, int userId);
 
-        public bool CheckIfSalaryExists(DateTime date, int userId);
+        public bool CheckIfSalaryExists(DateTime? selectedDate, int userId);
+
+        public IEnumerable<DailySalaryOfStylist> GetStylistDailySalaryByUserId(int userId, DateTime? selectedDate);
+
+        public List<StylistSalaryDTO> GetStylistsSalary(int userId, int month, int year);
+
+        public int GetTotalServices(int userId, int month, int year);
+
+        public decimal GetTotalDailySalary(int userId, int month, int year);
     }
 }

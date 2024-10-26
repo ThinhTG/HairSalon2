@@ -1,5 +1,6 @@
 ﻿
 using HairSalon_BusinessObject.Models;
+using HairSalon_DAO.DTO;
 using HairSalon_Services;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,6 @@ namespace HairSalon.Pages
             InitializeComponent();
             _stylistService = new StylistService();
         }
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             LoadDataInit();
@@ -26,77 +26,150 @@ namespace HairSalon.Pages
 
         private void LoadDataInit()
         {
-            // Cập nhật cmbMonth
             cmbMonth.Items.Clear();
-            var months = Enumerable.Range(1, 12).Select(i => new DateTime(1, i, 1).ToString("MMMM")).ToList();
-            foreach (var month in months)
+            int currentMonth = DateTime.Now.Month;
+            List<string> months = (from i in Enumerable.Range(1, 12)
+                                   select new DateTime(1, i, 1).ToString("MMMM")).ToList();
+            foreach (string month in months)
             {
                 cmbMonth.Items.Add(month);
             }
-            cmbMonth.SelectedIndex = 0;
+            cmbMonth.SelectedIndex = currentMonth - 1;
 
 
-            // Cập nhật cmbStylist
             cmbStylist.Items.Clear();
-            var stylists = _stylistService.GetAllStylist();
-            foreach (var stylist in stylists)
+            List<User> stylists = _stylistService.GetAllStylist();
+            foreach (User stylist2 in stylists)
             {
-                cmbStylist.Items.Add(stylist);
+                cmbStylist.Items.Add(stylist2);
             }
             cmbStylist.DisplayMemberPath = "UserName";
             cmbStylist.SelectedValuePath = "UserId";
             cmbStylist.SelectedIndex = 0;
 
-            // Gắn lại sự kiện SelectionChanged
+            cmbStylist1.Items.Clear();
+            List<User> stylist3 = _stylistService.GetAllStylist();
+            foreach (User stylist in stylist3)
+            {
+                cmbStylist1.Items.Add(stylist);
+            }
+            cmbStylist1.DisplayMemberPath = "UserName";
+            cmbStylist1.SelectedValuePath = "UserId";
+            cmbStylist1.SelectedIndex = 0;
+
             cmbMonth.SelectionChanged += cmbMonth_SelectionChanged;
             cmbStylist.SelectionChanged += cmbStylist_SelectionChanged;
-
-            // Lấy dữ liệu ban đầu cho stylist đầu tiên
             LoadStylistServices();
+            LoadYears();
+            LoadStylistByMonth();
         }
 
-        private void LoadStylistServices()
+        private void LoadYears()
         {
-            if (cmbStylist.SelectedValue is int userId)
+            int currentYear = DateTime.Now.Year;
+            cmbYear.Items.Clear(); // Xóa các mục hiện tại trong ComboBox
+
+            // Thêm năm hiện tại vào ComboBox và chọn nó
+            var currentYearItem = new ComboBoxItem
             {
-                DateTime? selectedDate = datePicker.SelectedDate; // Lấy ngày đã chọn từ DatePicker
+                Content = currentYear.ToString()
+            };
+            cmbYear.Items.Add(currentYearItem);
+            cmbYear.SelectedItem = currentYearItem; // Chọn mục vừa thêm
+        }
 
-                IEnumerable<dynamic> stylistServices;
 
-                // Trường hợp 1: Không chọn date, chỉ lấy dữ liệu theo userId
-                if (!selectedDate.HasValue)
-                {
-                    stylistServices = _stylistService.GetStylistServicesByUserId(userId, null); // Truyền null cho ngày
-                }
-                // Trường hợp 2: Đã chọn cả date và userId
-                else
-                {
-                    stylistServices = _stylistService.GetStylistServicesByUserId(userId, selectedDate);
-                }
-
-                StylistDataGrid.ItemsSource = stylistServices.ToList(); // Cập nhật ItemSource
+        private void CmbYear_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmbYear.SelectedItem is ComboBoxItem selectedItem)
+            {
+                int selectedYear = int.Parse(selectedItem.Content.ToString());
             }
         }
 
         private void cmbMonth_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+            if (cmbMonth == null || cmbYear == null || cmbStylist1 == null)
+            {
+                return;
+            }
+            int month = cmbMonth.SelectedIndex + 1;
+            int year = cmbYear.SelectedValue is int selectedYear ? selectedYear : DateTime.Now.Year;
+            if (cmbStylist1.SelectedValue is int userId)
+            {
+                LoadStylistByMonth();
+            }
         }
+
+
+
+        private void LoadStylistByMonth()
+        {
+            if (cmbStylist1.SelectedValue is int userId)
+            {
+                int selectedMonth = cmbMonth.SelectedIndex + 1;
+                int selectedYear = DateTime.Now.Year;
+                if (cmbYear.SelectedItem is ComboBoxItem selectedYearItem)
+                {
+                    selectedYear = int.Parse(selectedYearItem.Content.ToString());
+                }
+                List<StylistSalaryDTO> stylistSalaries = _stylistService.GetStylistsSalary(userId, selectedMonth, selectedYear);
+                var totalService = _stylistService.GetTotalServices(userId, selectedMonth, selectedYear);
+                decimal? totalSalary = _stylistService.GetTotalDailySalary(userId, selectedMonth, selectedYear);
+
+                if (stylistSalaries != null && stylistSalaries.Any())
+                {
+                    StylistDataGridMonth.ItemsSource = stylistSalaries.ToList();
+                    txtTotalService.Text = $"Total Service: {totalService}";
+                    txtTotalSalary.Text = totalSalary.HasValue ? $"Total Salary: {totalSalary.Value:N0}" : "Total Salary: Not available";
+                    return;
+                }
+                StylistDataGridMonth.ItemsSource = null;
+            }
+            else
+            {
+                MessageBox.Show("Please select a stylist.");
+            }
+        }
+
+        private void LoadStylistServices()
+        {
+            if (cmbStylist.SelectedValue is int userId)
+            {
+                DateTime? selectedDate = datePicker.SelectedDate;
+                var stylistServices = _stylistService.GetStylistServicesByUserId(userId, selectedDate);
+
+                if (selectedDate.HasValue)
+                {
+                    var dailySalaryInfo = _stylistService.GetStylistDailySalaryByUserId(userId, selectedDate);
+                    var dailySalary = dailySalaryInfo.FirstOrDefault()?.DailySalary;
+                    txtDailySalary.Text = dailySalary.HasValue
+                        ? $"Daily Salary: {dailySalary.Value:N0}"
+                        : "Daily Salary: Not available";
+                }
+                else
+                {
+                    txtDailySalary.Text = "";
+                }
+                StylistDataGrid.ItemsSource = stylistServices.ToList();
+            }
+        }
+
 
         private void cmbStylist_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (cmbStylist.SelectedValue is int userId)
             {
                 decimal? salary = _stylistService.GetSalaryByUserId(userId);
-                Console.WriteLine($"Fetched Salary: {salary}");
-                txtSalary.Text = salary.HasValue ? string.Format("{0:N0}", salary.Value) : "0";
+                txtSalary.Text = (salary.HasValue ? $"{salary.Value:N0}" : "0");
             }
-            LoadStylistServices(); // Cập nhật dữ liệu khi stylist được chọn
+            LoadStylistServices();
         }
 
         private void DatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            LoadStylistServices(); // Cập nhật dữ liệu khi ngày được chọn
+            LoadStylistServices();
         }
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
@@ -105,14 +178,12 @@ namespace HairSalon.Pages
             {
                 try
                 {
-                    if (decimal.TryParse(txtSalary.Text, out decimal newSalary))
+                    if (decimal.TryParse(txtSalary.Text, out var newSalary))
                     {
-                        bool isUpdated = _stylistService.UpdateSalaryByUserId(userId, newSalary);
-
-                        if (isUpdated)
+                        if (_stylistService.UpdateSalaryByUserId(userId, newSalary))
                         {
                             MessageBox.Show("Update Successful!");
-                            LoadDataInit(); // Tải lại dữ liệu
+                            LoadDataInit();
                         }
                         else
                         {
@@ -123,59 +194,41 @@ namespace HairSalon.Pages
                     {
                         MessageBox.Show("Invalid salary input. Please enter a valid number.");
                     }
+                    return;
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"An error occurred: {ex.Message}");
+                    MessageBox.Show("An error occurred: " + ex.Message);
+                    return;
                 }
             }
-            else
-            {
-                MessageBox.Show("Please select a stylist to update.");
-            }
+            MessageBox.Show("Please select a stylist to update.");
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
-            Window parentWindow = Window.GetWindow(this);
-            if (parentWindow != null)
-            {
-                parentWindow.Close();
-            }
+            Window.GetWindow(this)?.Close();
         }
+
         private void btnUpdateSalary_Click(object sender, RoutedEventArgs e)
         {
-            // Kiểm tra xem người dùng đã chọn stylist hay chưa
             if (cmbStylist.SelectedValue is int userId)
             {
-                // Lấy ngày được chọn từ DatePicker
                 DateTime? selectedDate = datePicker.SelectedDate;
-
-                // Kiểm tra xem người dùng đã chọn ngày hay chưa
                 if (selectedDate.HasValue)
                 {
-                    // Kiểm tra xem lương đã được cập nhật cho stylist vào ngày này hay chưa
-                    bool isSalaryUpdated = _stylistService.CheckIfSalaryExists(selectedDate.Value, userId);
-
-                    if (isSalaryUpdated)
+                    if (_stylistService.CheckIfSalaryExists(selectedDate, userId))
                     {
                         MessageBox.Show("Salary for this date has already been recorded. No further updates are necessary.");
                     }
+                    else if (_stylistService.InsertDailySalaryOfStylist(selectedDate, userId))
+                    {
+                        MessageBox.Show("Daily salary recorded successfully!");
+                        LoadDataInit();
+                    }
                     else
                     {
-                        // Gọi phương thức InsertDailySalaryOfStylist
-                        bool isInserted = _stylistService.InsertDailySalaryOfStylist(selectedDate, userId);
-
-                        // Cung cấp phản hồi dựa trên kết quả của việc chèn
-                        if (isInserted)
-                        {
-                            MessageBox.Show("Daily salary recorded successfully!");
-                            LoadDataInit(); // Tải lại dữ liệu để phản ánh thay đổi
-                        }
-                        else
-                        {
-                            MessageBox.Show("Failed to record daily salary. Please check the details.");
-                        }
+                        MessageBox.Show("Failed to record daily salary. Please check the details.");
                     }
                 }
                 else
@@ -189,6 +242,34 @@ namespace HairSalon.Pages
             }
         }
 
+        private void cmbYear_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmbYear.SelectedItem is ComboBoxItem selectedItem)
+            {
+                int selectedYear = int.Parse(selectedItem.Content.ToString());
+            }
+        }
+
+        private void cmbStylist1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+           
+            if (cmbStylist1 == null || cmbMonth == null || cmbYear == null)
+            {
+                return; 
+            }
+          
+            if (cmbStylist1.SelectedValue is int userId)
+            {
+               
+                int month = cmbMonth.SelectedValue is int selectedMonth ? selectedMonth : DateTime.Now.Month;
+                int year = cmbYear.SelectedValue is int selectedYear ? selectedYear : DateTime.Now.Year;
+
+                var stylistSalaries = _stylistService.GetStylistsSalary(userId, month, year);
+
+                StylistDataGridMonth.ItemsSource = stylistSalaries?.ToList() ?? null; // Directly use null-coalescing operator
+                LoadStylistByMonth();
+            }
+        }
     }
 }
 

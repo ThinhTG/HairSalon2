@@ -137,19 +137,27 @@
                     <!-- Controls -->
                     <Border Grid.Row="0" Background="White" CornerRadius="10" Margin="0,0,0,20">
                         <StackPanel Orientation="Horizontal">
-                            <DatePicker x:Name="datePicker" Width="273" Height="40" Margin="0,0,20,0" 
-                                   SelectedDateChanged="DatePicker_SelectedDateChanged"/>
+                            <DatePicker x:Name="datePicker" Width="188" Height="40" Margin="0,0,20,0" SelectedDateChanged="DatePicker_SelectedDateChanged" VerticalContentAlignment="Center" BorderBrush="Black" BorderThickness="1" />
+
                             <ComboBox x:Name="cmbStylist" 
-                                  Style="{StaticResource ComboBoxStyle}" 
-                                  Width="175" 
-                                  SelectionChanged="cmbStylist_SelectionChanged">
-                                <ComboBoxItem Content="Chọn Stylist" IsSelected="True" />
+                                    Style="{StaticResource ComboBoxStyle}" 
+                                    Width="175" 
+                                    VerticalContentAlignment="Center" 
+                                    BorderBrush="Black" BorderThickness="1" 
+                                    SelectionChanged="cmbStylist_SelectionChanged">
+                                <ComboBoxItem Content="Chọn Stylist" VerticalAlignment="Center" HorizontalAlignment="Center" IsSelected="True"    BorderBrush="Black" BorderThickness="1" />
                             </ComboBox>
-                            <TextBox x:Name="txtSalary"  Width="265" Style="{StaticResource TextBoxStyle}" VerticalContentAlignment="Center" ToolTip="Nhập lương" Background="#FFEADFDF" Margin="0,0,20,0" BorderBrush="#FF1E3554"/>
-                            <Button x:Name="btnUpdate" Content="Update Stylist Salary" Style="{StaticResource ButtonStyle}" Width="190" Click="btnUpdate_Click" Background="#FF0A2252" Margin="0,0,20,0"/>
-                            <Button x:Name="btnSalary" Content="Update Daily Salary" Style="{StaticResource ButtonStyle}" Width="178" Click="btnUpdateSalary_Click" Background="#FF0A2252"/>
+                            <TextBox x:Name="txtSalary"  Width="149" Style="{StaticResource TextBoxStyle}" VerticalContentAlignment="Center" ToolTip="Nhập lương" Background="#E2E8F0" Margin="0,0,20,0" BorderBrush="Black" BorderThickness="1" />
+                            <Border Background="#E2E8F0" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Margin="0,0,20,0">
+                                <TextBlock x:Name="txtDailySalary" Text="Daily Salary: " VerticalAlignment="Center" 
+                                Padding="10,5" FontSize="14" Foreground="Black" Width="210"/>
+                            </Border>
+                            <Button x:Name="btnUpdate" Content="Update Stylist Salary" Style="{StaticResource ButtonStyle}" Width="170" Click="btnUpdate_Click" Background="#FF0A2252" Margin="0,0,20,0"/>
+                            <Button x:Name="btnSalary" Content="Update Daily Salary" Style="{StaticResource ButtonStyle}" Width="169" Click="btnUpdateSalary_Click" Background="#FF0A2252"/>
                         </StackPanel>
                     </Border>
+
+
 
                     <!-- Data Grid -->
                     <DataGrid x:Name="StylistDataGrid" Grid.Row="1" AutoGenerateColumns="False" Width="1146" Height="525" Margin="0,5,0,0" HorizontalAlignment="Left" CanUserAddRows="False" HeadersVisibility="Column" RowBackground="#ffffff" AlternatingRowBackground="#f1f1f1" BorderThickness="1" BorderBrush="#dcdcdc" FontFamily="Bodoni MT" FontWeight="Bold" FontSize="20"  VerticalAlignment="Top" Background="#FFE4F3F3" Foreground="#FF0A2252">
@@ -181,7 +189,7 @@
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
 
-                            <DataGridTextColumn Header="Date" Binding="{Binding ScheduledWorkingDay}" Width="300">
+                            <DataGridTextColumn Header="Date" Binding="{Binding ScheduledWorkingDay, StringFormat=\{0:MM/dd/yyyy\}}" Width="200">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="TextAlignment" Value="Center"/>
@@ -190,7 +198,16 @@
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
 
-                            <DataGridTextColumn Header="Price" Binding="{Binding Price, StringFormat={}{0:N0}}" Width="*">
+                            <DataGridTextColumn Header="Price Service" Binding="{Binding Price, StringFormat={}{0:N0}}" Width="*">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="TextAlignment" Value="Center"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn Header="Price Recieve" Binding="{Binding PriceReceive, StringFormat={}{0:N0}}" Width="*">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="TextAlignment" Value="Center"/>
@@ -209,44 +226,110 @@
                             </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    
+
                 </Grid>
             </TabItem>
 
             <TabItem Header="Theo tháng" Style="{StaticResource TabItemStyle}" Margin="10,0,0,0">
                 <Grid Margin="0,20,0,0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="53*"/>
-                        <ColumnDefinition Width="1103*"/>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="1153*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
+
                     <!-- Controls -->
                     <Border Grid.Row="0" Background="White" CornerRadius="8" Margin="0,0,0,20" Grid.ColumnSpan="2">
                         <StackPanel Orientation="Horizontal">
+
                             <ComboBox x:Name="cmbMonth" 
-                                  Style="{StaticResource ComboBoxStyle}" 
-                                  SelectedIndex="0" 
-                                  SelectionChanged="cmbMonth_SelectionChanged">
-                                <ComboBoxItem Content="Chọn Tháng" IsSelected="True" />
+                                 Style="{StaticResource ComboBoxStyle}" 
+                                 SelectedIndex="0" 
+                                 SelectionChanged="cmbMonth_SelectionChanged"
+                                 VerticalContentAlignment="Center">
+                                <ComboBoxItem Content="Chọn Tháng" IsSelected="True" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </ComboBox>
 
-                            <ComboBox x:Name="cmbYear" Style="{StaticResource ComboBoxStyle}" Margin="0,0,20,0" SelectedIndex="0" Width="120">
-                                <ComboBoxItem Content="2024"/>
+                            <ComboBox 
+                                        x:Name="cmbYear" 
+                                        Style="{StaticResource ComboBoxStyle}" 
+                                        Margin="0,0,20,0" 
+                                        SelectedIndex="0" 
+                                        Width="120" 
+                                        SelectionChanged="CmbYear_SelectionChanged" 
+                                        VerticalAlignment="Center" 
+                                        VerticalContentAlignment="Center" 
+                                       />
+
+
+                            <ComboBox x:Name="cmbStylist1" 
+                                    Style="{StaticResource ComboBoxStyle}" 
+                                    Width="172" 
+                                    VerticalContentAlignment="Center" 
+                                    BorderBrush="Black" BorderThickness="1" 
+                                    SelectionChanged="cmbStylist1_SelectionChanged">
+                                <ComboBoxItem Content="Chọn Stylist" VerticalAlignment="Center" HorizontalAlignment="Center" IsSelected="True"    BorderBrush="Black" BorderThickness="1"  />
                             </ComboBox>
+                            <Border BorderBrush="Black" BorderThickness="0.5" Padding="5" CornerRadius="0" Background="#FFE5E5E5" Height="40" Width="150" Margin="20,0,0,0" >
+                                <TextBlock x:Name="txtTotalService" 
+                                    Text="Total Service: " 
+                                    VerticalAlignment="Center" Foreground="Black" 
+                                    />
+                            </Border>
+
+                            <Border BorderBrush="Black" BorderThickness="0.5" Padding="5" CornerRadius="0" Background="#FFE5E5E5" Height="40" Width="253" Margin="20,0,0,0" >
+                                <TextBlock x:Name="txtTotalSalary" 
+                                   VerticalAlignment="Center" 
+                                   Foreground="Black" 
+                                   Text="{Binding TotalSalary, StringFormat='{}{0:N0}'}"/>
+                            </Border>
+
                         </StackPanel>
                     </Border>
 
                     <!-- Data Grid -->
-                    <DataGrid Grid.Row="1" Style="{StaticResource DataGridStyle}" Grid.ColumnSpan="2">
+                    <DataGrid x:Name="StylistDataGridMonth" Grid.Row="1" AutoGenerateColumns="False" Width="1156" Height="520" HorizontalAlignment="Left" CanUserAddRows="False" HeadersVisibility="Column" RowBackground="#ffffff" AlternatingRowBackground="#f1f1f1" BorderThickness="0.5" BorderBrush="#dcdcdc" FontFamily="Bodoni MT" FontWeight="Bold" FontSize="20"  VerticalAlignment="Center" Background="#FFE4F3F3" Foreground="#FF0A2252" Grid.ColumnSpan="2">
+                        <DataGrid.Resources>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                            </Style>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                            </Style>
+                        </DataGrid.Resources>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Stylist" Width="150" HeaderStyle="{StaticResource DataGridColumnHeaderStyle}"/>
-                            <DataGridTextColumn Header="Số dịch vụ" Width="200" HeaderStyle="{StaticResource DataGridColumnHeaderStyle}"/>
-                            <DataGridTextColumn Header="Tổng doanh thu" Width="240" HeaderStyle="{StaticResource DataGridColumnHeaderStyle}"/>
-                            <DataGridTextColumn Header="Tổng lương" Width="*" HeaderStyle="{StaticResource DataGridColumnHeaderStyle}"/>
+                            <DataGridTextColumn Header="Stylist" Binding="{Binding UserName}" Width="150">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="TextAlignment" Value="Center"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat=\{0:MM/dd/yyyy\}}" Width="700">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="TextAlignment" Value="Center"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+
+
+                            <DataGridTextColumn Header="Daily Salary" Binding="{Binding DailySalary, StringFormat={}{0:N0}}" Width="*">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="TextAlignment" Value="Center"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>

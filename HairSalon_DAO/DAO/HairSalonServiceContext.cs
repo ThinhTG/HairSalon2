@@ -138,7 +138,9 @@ public partial class HairSalonServiceContext : DbContext
             entity.Property(e => e.DailySalary)
                 .HasColumnType("money")
                 .HasColumnName("dailySalary");
-            entity.Property(e => e.Date).HasColumnName("date");
+            entity.Property(e => e.Date)
+                .HasColumnType("datetime")
+                .HasColumnName("date");
             entity.Property(e => e.StylistProfileId).HasColumnName("stylistProfileId");
 
             entity.HasOne(d => d.StylistProfile).WithMany(p => p.DailySalaryOfStylists)
