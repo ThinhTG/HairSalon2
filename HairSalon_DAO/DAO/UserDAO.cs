@@ -37,9 +37,16 @@ namespace HairSalon_DAO.DAO
             return _context.User.Where(u => u.Email == email && u.Password == password).FirstOrDefault();
         }
 
+
+
         public User GetUserByName(string username)
         {
             return _context.User.Where(u => u.UserName == username).FirstOrDefault();
+        }
+
+        public User GetUserById(int id)
+        {
+            return _context.User.Where(u => u.UserId == id).FirstOrDefault();
         }
 
         public User GetUserByUserId(int userid)

@@ -18,5 +18,7 @@ namespace HairSalon_Repository.INTERFACE
 
         public User GetUserByUserId(int userId);
         public bool AddUser(User user);
+
+        public User GetUserById(int id);
     }
 }

@@ -28,5 +28,10 @@ namespace HairSalon_Repository.REPOSITORY
 
         public bool SaveChanges()
           => BookingDetailDAO.Instance.SaveChanges();
+
+        public List<BookingDetail> GetBookingDetailByBookingId(int bookingId)
+            => BookingDetailDAO.Instance.GetBookingDetailByBookingId(bookingId);
+
+      
     }
 }

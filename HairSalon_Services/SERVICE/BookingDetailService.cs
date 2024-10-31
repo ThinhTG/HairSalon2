@@ -28,6 +28,14 @@ namespace HairSalon_Services.SERVICE
             return _bookingDetailRepo.GetBookingDetailsByBookingId(bookingId);
         }
 
+        public List<BookingDetail> GetBookingDetailByBookingId(int bookingId)
+        {
+            return _bookingDetailRepo.GetBookingDetailByBookingId(bookingId);
+        }
+
+
+
+
         public List<BookingDetail> GetPendingBookingDetails()
         {
             return _bookingDetailRepo.GetPendingBookingDetails();

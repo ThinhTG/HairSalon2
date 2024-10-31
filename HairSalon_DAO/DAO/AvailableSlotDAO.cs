@@ -67,17 +67,14 @@ namespace HairSalon_DAO.DAO
 
         public void UpdateSlotStatus(int availableSlotId, string status)
         {
-            var slot = GetAvailableSlotById(availableSlotId);
+            var slot = dbContext.AvailableSlot.SingleOrDefault(s => s.AvailableSlotId == availableSlotId);
             if (slot != null)
             {
-                slot.Status = status; 
-                SaveChanges(); 
-            }
-            else
-            {
-                throw new Exception("AvailableSlot not found.");
+                slot.Status = status;
+                dbContext.SaveChanges();
             }
         }
+
 
 
         public List<User> GetStylists()
@@ -91,8 +88,9 @@ namespace HairSalon_DAO.DAO
         }
         public void SaveChanges()
         {
-            dbContext.SaveChanges(); 
+            dbContext.SaveChanges();
         }
+
     }
 
 }
