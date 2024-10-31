@@ -95,6 +95,27 @@ namespace HairSalon_DAO.DAO
             return isSuccess;
         }
 
+        public async Task<bool> UpdateBookingStatusAsync(int bookingId, string newStatus)
+        {
+            bool isSuccess = false;
+            try
+            {
+                var booking = await dbContext.Booking.SingleOrDefaultAsync(b => b.BookingId == bookingId);
+
+                if (booking != null)
+                {
+                    booking.Status = newStatus;
+                    await dbContext.SaveChangesAsync();
+                    isSuccess = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return isSuccess;
+        }
+
         public bool SaveChanges()
         {
             try

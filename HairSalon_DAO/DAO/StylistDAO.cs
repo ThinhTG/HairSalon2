@@ -209,7 +209,7 @@ namespace HairSalon_DAO.DAO
 
         public int GetTotalServices(int userId, int month, int year)
         {
-            return (from bd in _context.BookingDetail // Bỏ AsNoTracking
+            return (from bd in _context.BookingDetail
                     join av in _context.AvailableSlot on bd.AvailableSlotId equals av.AvailableSlotId
                     join sp in _context.StylistProfile on av.UserId equals sp.UserId
                     join u in _context.User on sp.UserId equals u.UserId

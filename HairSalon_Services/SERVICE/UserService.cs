@@ -45,6 +45,11 @@ namespace HairSalon_Services.SERVICE
             return user.UserName;
         }
 
-        
+        public User GetUserById(int id)
+        {
+            return iuserRepository.GetUserById(id);
+        }
+
+
     }
 }
