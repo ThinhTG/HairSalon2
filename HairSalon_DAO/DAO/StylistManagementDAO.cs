@@ -8,57 +8,58 @@ using System.Threading.Tasks;
 
 namespace HairSalon_DAO.DAO
 {
-    public class ServiceDAO
+    public class StylistManagementDAO
     {
         private HairSalonServiceContext dbContext;
-        private static ServiceDAO instance;
+        private static StylistDAO instance;
 
-
-        public ServiceDAO()
+        public StylistManagementDAO()
         {
             dbContext = new HairSalonServiceContext();
         }
-
-        public static ServiceDAO Instance
+        public static StylistDAO Instance
         {
             get
             {
                 if (instance == null)
                 {
-                    instance = new ServiceDAO();
+                    instance = new StylistDAO();
                 }
                 return instance;
             }
         }
 
-        public Service GetServiceById(int serviceId)
+        public StylistProfile GetStylistByUserId(int userId)
         {
-            return dbContext.Service.SingleOrDefault(m => m.ServiceId == serviceId);
+            return dbContext.StylistProfile.SingleOrDefault(u => u.UserId == userId);
+        }
+        public StylistProfile GetStylistById(int stylistId)
+        {
+            return dbContext.StylistProfile.SingleOrDefault(s => s.StylistProfileId == stylistId);
         }
 
-        public List<Service> GetServiceList()
+        public List<StylistProfile> GetStylistList()
         {
-            return dbContext.Service.ToList();
+            return dbContext.StylistProfile.ToList();
         }
 
-        public bool AddService(Service service)
+        public bool AddStylist(StylistProfile Stylist)
         {
             bool isSuccess = false;
             try
             {
-                Service services = GetServiceById(service.ServiceId);
-                if (services == null)
+                StylistProfile stylists = GetStylistByUserId(Stylist.UserId);
+                if (stylists == null)
                 {
                     using (var context = new HairSalonServiceContext())
                     {
-                        context.Service.Add(service);
+                        context.StylistProfile.Add(Stylist);
                         context.SaveChanges();
-                        isSuccess = true;
                     }
                 }
                 else
                 {
-                    throw new Exception("The Service is already exist.");
+                    throw new Exception("The Stylist is already exist.");
                 }
             }
             catch (Exception ex)
@@ -68,24 +69,23 @@ namespace HairSalon_DAO.DAO
             return isSuccess;
         }
 
-        public bool UpdateService(Service service)
+        public bool UpdateStylist(StylistProfile Stylist)
         {
             bool isSuccess = false;
             try
             {
-                Service services = GetServiceById(service.ServiceId);
-                if (services == null)
+                StylistProfile stylists = GetStylistByUserId(Stylist.UserId);
+                if (stylists != null)
                 {
                     using (var context = new HairSalonServiceContext())
                     {
-                        context.Entry(service).State = EntityState.Modified;
+                        context.Entry(Stylist).State = EntityState.Modified;
                         context.SaveChanges();
-                        isSuccess = true;
                     }
                 }
                 else
                 {
-                    throw new Exception("The Service does not already exist.");
+                    throw new Exception("The Stylist does not already exist.");
                 }
             }
             catch (Exception ex)
@@ -95,21 +95,21 @@ namespace HairSalon_DAO.DAO
             return isSuccess;
         }
 
-        public bool DeleteService(int serviceId)
+        public bool DeleteStylist(StylistProfile Stylist)
         {
             bool isSuccess = false;
-            Service services = this.GetServiceById(serviceId);
             try
             {
-                if (services == null)
+                StylistProfile stylists = GetStylistByUserId(Stylist.UserId);
+                if (stylists != null)
                 {
-                    dbContext.Service.Remove(services);
-                    dbContext.SaveChanges();
-                    isSuccess = true;
+                    var context = new HairSalonServiceContext();
+                    context.StylistProfile.Remove(Stylist);
+                    context.SaveChanges();
                 }
                 else
                 {
-                    throw new Exception("The Service does not already exist.");
+                    throw new Exception("The Stylist does not already exist.");
                 }
             }
             catch (Exception ex)
@@ -118,5 +118,6 @@ namespace HairSalon_DAO.DAO
             }
             return isSuccess;
         }
+
     }
 }

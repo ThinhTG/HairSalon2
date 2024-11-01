@@ -10,32 +10,21 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HairSalon.Pages
+namespace HairSalon
 {
     /// <summary>
-    /// Interaction logic for StylistManagement.xaml
+    /// Interaction logic for AdminWindow.xaml
     /// </summary>
-    public partial class StylistManagement : Page
+    public partial class AdminWindow : Window
     {
-        public StylistManagement()
+        public AdminWindow()
         {
             InitializeComponent();
         }
 
-        private void btnAdd_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnUpdate_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
         }
