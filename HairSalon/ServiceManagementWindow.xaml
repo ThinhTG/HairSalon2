@@ -8,7 +8,15 @@
         Title="ServiceManagementWindow" Height="480" Width="820" Loaded="Window_Loaded" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <Label Content="Service Management" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"/>
-        <DataGrid x:Name="dtgService" Margin="0,184,0,63" SelectionChanged="dtgService_SelectionChanged"/>
+        <!--<DataGrid x:Name="dtgService" Margin="0,184,0,63" SelectionChanged="dtgService_SelectionChanged"/>-->
+        <DataGrid x:Name="dtgService" Margin="0,184,0,63" SelectionChanged="dtgService_SelectionChanged" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Service ID" Binding="{Binding ServiceId}" />
+                <DataGridTextColumn Header="Service Name" Binding="{Binding ServiceName}" />
+                <DataGridTextColumn Header="Price" Binding="{Binding Price, StringFormat=C}" />
+                <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
+            </DataGrid.Columns>
+        </DataGrid>
         <Button x:Name="btnAdd" Content="Add" HorizontalAlignment="Left" Margin="95,398,0,0" VerticalAlignment="Top" Height="42" Width="89" Click="btnAdd_Click"/>
         <Button x:Name="btnDelete" Content="Delete" HorizontalAlignment="Left" Margin="418,398,0,0" VerticalAlignment="Top" Height="42" Width="105" Click="btnDelete_Click"/>
         <Button x:Name="btnUpdate" Content="Update" HorizontalAlignment="Left" Margin="254,398,0,0" VerticalAlignment="Top" Height="42" Width="94" Click="btnUpdate_Click"/>
