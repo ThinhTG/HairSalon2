@@ -219,7 +219,25 @@ namespace HairSalon
                     txtServiceName.Text = service.ServiceName;
                     txtDescription.Text = service.Description;
                     txtPrice.Text = service.Price.ToString();
-                    txtImage.Text = service.Image != null ? BitConverter.ToString(service.Image).Replace("-", "") : "No Image Available";
+                    txtImage.Text = service.Image != null && service.Image.Length > 0 ? "Image Available" : "No Image Available";
+
+
+                    if (service.Image != null && service.Image.Length > 0)
+                    {
+                        using (var ms = new MemoryStream(service.Image))
+                        {
+                            BitmapImage bi = new BitmapImage();
+                            bi.BeginInit();
+                            bi.CacheOption = BitmapCacheOption.OnLoad;
+                            bi.StreamSource = ms;
+                            bi.EndInit();
+                            imgService.Source = bi;
+                        }
+                    }
+                    else
+                    {
+                        imgService.Source = null;
+                    }
                 }
             }
         }
