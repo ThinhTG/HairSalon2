@@ -3,10 +3,14 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:HairSalon.Pages"
+      xmlns:local="clr-namespace:HairSalon.Converters" 
       mc:Ignorable="d" 
       d:DesignHeight="750" d:DesignWidth="1200"
       Title="CustomerHomePage" Loaded="Window_Loaded">
+
+    <Page.Resources>
+        <local:ImagePathConverter x:Key="imagePathConverter"/>
+    </Page.Resources>
 
     <Grid Background="#f1f3f5">
         <Grid.RowDefinitions>
@@ -16,32 +20,30 @@
 
         <!-- Title -->
         <TextBlock Text="Our Services" 
-                 FontFamily="Ubuntu" 
-                 HorizontalAlignment="Center" 
-                 Margin="0,20,0,30"
-                 Foreground="#FFB197FC" 
-                 FontSize="36" 
-                 FontWeight="Bold"/>
+               FontFamily="Ubuntu" 
+               HorizontalAlignment="Center" 
+               Margin="0,20,0,30"
+               Foreground="#FFB197FC" 
+               FontSize="36" 
+               FontWeight="Bold"/>
 
         <!-- Services Container -->
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <ItemsControl x:Name="ServiceItemsControl" Margin="20">
-                <!-- Thêm x:Name -->
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
-                <!-- Service Cards -->
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Width="215" 
-                        Height="250" 
-                        Background="White" 
-                        Margin="10"
-                        CornerRadius="10"
-                        BorderBrush="#ddd"
-                        BorderThickness="1">
+                            Height="250" 
+                            Background="White" 
+                            Margin="10"
+                            CornerRadius="10"
+                            BorderBrush="#ddd"
+                            BorderThickness="1">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="180"/>
@@ -51,32 +53,32 @@
 
                                 <!-- Service Image -->
                                 <Image Grid.Row="0" 
-                               Stretch="UniformToFill"
-                               Source="{Binding Image}"/>
+                                   Stretch="UniformToFill"
+                                   Source="{Binding Image, Converter={StaticResource imagePathConverter}}"/>
 
                                 <!-- Service Name -->
                                 <TextBlock Grid.Row="1"
-                                   Text="{Binding ServiceName}"
-                                   FontFamily="Ubuntu"
-                                   FontSize="16"
-                                   FontWeight="SemiBold"
-                                   Margin="10,10,10,5"
-                                   TextWrapping="Wrap"/>
+                                       Text="{Binding ServiceName}"
+                                       FontFamily="Ubuntu"
+                                       FontSize="16"
+                                       FontWeight="SemiBold"
+                                       Margin="10,10,10,5"
+                                       TextWrapping="Wrap"/>
 
                                 <!-- Price -->
                                 <TextBlock Grid.Row="2"
-                                   Text="{Binding Price, StringFormat='{}{0:N0}'}"
-                                   FontFamily="Ubuntu"
-                                   FontSize="14"
-                                   Foreground="#FFB197FC"
-                                   FontWeight="Bold"
-                                   Margin="10,0,10,10"/>
+                                       Text="{Binding Price, StringFormat='{}{0:N0} VND'}"
+                                       FontFamily="Ubuntu"
+                                       FontSize="14"
+                                       Foreground="#FFB197FC"
+                                       FontWeight="Bold"
+                                       Margin="10,0,10,10"/>
                             </Grid>
                         </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
-
     </Grid>
+
 </Page>

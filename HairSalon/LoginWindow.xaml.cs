@@ -89,7 +89,7 @@ namespace HairSalon
                 {
 
 
-                    if (user.RoleId == 3)
+                    if (user.RoleId == 1)
                     {
                         CustomerPage customerPage = new CustomerPage(user.UserId, user.UserName);
                         customerPage.Show();
@@ -99,7 +99,7 @@ namespace HairSalon
                     {
 
                     }
-                    else if (user.RoleId == 4)
+                    else if (user.RoleId == 3)
                     {
                         StaffPage staffPage = new StaffPage();
                         staffPage.Show();

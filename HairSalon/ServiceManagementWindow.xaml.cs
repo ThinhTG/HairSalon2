@@ -47,30 +47,45 @@ namespace HairSalon
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             Service service = new Service();
-            //string servicePrice = service.Price.ToString();
-            //string serviceImage = service.Image.ToString();
 
             if (decimal.TryParse(txtPrice.Text, out decimal price))
             {
                 service.Price = price;
             }
+
             service.Description = txtDescription.Text;
             service.ServiceName = txtServiceName.Text;
+
+            // Check if the file path is valid and if it has an image extension
             if (!string.IsNullOrEmpty(currentFilePath) && File.Exists(currentFilePath))
             {
-                service.Image = File.ReadAllBytes(currentFilePath);
+                string fileExtension = System.IO.Path.GetExtension(currentFilePath).ToLower();
+
+                // List of accepted image extensions
+                string[] validExtensions = { ".jpg", ".jpeg", ".png", ".bmp", ".gif" };
+
+                if (validExtensions.Contains(fileExtension))
+                {
+                    service.Image = currentFilePath;
+                }
+                else
+                {
+                    MessageBox.Show("Please select a valid image file.");
+                    return;
+                }
             }
 
             if (serviceService.AddService(service))
             {
-                MessageBox.Show("Add Successfully");
+                MessageBox.Show("Added Successfully");
                 loadDataInit();
             }
             else
             {
-                MessageBox.Show("Failed");
+                MessageBox.Show("Failed to Add");
             }
         }
+
 
         //private void btnUpdate_Click(object sender, RoutedEventArgs e)
         //{
@@ -104,15 +119,15 @@ namespace HairSalon
         {
             if (int.TryParse(txtServiceId.Text, out int serviceId))
             {
-                
+
                 Service service = serviceService.GetServiceById(serviceId);
                 if (service != null)
                 {
-                    
+
                     service.ServiceName = txtServiceName.Text;
                     service.Description = txtDescription.Text;
 
-                    
+
                     if (decimal.TryParse(txtPrice.Text, out decimal price))
                     {
                         service.Price = price;
@@ -123,13 +138,25 @@ namespace HairSalon
                         return;
                     }
 
-                    
+
                     if (!string.IsNullOrEmpty(currentFilePath) && File.Exists(currentFilePath))
                     {
-                        service.Image = File.ReadAllBytes(currentFilePath);
+                        string fileExtension = System.IO.Path.GetExtension(currentFilePath).ToLower();
+
+                        // List of accepted image extensions
+                        string[] validExtensions = { ".jpg", ".jpeg", ".png", ".bmp", ".gif" };
+
+                        if (validExtensions.Contains(fileExtension))
+                        {
+                            service.Image = currentFilePath;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Please select a valid image file.");
+                            return;
+                        }
                     }
 
-                    
                     if (serviceService.UpdateService(service))
                     {
                         MessageBox.Show("Update Successfully");
@@ -207,32 +234,33 @@ namespace HairSalon
         {
             DataGrid dataGrid = sender as DataGrid;
             DataGridRow row = dataGrid.ItemContainerGenerator.ContainerFromIndex(dataGrid.SelectedIndex) as DataGridRow;
+
             if (row != null)
             {
                 DataGridCell RowColumn = dataGrid.Columns[0].GetCellContent(row).Parent as DataGridCell;
                 string id = ((TextBlock)RowColumn.Content).Text;
                 int IdText = int.Parse(id);
+
                 Service service = serviceService.GetServiceById(IdText);
+
                 if (service != null)
                 {
                     txtServiceId.Text = service.ServiceId.ToString();
                     txtServiceName.Text = service.ServiceName;
                     txtDescription.Text = service.Description;
                     txtPrice.Text = service.Price.ToString();
-                    txtImage.Text = service.Image != null && service.Image.Length > 0 ? "Image Available" : "No Image Available";
+                    txtImage.Text = !string.IsNullOrEmpty(service.Image) ? "Image Available" : "No Image Available";
 
-
-                    if (service.Image != null && service.Image.Length > 0)
+                    // Load image from file path if it exists
+                    if (!string.IsNullOrEmpty(service.Image) && File.Exists(service.Image))
                     {
-                        using (var ms = new MemoryStream(service.Image))
-                        {
-                            BitmapImage bi = new BitmapImage();
-                            bi.BeginInit();
-                            bi.CacheOption = BitmapCacheOption.OnLoad;
-                            bi.StreamSource = ms;
-                            bi.EndInit();
-                            imgService.Source = bi;
-                        }
+                        BitmapImage bi = new BitmapImage();
+                        bi.BeginInit();
+                        bi.CacheOption = BitmapCacheOption.OnLoad;
+                        bi.UriSource = new Uri(service.Image, UriKind.Absolute);
+                        bi.EndInit();
+
+                        imgService.Source = bi;
                     }
                     else
                     {
@@ -241,6 +269,7 @@ namespace HairSalon
                 }
             }
         }
+
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {

@@ -18,5 +18,6 @@ namespace HairSalon_Repository.INTERFACE
         public bool UpdateService(Service service);
 
         public bool DeleteService(int serviceId);
+
     }
 }

@@ -38,6 +38,5 @@ namespace HairSalon_Services.SERVICE
         {
             return servicelistRepo.DeleteService(serviceId);
         }
-
     }
 }

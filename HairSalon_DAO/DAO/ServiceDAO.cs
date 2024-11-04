@@ -2,9 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+
+
+
 
 namespace HairSalon_DAO.DAO
 {
@@ -41,6 +46,7 @@ namespace HairSalon_DAO.DAO
             return dbContext.Service.ToList();
         }
 
+
         public bool AddService(Service service)
         {
             bool isSuccess = false;
@@ -49,9 +55,9 @@ namespace HairSalon_DAO.DAO
                 Service services = GetServiceById(service.ServiceId);
                 if (services == null)
                 {
-                        dbContext.Service.Add(service);
-                        dbContext.SaveChanges();
-                        isSuccess = true;
+                    dbContext.Service.Add(service);
+                    dbContext.SaveChanges();
+                    isSuccess = true;
                 }
                 else
                 {
@@ -119,5 +125,8 @@ namespace HairSalon_DAO.DAO
             }
             return isSuccess;
         }
+
+
+
     }
 }
