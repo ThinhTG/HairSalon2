@@ -55,5 +55,10 @@ namespace HairSalon_Services.SERVICE
         {
             return _availableSlotRepo.GetAvailableStylistsBySlotAndDate(slotId, date);
         }
+
+        public (string userName, TimeOnly? startTime) GetUserAndSlotInfoByAvailableSlotId(int availableSlotId)
+        {
+           return _availableSlotRepo.GetUserAndSlotInfoByAvailableSlotId(availableSlotId);
+        }
     }
 }

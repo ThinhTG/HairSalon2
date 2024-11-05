@@ -78,6 +78,23 @@ namespace HairSalon_DAO.DAO
                 throw new Exception("AvailableSlot not found.");
             }
         }
+        public (string userName, TimeOnly? startTime) GetUserAndSlotInfoByAvailableSlotId(int availableSlotId)
+        {
+            var availableSlot = dbContext.AvailableSlot
+                .Include(a => a.User)
+                .Include(a => a.Slot)
+                .SingleOrDefault(a => a.AvailableSlotId == availableSlotId);
+
+            if (availableSlot == null)
+            {
+                throw new Exception("AvailableSlot not found for the given availableSlotId.");
+            }
+
+            var userName = availableSlot.User?.UserName ?? "Unknown User";
+            var startTime = availableSlot.Slot?.StartTime;
+
+            return (userName, startTime);
+        }
 
 
         public List<User> GetStylists()

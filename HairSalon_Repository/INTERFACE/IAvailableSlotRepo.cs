@@ -18,6 +18,7 @@ namespace HairSalon_Repository.INTERFACE
         void SaveChanges();
         List<User> GetStylists();
         List<Slot> GetSlots();
+        (string userName, TimeOnly? startTime) GetUserAndSlotInfoByAvailableSlotId(int availableSlotId);
 
     }
 

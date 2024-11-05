@@ -1,4 +1,5 @@
 ﻿using HairSalon_BusinessObject.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,9 @@ namespace HairSalon_Repository.INTERFACE
         bool UpdateBookingStatus(int bookingId, string newStatus);
         bool SaveChanges();
         public List<Booking> GetBookingsList();
+        public List<Booking> SearchBookingByDate(int userId, DateTime fromDate, DateTime toDate);
+        public List<Booking> GetBookingsByUserId(int userId);
+        public bool CancelBookingAndDetails(int bookingId);
     }
 
 }

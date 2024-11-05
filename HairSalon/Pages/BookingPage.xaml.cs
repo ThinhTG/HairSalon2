@@ -177,7 +177,7 @@ namespace HairSalon.Pages
             {
                 var booking = new Booking
                 {
-                    BookingDate = DateTime.Now,
+                    BookingDate = DateTime.Today,
                     Amount = CalculateTotalAmount(),
                     Status = "Pending",
                     CreateBy = 1,

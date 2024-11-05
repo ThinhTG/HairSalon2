@@ -11,5 +11,6 @@ namespace HairSalon_Services.INTERFACE
     {
         public Service GetServiceById(int serviceId);
         public List<Service> GetServiceList();
+        public string GetServiceNameById(int serviceId);
     }
 }

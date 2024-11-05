@@ -49,7 +49,7 @@ namespace HairSalon_DAO.DAO
             {
                 if (booking != null)
                 {
-                
+
                     foreach (var detail in booking.BookingDetail)
                     {
                         detail.Booking = booking;
@@ -82,18 +82,48 @@ namespace HairSalon_DAO.DAO
 
                 if (booking != null)
                 {
-                    booking.Status = newStatus; 
+                    booking.Status = newStatus;
                     dbContext.SaveChanges();
                     isSuccess = true;
                 }
             }
             catch (Exception ex)
-            {         
+            {
                 throw new Exception(ex.Message);
             }
             return isSuccess;
         }
 
+        public List<Booking> SearchBookingByDate(int userId, DateTime fromDate, DateTime toDate)
+        {
+            return dbContext.Booking
+                            .Where(b => b.UserId == userId && b.BookingDate >= fromDate && b.BookingDate <= toDate)
+                            .ToList();
+        }
+
+        public List<Booking> GetBookingsByUserId(int userId)
+        {
+            return dbContext.Booking
+                .Where(b => b.UserId == userId)
+                .Include(b => b.User) 
+                .Include(b => b.BookingDetail)
+                .ToList();
+        }
+        public bool CancelBookingAndDetails(int bookingId)
+        {
+            var booking = dbContext.Booking.Include(b => b.BookingDetail)
+                                           .FirstOrDefault(b => b.BookingId == bookingId);
+            if (booking == null) return false;
+
+            booking.Status = "Canceled";
+            foreach (var detail in booking.BookingDetail)
+            {
+                detail.Status = "Canceled";
+            }
+
+            dbContext.SaveChanges();
+            return true;
+        }
         public bool SaveChanges()
         {
             try

@@ -20,5 +20,6 @@ namespace HairSalon_Services.INTERFACE
         List<User> GetStylists();
 
         List<Slot> GetSlots();
+        (string userName, TimeOnly? startTime) GetUserAndSlotInfoByAvailableSlotId(int availableSlotId);
     }
 }
