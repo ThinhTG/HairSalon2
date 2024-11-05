@@ -15,6 +15,7 @@
                 <DataGridTextColumn Header="Service Name" Binding="{Binding ServiceName}" />
                 <DataGridTextColumn Header="Price" Binding="{Binding Price}" />
                 <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
+                <DataGridTextColumn Header="Image Url" Binding="{Binding Image}" />
             </DataGrid.Columns>
         </DataGrid>
         <Button x:Name="btnAdd" Content="Add" HorizontalAlignment="Left" Margin="95,398,0,0" VerticalAlignment="Top" Height="42" Width="89" Click="btnAdd_Click"/>

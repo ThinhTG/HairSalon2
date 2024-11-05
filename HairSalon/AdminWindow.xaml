@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HairSalon"
         mc:Ignorable="d"
-        Title="AdminWindow" Height="750" Width="1300" Background="LightSeaGreen">
+        Title="AdminWindow" Height="750" Width="1300" Background="LightSeaGreen" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Grid>
             <!--<Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"/>-->
