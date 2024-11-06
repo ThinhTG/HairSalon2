@@ -94,7 +94,18 @@ namespace HairSalon
             navframe.Navigate(new Uri("/Pages/FeedbackPage.xaml", UriKind.Relative));
         }
 
-
-
+        private void BookingHistory_Click(object sender, MouseButtonEventArgs e)
+        {
+            var selected = sender as NavButton2;
+            if (selected != null)
+            {
+                selected.OnNavigateToPage += userId =>
+                {
+                    BookingHistory bookingHistory = new BookingHistory(userId);
+                    navframe.Navigate(bookingHistory);
+                };
+                selected.RaiseOnNavigateToPage(userId);
+            }
+        }
     }
 }

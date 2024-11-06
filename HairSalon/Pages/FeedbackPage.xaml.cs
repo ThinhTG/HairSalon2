@@ -20,7 +20,7 @@ namespace HairSalon.Pages
     /// </summary>
     public partial class FeedbackPage : Page
     {
-        public FeedbackPage()
+        public FeedbackPage(int bookingDetailId)
         {
             InitializeComponent();
         }

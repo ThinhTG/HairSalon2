@@ -45,6 +45,25 @@ namespace HairSalon_Services.SERVICE
             return _bookingRepo.UpdateBookingStatus(bookingId, newStatus);
         }
 
+        public List<Booking> SearchBookingByDate(int userId, DateTime fromDate, DateTime toDate)
+        {
+            return _bookingRepo.SearchBookingByDate(userId, fromDate, toDate);
+        }
+
+        public List<Booking> GetBookingsByUserId(int userId)
+        {
+            return _bookingRepo.GetBookingsByUserId(userId);
+        }
+
+        public List<Booking> GetPendingBookingsByUserId(int userId)
+        {
+            return _bookingRepo.GetPendingBookingsByUserId(userId);
+        }
+
+        public bool CancelBookingAndDetails(int bookingId)
+        {
+            return _bookingRepo.CancelBookingAndDetails(bookingId);
+        }
     }
 }
 

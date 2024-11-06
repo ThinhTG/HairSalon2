@@ -1,4 +1,5 @@
 ﻿using HairSalon_BusinessObject.Models;
+using HairSalon_DAO.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,12 @@ namespace HairSalon_Repository.INTERFACE
 {
     public interface IBookingDetailRepo
     {
-        List<BookingDetail> GetBookingDetailsByBookingId(int bookingId);
         bool AddBookingDetail(BookingDetail bookingDetail);
         bool UpdateBookingDetailStatus(int bookingDetailId, string newStatus);
         List<BookingDetail> GetPendingBookingDetails();
         bool SaveChanges();
-
-        List<BookingDetail> GetBookingDetailByBookingId(int bookingId);
-
+        public List<BookingDetailDTO> GetBookingDetailsByBookingId(int bookingId);
+        public BookingDetail GetBookingDetailById(int bookingDetailId);
     }
 
 }

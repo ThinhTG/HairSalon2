@@ -1,4 +1,5 @@
 ﻿using HairSalon_BusinessObject.Models;
+using HairSalon_DAO.DTO;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -31,23 +32,30 @@ namespace HairSalon_DAO.DAO
             dbContext = new HairSalonServiceContext();
         }
 
-        public List<BookingDetail> GetBookingDetailByBookingId(int bookingId)
+        public List<BookingDetailDTO> GetBookingDetailsByBookingId(int bookingId)
         {
-            return dbContext.BookingDetail
-                .Where(bd => bd.BookingId == bookingId)
-                .Include(bd => bd.AvailableSlot)
-                    .ThenInclude(av => av.Slot)
-                .Include(bd => bd.AvailableSlot)
-                    .ThenInclude(av => av.User)
-                .ToList();
+            var bookingDetails = (from bd in dbContext.BookingDetail
+                                  join b in dbContext.Booking on bd.BookingId equals b.BookingId
+                                  join avs in dbContext.AvailableSlot on bd.AvailableSlotId equals avs.AvailableSlotId
+                                  join s in dbContext.Slot on avs.SlotId equals s.SlotId
+                                  join ser in dbContext.Service on bd.ServiceId equals ser.ServiceId
+                                  join u in dbContext.User on avs.UserId equals u.UserId
+                                  where bd.BookingId == bookingId
+                                  select new BookingDetailDTO
+                                  {
+                                      BookingDetailId = bd.BookingDetailId,
+                                      AvailableSlotId = bd.AvailableSlotId,
+                                      UserName = u.UserName,
+                                      ScheduledWorkingDay = bd.ScheduledWorkingDay ?? DateTime.MinValue,
+                                      StartTime = s.StartTime,
+                                      ServiceName = ser.ServiceName,
+                                      Price = bd.Price ?? 0m,
+                                      Status = bd.Status
+                                  }).ToList();
+
+            return bookingDetails;
         }
 
-
-
-        public List<BookingDetail> GetBookingDetailsByBookingId(int bookingId)
-        {
-            return dbContext.BookingDetail.Where(b => b.BookingId == bookingId).ToList();
-        }
         public BookingDetail GetBookingDetailById(int bookingDetailId)
         {
             return dbContext.BookingDetail.SingleOrDefault(b => b.BookingDetailId == bookingDetailId);
@@ -122,11 +130,13 @@ namespace HairSalon_DAO.DAO
                              .ToList();
         }
 
+
+
         public bool SaveChanges()
         {
             try
             {
-                dbContext.SaveChanges(); 
+                dbContext.SaveChanges();
                 return true;
             }
             catch (Exception ex)

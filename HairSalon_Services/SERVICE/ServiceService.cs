@@ -26,6 +26,11 @@ namespace HairSalon_Services.SERVICE
         {
             return servicelistRepo.GetServiceList();
         }
+
+        public string GetServiceNameById(int serviceId)
+        {
+            return servicelistRepo.GetServiceNameById(serviceId);
+
         public bool AddService(Service service)
         {
             return servicelistRepo.AddService(service);

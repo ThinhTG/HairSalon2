@@ -50,8 +50,7 @@ namespace HairSalon_DAO.DAO
             {
                 if (booking != null)
                 {
-                
-                    foreach (var detail in booking.BookingDetails)
+                    foreach (var detail in booking.BookingDetail)
                     {
                         detail.Booking = booking;
                     }
@@ -83,18 +82,68 @@ namespace HairSalon_DAO.DAO
 
                 if (booking != null)
                 {
-                    booking.Status = newStatus; 
+                    booking.Status = newStatus;
                     dbContext.SaveChanges();
                     isSuccess = true;
                 }
             }
             catch (Exception ex)
-            {         
+            {
                 throw new Exception(ex.Message);
             }
             return isSuccess;
         }
 
+        public List<Booking> SearchBookingByDate(int userId, DateTime fromDate, DateTime toDate)
+        {
+            var endDate = toDate.Date.AddDays(0);
+
+            return dbContext.Booking
+                             .Where(b => b.UserId == userId && b.BookingDate >= fromDate && b.BookingDate < endDate)
+                             .ToList();
+        }
+
+        public List<Booking> GetBookingsByUserId(int userId)
+        {
+            return dbContext.Booking
+                .Where(b => b.UserId == userId)
+                .Include(b => b.User)
+                .Include(b => b.BookingDetail)
+                .ToList();
+        }
+
+        public List<Booking> GetPendingBookingsByUserId(int userId)
+        {
+            try
+            {
+                var pendingBookings = dbContext.Booking
+                    .Where(b => b.UserId == userId && b.Status == "Pending")
+                    .ToList();
+                return pendingBookings;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error retrieving pending bookings: {ex.Message}");
+                return new List<Booking>();
+            }
+        }
+
+        public bool CancelBookingAndDetails(int bookingId)
+        {
+            var booking = dbContext.Booking.Include(b => b.BookingDetail)
+                                           .FirstOrDefault(b => b.BookingId == bookingId);
+            if (booking == null) return false;
+
+            booking.Status = "Cancelled";
+            foreach (var detail in booking.BookingDetail)
+            {
+                detail.Status = "Cancelled";
+            }
+
+            dbContext.SaveChanges();
+            return true;
+        }
+      
         public async Task<bool> UpdateBookingStatusAsync(int bookingId, string newStatus)
         {
             bool isSuccess = false;

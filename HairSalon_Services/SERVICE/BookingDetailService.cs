@@ -1,4 +1,5 @@
 ﻿using HairSalon_BusinessObject.Models;
+using HairSalon_DAO.DTO;
 using HairSalon_Repository.INTERFACE;
 using HairSalon_Repository.REPOSITORY;
 using HairSalon_Services.INTERFACE;
@@ -33,9 +34,6 @@ namespace HairSalon_Services.SERVICE
             return _bookingDetailRepo.GetBookingDetailByBookingId(bookingId);
         }
 
-
-
-
         public List<BookingDetail> GetPendingBookingDetails()
         {
             return _bookingDetailRepo.GetPendingBookingDetails();
@@ -49,6 +47,16 @@ namespace HairSalon_Services.SERVICE
         public bool SaveChanges()
         {
             return _bookingDetailRepo.SaveChanges();
+        }
+
+        public List<BookingDetailDTO>GetBookingDetailsByBookingId(int bookingId)
+        {
+           return _bookingDetailRepo.GetBookingDetailsByBookingId((int)bookingId);
+        }
+
+        public BookingDetail GetBookingDetailById(int bookingDetailId)
+        {
+            return _bookingDetailRepo.GetBookingDetailById((int)bookingDetailId);
         }
     }
 

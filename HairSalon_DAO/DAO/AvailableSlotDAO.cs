@@ -65,14 +65,42 @@ namespace HairSalon_DAO.DAO
         }
 
 
-        public void UpdateSlotStatus(int availableSlotId, string status)
+        public bool UpdateSlotStatus(int availableSlotId, string newStatus)
         {
-            var slot = dbContext.AvailableSlot.SingleOrDefault(s => s.AvailableSlotId == availableSlotId);
-            if (slot != null)
+            bool isSuccess = false;
+            try
             {
-                slot.Status = status;
-                dbContext.SaveChanges();
+                var slot = dbContext.AvailableSlot.FirstOrDefault(s => s.AvailableSlotId == availableSlotId);
+
+                if (slot != null)
+                {
+                    slot.Status = newStatus;
+                    dbContext.SaveChanges();
+                    isSuccess = true;
+                }
             }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return isSuccess;
+        }
+        public (string userName, TimeOnly? startTime) GetUserAndSlotInfoByAvailableSlotId(int availableSlotId)
+        {
+            var availableSlot = dbContext.AvailableSlot
+                .Include(a => a.User)
+                .Include(a => a.Slot)
+                .SingleOrDefault(a => a.AvailableSlotId == availableSlotId);
+
+            if (availableSlot == null)
+            {
+                throw new Exception("AvailableSlot not found for the given availableSlotId.");
+            }
+
+            var userName = availableSlot.User?.UserName ?? "Unknown User";
+            var startTime = availableSlot.Slot?.StartTime;
+
+            return (userName, startTime);
         }
 
 

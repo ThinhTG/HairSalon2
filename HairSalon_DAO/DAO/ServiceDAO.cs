@@ -41,6 +41,13 @@ namespace HairSalon_DAO.DAO
             return dbContext.Service.SingleOrDefault(m => m.ServiceId == serviceId);
         }
 
+        public string GetServiceNameById(int serviceId)
+        {
+            var service = dbContext.Service.FirstOrDefault(s => s.ServiceId == serviceId);
+            return service != null ? service.ServiceName : "Unknown Service";
+        }
+
+
         public List<Service> GetServiceList()
         {
             return dbContext.Service.ToList();

@@ -22,6 +22,6 @@ namespace HairSalon_Repository.REPOSITORY
         public User GetUserByUserId(int userId) => UserDAO.Instance.GetUserByUserId(userId);
 
         public User GetUserById(int id) => UserDAO.Instance.GetUserById(id);
-       
+
     }
 }
