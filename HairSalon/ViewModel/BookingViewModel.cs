@@ -13,7 +13,13 @@ namespace HairSalon.ViewModel
         public string UserName { get; set; }
         public string Status { get; set; }
         public decimal? Discount { get; set; }
-        public int BookingId { get; set; } 
+        public int BookingId { get; set; }
+        public bool IsBookingActive => Status != "Completed" &&
+                                          Status != "Canceled" &&
+                                          BookingDate.HasValue &&
+                                          BookingDate.Value.Date >= DateTime.Today;
     }
 
 }
+
+

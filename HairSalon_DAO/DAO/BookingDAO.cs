@@ -96,9 +96,11 @@ namespace HairSalon_DAO.DAO
 
         public List<Booking> SearchBookingByDate(int userId, DateTime fromDate, DateTime toDate)
         {
+            var endDate = toDate.Date.AddDays(0);
+
             return dbContext.Booking
-                            .Where(b => b.UserId == userId && b.BookingDate >= fromDate && b.BookingDate <= toDate)
-                            .ToList();
+                             .Where(b => b.UserId == userId && b.BookingDate >= fromDate && b.BookingDate < endDate)
+                             .ToList();
         }
 
         public List<Booking> GetBookingsByUserId(int userId)

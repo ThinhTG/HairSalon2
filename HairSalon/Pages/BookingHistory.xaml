@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
       mc:Ignorable="d" 
       d:DesignHeight="750" d:DesignWidth="1200"
       Title="BookingHistory" Loaded="Window_Loaded">
@@ -43,7 +44,7 @@
                 </Style>
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Booking Date" Binding="{Binding BookingDate, StringFormat=d}" Width="*">
+                <DataGridTextColumn Header="Booking Date" Binding="{Binding BookingDate, StringFormat=d}" Width="*" IsReadOnly="true">
                     <DataGridTextColumn.ElementStyle >
                         <Style TargetType="TextBlock">
                             <Setter Property="TextAlignment" Value="Center"/>
@@ -51,7 +52,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Amount" Binding="{Binding Amount}" Width="*">
+                <DataGridTextColumn Header="Amount" Binding="{Binding Amount}" Width="*" IsReadOnly="true">
                     <DataGridTextColumn.ElementStyle >
                         <Style TargetType="TextBlock">
                             <Setter Property="TextAlignment" Value="Center"/>
@@ -59,7 +60,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Customer" Binding="{Binding UserName}" Width="*">
+                <DataGridTextColumn Header="Customer" Binding="{Binding UserName}" Width="*" IsReadOnly="true">
                     <DataGridTextColumn.ElementStyle >
                         <Style TargetType="TextBlock">
                             <Setter Property="TextAlignment" Value="Center"/>
@@ -67,7 +68,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*">
+                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*" IsReadOnly="true">
                     <DataGridTextColumn.ElementStyle >
                         <Style TargetType="TextBlock">
                             <Setter Property="TextAlignment" Value="Center"/>
@@ -75,7 +76,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Discount" Binding="{Binding Discount}" Width="*">
+                <DataGridTextColumn Header="Discount" Binding="{Binding Discount}" Width="*" IsReadOnly="true">
                     <DataGridTextColumn.ElementStyle >
                         <Style TargetType="TextBlock">
                             <Setter Property="TextAlignment" Value="Center"/>
@@ -87,11 +88,59 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
                                 <!-- Payment Button -->
-                                <Button Content="Payment" Width="80" Margin="5,0" Click="PaymentButton_Click" Tag="{Binding BookingId}" />
+                                <Button Content="Payment" Width="80" Margin="5,0" 
+                        Click="PaymentButton_Click" 
+                        Tag="{Binding BookingId}" 
+                        Background="LightGreen">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="IsEnabled" Value="True"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsBookingActive}" Value="False">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                    <Setter Property="Opacity" Value="0.5"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="Completed">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                    <Setter Property="Opacity" Value="0.5"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="Canceled">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                    <Setter Property="Opacity" Value="0.5"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
 
                                 <!-- Cancel Button -->
-                                <Button Content="Cancel" Width="80" Margin="5,0" Click="CancelBookingButton_Click" Tag="{Binding BookingId}" />
+                                <Button Content="Cancel" Width="80" Margin="5,0" 
+                        Click="CancelBookingButton_Click" 
+                        Tag="{Binding BookingId}" 
+                        Background="LightPink">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="IsEnabled" Value="True"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsBookingActive}" Value="False">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                    <Setter Property="Opacity" Value="0.5"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="Completed">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                    <Setter Property="Opacity" Value="0.5"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="Canceled">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                    <Setter Property="Opacity" Value="0.5"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -102,7 +151,7 @@
 
         <!-- Detail DataGrid -->
         <Label Content="+ Booking Details (Select your booking to see details):" HorizontalAlignment="Left" Margin="28,448,0,0" VerticalAlignment="Top" Height="38" Width="506" Foreground="#FF00529E" FontFamily="Bodoni MT" FontSize="22" FontWeight="Bold"/>
-        <DataGrid x:Name="BookingDetailDataGrid" AutoGenerateColumns="False" Width="1124" Height="158" Margin="0,486,0,0" HorizontalAlignment="Center" CanUserAddRows="False" HeadersVisibility="Column" RowBackground="#ffffff" AlternatingRowBackground="#f1f1f1" BorderThickness="1" BorderBrush="#dcdcdc" FontFamily="Bodoni MT" FontWeight="Bold" FontSize="20" VerticalAlignment="Top" Background="#FFCFE8EC" Foreground="#FF0A2252" SelectionChanged="BookingDetailDataGrid_SelectionChanged">
+        <DataGrid x:Name="BookingDetailDataGrid" AutoGenerateColumns="False" Width="1124" Height="158" Margin="0,486,0,0" HorizontalAlignment="Center" CanUserAddRows="False" HeadersVisibility="Column" RowBackground="#ffffff" AlternatingRowBackground="#f1f1f1" BorderThickness="1" BorderBrush="#dcdcdc" FontFamily="Bodoni MT" FontWeight="Bold" FontSize="20" VerticalAlignment="Top" Background="#FFCFE8EC" Foreground="#FF0A2252" SelectionChanged="BookingHistoryDataGrid_SelectionChanged">
             <DataGrid.Resources>
                 <!-- Style for Center Aligning Column Headers -->
                 <Style TargetType="DataGridColumnHeader">
@@ -126,7 +175,7 @@
                 </DataGridTextColumn>
 
                 <!-- Stylist Column -->
-                <DataGridTextColumn Header="Stylist" Binding="{Binding User.UserName}" Width="*">
+                <DataGridTextColumn Header="Stylist" Binding="{Binding UserName}" Width="*">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="TextAlignment" Value="Center"/>
@@ -136,7 +185,7 @@
                 </DataGridTextColumn>
 
                 <!-- Slot Column -->
-                <DataGridTextColumn Header="Slot" Binding="{Binding Slot.StartTime}" Width="*">
+                <DataGridTextColumn Header="Slot" Binding="{Binding StartTime}" Width="*">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="TextAlignment" Value="Center"/>
@@ -174,35 +223,56 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <!-- Action Column -->         
-            <DataGridTemplateColumn Header="Action" Width="*">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <!-- Feedback Button -->
-                            <Button Content="Feedback" Width="80" Margin="5,0" 
-                                Click="FeedbackButton_Click" 
-                                Tag="{Binding BookingDetailId}">
-                                <Button.Style>
-                                    <Style TargetType="Button">
-                                        <Setter Property="IsEnabled" Value="False"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Status}" Value="Confirm">
-                                                <Setter Property="IsEnabled" Value="True"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style>
-                            </Button>
+                <!-- Action Column -->
+                <DataGridTemplateColumn Header="Action" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 
-                            <!-- Cancel Button -->
-                            <Button Content="Cancel" Width="80" Margin="5,0" 
-                                Click="CancelBookingDetailButton_Click" 
-                                Tag="{Binding BookingDetailId}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
+                                <!-- Feedback Button -->
+                                <Button Content="Feedback" Width="85" Margin="5,0" Background="MediumPurple"
+                        Click="FeedbackButton_Click"
+                        Tag="{Binding BookingDetailId}"
+                        HorizontalAlignment="Center">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsBookingDetailActive}" Value="False">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="Confirm">
+                                                    <Setter Property="IsEnabled" Value="True"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+
+                                <!-- Cancel Button -->
+                                <Button Content="Cancel" Width="70" Margin="5,0" Background="LightPink"
+                                Click="CancelBookingDetailButton_Click"
+                                Tag="{Binding BookingDetailId}"
+                                HorizontalAlignment="Center">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="IsEnabled" Value="True"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsBookingDetailActive}" Value="False">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="Canceled">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         
         </DataGrid>

@@ -1,4 +1,5 @@
 ﻿using HairSalon_BusinessObject.Models;
+using HairSalon_DAO.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,11 @@ namespace HairSalon_Services.INTERFACE
 {
     public interface IBookingDetailService
     {
-        List<BookingDetail> GetBookingDetailsByBookingId(int bookingId);
         bool AddBookingDetail(BookingDetail bookingDetail);
         bool UpdateBookingDetailStatus(int bookingDetailId, string newStatus);
         List<BookingDetail> GetPendingBookingDetails();
+        List<BookingDetailDTO> GetBookingDetailsByBookingId(int bookingId);
+        public BookingDetail GetBookingDetailById(int bookingDetailId);
         bool SaveChanges();
     }
 }
