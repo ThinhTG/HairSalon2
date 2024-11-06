@@ -44,6 +44,7 @@ namespace HairSalon_DAO.DAO
                                   select new BookingDetailDTO
                                   {
                                       BookingDetailId = bd.BookingDetailId,
+                                      AvailableSlotId = bd.AvailableSlotId,
                                       UserName = u.UserName,
                                       ScheduledWorkingDay = bd.ScheduledWorkingDay ?? DateTime.MinValue,
                                       StartTime = s.StartTime,

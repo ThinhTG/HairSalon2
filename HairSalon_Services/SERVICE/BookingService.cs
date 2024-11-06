@@ -55,6 +55,11 @@ namespace HairSalon_Services.SERVICE
             return _bookingRepo.GetBookingsByUserId(userId);
         }
 
+        public List<Booking> GetPendingBookingsByUserId(int userId)
+        {
+            return _bookingRepo.GetPendingBookingsByUserId(userId);
+        }
+
         public bool CancelBookingAndDetails(int bookingId)
         {
             return _bookingRepo.CancelBookingAndDetails(bookingId);

@@ -4,6 +4,7 @@ using HairSalon_Services.SERVICE;
 using System.Windows.Controls;
 using System.Windows;
 using HairSalon_BusinessObject.Models;
+using System.Timers;
 namespace HairSalon.Pages
 {
     public partial class BookingHistory : Page
@@ -13,6 +14,7 @@ namespace HairSalon.Pages
         private AvailableSlotService availableSlotService;
         private ServiceService serviceService;
         private int UserId;
+        private System.Timers.Timer _timer;
 
         public BookingHistory()
         {
@@ -33,8 +35,65 @@ namespace HairSalon.Pages
             serviceService = new ServiceService();
             this.UserId = userId;
             LoadBookingHistory();
-
+            var pendingBookings = bookingService.GetPendingBookingsByUserId(userId);
+            foreach (var booking in pendingBookings)
+            {
+                StartCancellationTimerForBooking(booking.BookingId);
+            }
         }
+
+        private Dictionary<int, System.Timers.Timer> bookingTimers = new Dictionary<int, System.Timers.Timer>();
+        private void StartCancellationTimerForBooking(int bookingId)
+        {
+            StopTimerForBooking(bookingId);
+
+            var timer = new System.Timers.Timer(1 * 60 * 1000);
+            timer.Elapsed += (sender, e) => OnTimedEvent(sender, e, bookingId);
+            timer.AutoReset = true;
+            timer.Enabled = true;
+
+            bookingTimers[bookingId] = timer;
+        }
+
+        private void OnTimedEvent(object sender, ElapsedEventArgs e, int bookingId)
+        {
+            var pendingBookings = bookingService.GetPendingBookingsByUserId(UserId);
+
+            foreach (var booking in pendingBookings)
+            {
+                if (booking.Status == "Pending" && booking.BookingId == bookingId &&
+                    booking.BookingDate.HasValue &&
+                    (DateTime.Now - booking.BookingDate.Value).TotalMinutes >= 1)
+                {
+                    bookingService.UpdateBookingStatus(booking.BookingId, "Cancelled");
+
+                    var bookingDetails = bookingDetailService.GetBookingDetailsByBookingId(booking.BookingId);
+                    foreach (var detail in bookingDetails)
+                    {
+                        availableSlotService.UpdateSlotStatus(detail.AvailableSlotId, "Unbooked");
+                        bookingDetailService.UpdateBookingDetailStatus(detail.BookingDetailId, "Cancelled");
+                    }
+
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        MessageBox.Show($"Your booking has been canceled due to non-payment.",
+                                         "Cancellation", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        LoadBookingHistory();
+                        LoadBookingDetailHistory(bookingId);
+                    });
+                }
+            }
+        }
+        private void StopTimerForBooking(int bookingId)
+        {
+            if (bookingTimers.ContainsKey(bookingId))
+            {
+                bookingTimers[bookingId].Stop();
+                bookingTimers[bookingId].Dispose();
+                bookingTimers.Remove(bookingId);
+            }
+        }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             LoadBookingHistory();
@@ -42,7 +101,10 @@ namespace HairSalon.Pages
 
         private void LoadBookingHistory()
         {
-            var bookings = bookingService.GetBookingsByUserId(UserId);
+            var bookings = bookingService.GetBookingsByUserId(UserId)
+                                         .OrderByDescending(booking => booking.BookingId)
+                                         .ToList();
+
             var bookingViewModels = bookings.Select(booking => new BookingViewModel
             {
                 BookingDate = booking.BookingDate,
@@ -68,10 +130,25 @@ namespace HairSalon.Pages
                 MessageBox.Show($"An error occurred while loading booking details: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
-        private void PaymentButton_Click(object sender, RoutedEventArgs e)
+        private void BookingHistoryDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+            if (BookingHistoryDataGrid.SelectedItem == null) return;
+
+            var selectedBooking = (BookingViewModel)BookingHistoryDataGrid.SelectedItem;
+            int bookingId = selectedBooking.BookingId;
+
+            var bookingDetails = bookingDetailService.GetBookingDetailsByBookingId(bookingId);
+
+            if (bookingDetails != null && bookingDetails.Count != 0)
+            {
+                BookingDetailDataGrid.ItemsSource = bookingDetails;
+            }
+            else
+            {
+                BookingDetailDataGrid.ItemsSource = null;
+                MessageBox.Show("No booking details found for the selected booking.", "View Booking Details", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
@@ -95,6 +172,7 @@ namespace HairSalon.Pages
                     }).ToList();
 
                     BookingHistoryDataGrid.ItemsSource = bookingViewModels;
+                    BookingDetailDataGrid.ItemsSource = null;
                 }
                 else
                 {
@@ -106,29 +184,7 @@ namespace HairSalon.Pages
                 MessageBox.Show("Please select both 'From Date' and 'To Date'.", "Search Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
-
-
-        private void BookingHistoryDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-            if (BookingHistoryDataGrid.SelectedItem == null) return;
-
-            var selectedBooking = (BookingViewModel)BookingHistoryDataGrid.SelectedItem;
-            int bookingId = selectedBooking.BookingId;
-
-            var bookingDetails = bookingDetailService.GetBookingDetailsByBookingId(bookingId);
-
-            if (bookingDetails != null && bookingDetails.Any())
-            {
-                BookingDetailDataGrid.ItemsSource = bookingDetails;
-            }
-            else
-            {
-                BookingDetailDataGrid.ItemsSource = null;
-                MessageBox.Show("No booking details found for the selected booking.", "View Booking Details", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-        }
-
+      
         private void CancelBookingButton_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
@@ -142,10 +198,18 @@ namespace HairSalon.Pages
 
                 if (result == MessageBoxResult.Yes)
                 {
+                    StopTimerForBooking(bookingId);
+
                     var cancelResult = bookingService.CancelBookingAndDetails(bookingId);
 
                     if (cancelResult)
                     {
+                        var bookingDetails = bookingDetailService.GetBookingDetailsByBookingId(bookingId);
+                        foreach (var detail in bookingDetails)
+                        {                          
+                            availableSlotService.UpdateSlotStatus(detail.AvailableSlotId, "Unbooked");
+                        }
+
                         MessageBox.Show("Booking and all associated details canceled successfully.", "Cancel Booking", MessageBoxButton.OK, MessageBoxImage.Information);
                         Window_Loaded(sender, e);
                         BookingDetailDataGrid.ItemsSource = bookingDetailService.GetBookingDetailsByBookingId(bookingId);
@@ -158,16 +222,6 @@ namespace HairSalon.Pages
             }
         }
 
-        private void FeedbackButton_Click(object sender, RoutedEventArgs e)
-        {
-            var button = sender as Button;
-            if (button != null && button.Tag is int bookingDetailId)
-            {
-                var feedbackPage = new FeedbackPage(bookingDetailId);
-                this.NavigationService.Navigate(feedbackPage);
-            }
-        }
-       
         private void CancelBookingDetailButton_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
@@ -181,23 +235,24 @@ namespace HairSalon.Pages
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    var cancelResult = bookingDetailService.UpdateBookingDetailStatus(bookingDetailId, "Canceled");
+                    var cancelResult = bookingDetailService.UpdateBookingDetailStatus(bookingDetailId, "Cancelled");
 
                     if (cancelResult)
                     {
-                        MessageBox.Show("Booking detail canceled successfully.", "Cancel Booking Detail", MessageBoxButton.OK, MessageBoxImage.Information);
-
                         var bookingDetail = bookingDetailService.GetBookingDetailById(bookingDetailId);
                         int bookingId = bookingDetail.BookingId;
 
+                        availableSlotService.UpdateSlotStatus(bookingDetail.AvailableSlotId, "Unbooked");
+
+                        MessageBox.Show("Booking detail canceled successfully.", "Cancel Booking Detail", MessageBoxButton.OK, MessageBoxImage.Information);
                         LoadBookingDetailHistory(bookingId);
 
                         var allBookingDetails = bookingDetailService.GetBookingDetailsByBookingId(bookingId);
-                        int canceledCount = allBookingDetails.Count(detail => detail.Status == "Canceled");
+                        int canceledCount = allBookingDetails.Count(detail => detail.Status == "Cancelled");
 
                         if (canceledCount == allBookingDetails.Count)
                         {
-                            var bookingCanceled = bookingService.UpdateBookingStatus(bookingId, "Canceled");
+                            var bookingCanceled = bookingService.UpdateBookingStatus(bookingId, "Cancelled");
                             if (bookingCanceled)
                             {
                                 MessageBox.Show("All booking details are canceled. Booking status set to 'Canceled'.", "Update Booking Status", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -212,8 +267,24 @@ namespace HairSalon.Pages
                 }
             }
         }
+        
+        private void FeedbackButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button != null && button.Tag is int bookingDetailId)
+            {
+                var feedbackPage = new FeedbackPage(bookingDetailId);
+                this.NavigationService.Navigate(feedbackPage);
+            }
+        }
 
+        private void PaymentButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
+
+
 
 

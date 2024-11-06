@@ -106,7 +106,7 @@
                                                     <Setter Property="IsEnabled" Value="False"/>
                                                     <Setter Property="Opacity" Value="0.5"/>
                                                 </DataTrigger>
-                                                <DataTrigger Binding="{Binding Status}" Value="Canceled">
+                                                <DataTrigger Binding="{Binding Status}" Value="Cancelled">
                                                     <Setter Property="IsEnabled" Value="False"/>
                                                     <Setter Property="Opacity" Value="0.5"/>
                                                 </DataTrigger>
@@ -132,7 +132,7 @@
                                                     <Setter Property="IsEnabled" Value="False"/>
                                                     <Setter Property="Opacity" Value="0.5"/>
                                                 </DataTrigger>
-                                                <DataTrigger Binding="{Binding Status}" Value="Canceled">
+                                                <DataTrigger Binding="{Binding Status}" Value="Cancelled">
                                                     <Setter Property="IsEnabled" Value="False"/>
                                                     <Setter Property="Opacity" Value="0.5"/>
                                                 </DataTrigger>
@@ -251,9 +251,9 @@
 
                                 <!-- Cancel Button -->
                                 <Button Content="Cancel" Width="70" Margin="5,0" Background="LightPink"
-                                Click="CancelBookingDetailButton_Click"
-                                Tag="{Binding BookingDetailId}"
-                                HorizontalAlignment="Center">
+                                 Click="CancelBookingDetailButton_Click"
+                                 Tag="{Binding BookingDetailId}"
+                                 HorizontalAlignment="Center">
                                     <Button.Style>
                                         <Style TargetType="Button">
                                             <Setter Property="IsEnabled" Value="True"/>
@@ -261,7 +261,10 @@
                                                 <DataTrigger Binding="{Binding IsBookingDetailActive}" Value="False">
                                                     <Setter Property="IsEnabled" Value="False"/>
                                                 </DataTrigger>
-                                                <DataTrigger Binding="{Binding Status}" Value="Canceled">
+                                                <DataTrigger Binding="{Binding Status}" Value="Cancelled">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsPastScheduledDate}" Value="True">
                                                     <Setter Property="IsEnabled" Value="False"/>
                                                 </DataTrigger>
                                             </Style.Triggers>

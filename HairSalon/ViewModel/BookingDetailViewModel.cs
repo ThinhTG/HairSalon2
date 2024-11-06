@@ -23,10 +23,6 @@ namespace HairSalon.ViewModel
         // Additional properties for User and Slot
         public UserViewModel User { get; set; }
         public SlotViewModel Slot { get; set; }
-        public bool IsBookingDetailActive => Status != "Completed" &&
-                                        Status != "Canceled" &&
-                                        ScheduledWorkingDay.HasValue &&
-                                        ScheduledWorkingDay.Value.Date >= DateTime.Today;
 
         public BookingDetailViewModel()
         {

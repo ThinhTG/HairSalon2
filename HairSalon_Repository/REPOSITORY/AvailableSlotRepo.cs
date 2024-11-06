@@ -17,7 +17,7 @@ namespace HairSalon_Repository.REPOSITORY
             => AvailableSlotDAO.Instance.GetAvailableSlotsByDate(date);
        
 
-        public void UpdateSlotStatus(int availableSlotId, string status)
+        public bool UpdateSlotStatus(int availableSlotId, string status)
             => AvailableSlotDAO.Instance.UpdateSlotStatus(availableSlotId, status);  
        
 

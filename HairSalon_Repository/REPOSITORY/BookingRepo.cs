@@ -35,6 +35,9 @@ namespace HairSalon_Repository.REPOSITORY
         public List<Booking> GetBookingsByUserId(int userId)
            => BookingDAO.Instance.GetBookingsByUserId(userId);
 
+        public List<Booking> GetPendingBookingsByUserId(int userId)
+           => BookingDAO.Instance.GetPendingBookingsByUserId(userId);
+
         public bool CancelBookingAndDetails(int bookingId)
          => BookingDAO.Instance.CancelBookingAndDetails(bookingId);
     }

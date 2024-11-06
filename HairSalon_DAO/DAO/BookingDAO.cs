@@ -107,20 +107,37 @@ namespace HairSalon_DAO.DAO
         {
             return dbContext.Booking
                 .Where(b => b.UserId == userId)
-                .Include(b => b.User) 
+                .Include(b => b.User)
                 .Include(b => b.BookingDetail)
                 .ToList();
         }
+
+        public List<Booking> GetPendingBookingsByUserId(int userId)
+        {
+            try
+            {
+                var pendingBookings = dbContext.Booking
+                    .Where(b => b.UserId == userId && b.Status == "Pending")
+                    .ToList();
+                return pendingBookings;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error retrieving pending bookings: {ex.Message}");
+                return new List<Booking>();
+            }
+        }
+
         public bool CancelBookingAndDetails(int bookingId)
         {
             var booking = dbContext.Booking.Include(b => b.BookingDetail)
                                            .FirstOrDefault(b => b.BookingId == bookingId);
             if (booking == null) return false;
 
-            booking.Status = "Canceled";
+            booking.Status = "Cancelled";
             foreach (var detail in booking.BookingDetail)
             {
-                detail.Status = "Canceled";
+                detail.Status = "Cancelled";
             }
 
             dbContext.SaveChanges();
