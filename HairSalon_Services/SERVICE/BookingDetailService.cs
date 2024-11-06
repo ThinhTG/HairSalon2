@@ -24,16 +24,6 @@ namespace HairSalon_Services.SERVICE
           return _bookingDetailRepo.AddBookingDetail(bookingDetail);
         }
 
-        public List<BookingDetail> GetBookingDetailsByBookingId(int bookingId)
-        {
-            return _bookingDetailRepo.GetBookingDetailsByBookingId(bookingId);
-        }
-
-        public List<BookingDetail> GetBookingDetailByBookingId(int bookingId)
-        {
-            return _bookingDetailRepo.GetBookingDetailByBookingId(bookingId);
-        }
-
         public List<BookingDetail> GetPendingBookingDetails()
         {
             return _bookingDetailRepo.GetPendingBookingDetails();
@@ -57,6 +47,11 @@ namespace HairSalon_Services.SERVICE
         public BookingDetail GetBookingDetailById(int bookingDetailId)
         {
             return _bookingDetailRepo.GetBookingDetailById((int)bookingDetailId);
+        }
+
+        public List<BookingDetail> GetBookingDetailByBookingId(int bookingId)
+        {
+            return _bookingDetailRepo.GetBookingDetailByBookingId(bookingId);
         }
     }
 

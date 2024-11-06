@@ -25,5 +25,7 @@ public partial class BookingDetail
 
     public virtual Booking Booking { get; set; }
 
+    public virtual ICollection<Feedback> Feedback { get; set; } = new List<Feedback>();
+
     public virtual Service Service { get; set; }
 }

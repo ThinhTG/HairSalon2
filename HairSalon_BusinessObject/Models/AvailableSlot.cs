@@ -17,7 +17,7 @@ public partial class AvailableSlot
 
     public string Status { get; set; }
 
-    public virtual ICollection<BookingDetail> BookingDetails { get; set; } = new List<BookingDetail>();
+    public virtual ICollection<BookingDetail> BookingDetail { get; set; } = new List<BookingDetail>();
 
     public virtual Slot Slot { get; set; }
 

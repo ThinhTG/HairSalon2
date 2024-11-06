@@ -30,8 +30,8 @@ namespace HairSalon_Repository.REPOSITORY
 
         public BookingDetail GetBookingDetailById(int bookingDetailId)
          => BookingDetailDAO.Instance.GetBookingDetailById((int)bookingDetailId);
-         
+
         public List<BookingDetail> GetBookingDetailByBookingId(int bookingId)
-            => BookingDetailDAO.Instance.GetBookingDetailByBookingId(bookingId);
+         => BookingDetailDAO.Instance.GetBookingDetailByBookingId((int)bookingId);
     }
 }

@@ -14,9 +14,9 @@ namespace HairSalon_Services.INTERFACE
         bool UpdateBookingDetailStatus(int bookingDetailId, string newStatus);
         List<BookingDetail> GetPendingBookingDetails();
         List<BookingDetailDTO> GetBookingDetailsByBookingId(int bookingId);
+        List<BookingDetail> GetBookingDetailByBookingId(int bookingId);
         public BookingDetail GetBookingDetailById(int bookingDetailId);
         bool SaveChanges();
-
-        List<BookingDetail> GetBookingDetailByBookingId(int bookingId);
+      
     }
 }

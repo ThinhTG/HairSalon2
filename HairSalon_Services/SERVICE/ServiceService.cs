@@ -17,6 +17,17 @@ namespace HairSalon_Services.SERVICE
         {
             servicelistRepo = new ServiceRepo();
         }
+
+        public bool AddService(Service service)
+        {
+            return servicelistRepo.AddService(service);
+        }
+
+        public bool DeleteService(int serviceId)
+        {
+            return servicelistRepo.DeleteService(serviceId);
+        }
+
         public Service GetServiceById(int serviceId)
         {
             return servicelistRepo.GetServiceById(serviceId);
@@ -30,18 +41,11 @@ namespace HairSalon_Services.SERVICE
         public string GetServiceNameById(int serviceId)
         {
             return servicelistRepo.GetServiceNameById(serviceId);
+        }      
 
-        public bool AddService(Service service)
-        {
-            return servicelistRepo.AddService(service);
-        }
         public bool UpdateService(Service service)
         {
             return servicelistRepo.UpdateService(service);
-        }
-        public bool DeleteService(int serviceId)
-        {
-            return servicelistRepo.DeleteService(serviceId);
         }
     }
 }

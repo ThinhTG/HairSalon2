@@ -15,6 +15,7 @@ namespace HairSalon_Repository.INTERFACE
         List<BookingDetail> GetPendingBookingDetails();
         bool SaveChanges();
         public List<BookingDetailDTO> GetBookingDetailsByBookingId(int bookingId);
+        public List<BookingDetail> GetBookingDetailByBookingId(int bookingId);
         public BookingDetail GetBookingDetailById(int bookingDetailId);
     }
 

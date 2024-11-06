@@ -31,6 +31,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[Feedback]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Payment]",
          "ObjectType": 0
       },
@@ -66,7 +70,7 @@
    "UseFluentApiOnly": true,
    "UseHandleBars": false,
    "UseHierarchyId": false,
-   "UseInflector": true,
+   "UseInflector": false,
    "UseLegacyPluralizer": false,
    "UseManyToManyEntity": false,
    "UseNoDefaultConstructor": false,

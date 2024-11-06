@@ -21,9 +21,9 @@ public partial class Booking
 
     public int UserId { get; set; }
 
-    public virtual ICollection<BookingDetail> BookingDetails { get; set; } = new List<BookingDetail>();
+    public virtual ICollection<BookingDetail> BookingDetail { get; set; } = new List<BookingDetail>();
 
-    public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
+    public virtual ICollection<Payment> Payment { get; set; } = new List<Payment>();
 
     public virtual User User { get; set; }
 }

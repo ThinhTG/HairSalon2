@@ -105,7 +105,7 @@ namespace HairSalon.Pages
                                          .OrderByDescending(booking => booking.BookingId)
                                          .ToList();
 
-            var bookingViewModels = bookings.Select(booking => new BookingViewModel
+            var bookingViewModels = bookings.Select(booking => new BookingHistoryViewModel
             {
                 BookingDate = booking.BookingDate,
                 Amount = booking.Amount,
@@ -135,7 +135,7 @@ namespace HairSalon.Pages
 
             if (BookingHistoryDataGrid.SelectedItem == null) return;
 
-            var selectedBooking = (BookingViewModel)BookingHistoryDataGrid.SelectedItem;
+            var selectedBooking = (BookingHistoryViewModel)BookingHistoryDataGrid.SelectedItem;
             int bookingId = selectedBooking.BookingId;
 
             var bookingDetails = bookingDetailService.GetBookingDetailsByBookingId(bookingId);
@@ -161,7 +161,7 @@ namespace HairSalon.Pages
                 var bookings = bookingService.SearchBookingByDate(UserId, fromDate.Value.Date, toDate.Value.Date.AddDays(1));
                 if (bookings != null && bookings.Any())
                 {
-                    var bookingViewModels = bookings.Select(booking => new BookingViewModel
+                    var bookingViewModels = bookings.Select(booking => new BookingHistoryViewModel
                     {
                         BookingDate = booking.BookingDate,
                         Amount = booking.Amount,
@@ -282,6 +282,14 @@ namespace HairSalon.Pages
         {
 
         }
+
+        private void ResetButton_Click(object sender, RoutedEventArgs e)
+        {        
+            FromDatePicker.SelectedDate = null;
+            ToDatePicker.SelectedDate = null;
+            LoadBookingHistory();
+        }
+
     }
 }
 

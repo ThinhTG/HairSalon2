@@ -55,6 +55,12 @@ namespace HairSalon_DAO.DAO
 
             return bookingDetails;
         }
+        public List<BookingDetail> GetBookingDetailByBookingId(int bookingId)
+        {
+            return dbContext.BookingDetail
+                            .Where(b => b.BookingId == bookingId)
+                            .ToList();
+        }
 
         public BookingDetail GetBookingDetailById(int bookingDetailId)
         {

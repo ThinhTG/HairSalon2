@@ -89,19 +89,19 @@ namespace HairSalon
                 {
 
 
-                    if (user.RoleId == 1)
+                    if (user.RoleId == 3)
                     {
                         CustomerPage customerPage = new CustomerPage(user.UserId, user.UserName);
                         customerPage.Show();
                         this.Close();
                     }
-                    if (user.RoleId == 4)
+                    if (user.RoleId == 1)
                     {
                         AdminWindow adminWindow = new AdminWindow();
                         adminWindow.Show();
                         this.Close();
                     }
-                    else if (user.RoleId == 3)
+                    else if (user.RoleId == 4)
                     {
                         StaffPage staffPage = new StaffPage();
                         staffPage.Show();

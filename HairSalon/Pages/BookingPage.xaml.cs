@@ -53,22 +53,19 @@ namespace HairSalon.Pages
 
         private void StartCancellationTimer()
         {
-            _timer = new System.Timers.Timer(1 * 60 * 1000); // 1 minute in milliseconds
+            _timer = new System.Timers.Timer(2 * 60 * 1000); 
             _timer.Elapsed += OnTimedEvent;
-            _timer.AutoReset = true; // Ensure the timer runs periodically
+            _timer.AutoReset = true; 
             _timer.Enabled = true;
         }
 
         private void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
-            // Get all bookings
             List<Booking> bookings = _bookingService.GetBookings();
             foreach (var booking in bookings)
             {
-                // Check if the booking is paid and if it was created more than 1 minute ago
-                if (!booking.Status.Equals("Paid") && booking.BookingDate.HasValue && (DateTime.Now - booking.BookingDate.Value).TotalMinutes >= 1)
+                if (!booking.Status.Equals("Paid") && booking.BookingDate.HasValue && (DateTime.Now - booking.BookingDate.Value).TotalMinutes >= 2)
                 {
-                    // Cancel the booking
                     _bookingService.UpdateBookingStatus(booking.BookingId, "Cancelled");
                     List<BookingDetail> bookingDetails = _bookingDetailService.GetBookingDetailByBookingId(booking.BookingId);
                     foreach (var bookingDetail in bookingDetails)
@@ -212,7 +209,6 @@ namespace HairSalon.Pages
         {
             if (tempBookingDetails.Count > 0)
             {
-                // Chỉ tạo booking trong bộ nhớ, chưa lưu vào DB
                 var booking = new Booking
                 {
                     BookingDate = DateTime.Today,
@@ -231,11 +227,10 @@ namespace HairSalon.Pages
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    return; // Người dùng chọn "Yes", không lưu booking xuống DB
+                    return;                 
                 }
                 else if (result == MessageBoxResult.No)
                 {
-                    // Chỉ lưu xuống DB khi người dùng chọn "No"
                     _bookingService.AddBooking(booking);
 
                     foreach (var detail in tempBookingDetails)
