@@ -104,6 +104,7 @@ namespace HairSalon_DAO.DAO
         }
 
 
+
         public List<User> GetStylists()
         {
             return dbContext.User.Where(u => u.RoleId == 2).ToList();
@@ -115,8 +116,9 @@ namespace HairSalon_DAO.DAO
         }
         public void SaveChanges()
         {
-            dbContext.SaveChanges(); 
+            dbContext.SaveChanges();
         }
+
     }
 
 }

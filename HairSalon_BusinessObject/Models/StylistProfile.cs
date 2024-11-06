@@ -13,5 +13,7 @@ public partial class StylistProfile
 
     public decimal? Salary { get; set; }
 
+    public virtual ICollection<DailySalaryOfStylist> DailySalaryOfStylists { get; set; } = new List<DailySalaryOfStylist>();
+
     public virtual User User { get; set; }
 }

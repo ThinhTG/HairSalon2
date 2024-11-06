@@ -1,17 +1,15 @@
-﻿using System;
+﻿using HairSalon_BusinessObject.Models;
+using HairSalon_DAO.DAO;
+using HairSalon_Services.INTERFACE;
+using HairSalon_Services.SERVICE;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
+
 
 namespace HairSalon.Pages
 {
@@ -20,9 +18,31 @@ namespace HairSalon.Pages
     /// </summary>
     public partial class CustomerHomePage : Page
     {
+        private IServiceService _serviceService;
+
         public CustomerHomePage()
         {
             InitializeComponent();
+            _serviceService = new ServiceService();
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            ShowService(); 
+        }
+
+        private void ShowService()
+        {
+            try
+            {
+                List<Service> services = _serviceService.GetServiceList();
+                ServiceItemsControl.ItemsSource = services;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while loading services: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
     }
 }

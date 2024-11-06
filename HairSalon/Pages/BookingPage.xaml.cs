@@ -5,13 +5,17 @@ using HairSalon_Services.SERVICE;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
+
 
 namespace HairSalon.Pages
 {
     public partial class BookingPage : Page
     {
+        private System.Timers.Timer? _timer;
+
         private int userId;
         private readonly AvailableSlotService _availableSlotService;
         private readonly BookingDetailService _bookingDetailService;
@@ -43,9 +47,40 @@ namespace HairSalon.Pages
             bookingSummaryDataGrid.ItemsSource = tempBookingDetails;
             datePicker.DisplayDateStart = DateTime.Now;
             datePicker.DisplayDateEnd = DateTime.Now.AddDays(31);
-
+            StartCancellationTimer();
 
         }
+
+        private void StartCancellationTimer()
+        {
+            _timer = new System.Timers.Timer(1 * 60 * 1000); // 1 minute in milliseconds
+            _timer.Elapsed += OnTimedEvent;
+            _timer.AutoReset = true; // Ensure the timer runs periodically
+            _timer.Enabled = true;
+        }
+
+        private void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {
+            // Get all bookings
+            List<Booking> bookings = _bookingService.GetBookings();
+            foreach (var booking in bookings)
+            {
+                // Check if the booking is paid and if it was created more than 1 minute ago
+                if (!booking.Status.Equals("Paid") && booking.BookingDate.HasValue && (DateTime.Now - booking.BookingDate.Value).TotalMinutes >= 1)
+                {
+                    // Cancel the booking
+                    _bookingService.UpdateBookingStatus(booking.BookingId, "Cancelled");
+                    List<BookingDetail> bookingDetails = _bookingDetailService.GetBookingDetailByBookingId(booking.BookingId);
+                    foreach (var bookingDetail in bookingDetails)
+                    {
+                        _availableSlotService.UpdateSlotStatus(bookingDetail.AvailableSlotId, "Unbooked");
+                        bookingDetail.Status = "Cancelled";
+                    }
+                    Console.WriteLine($"Booking {booking.BookingId} has been canceled due to non-payment.");
+                }
+            }
+        }
+
 
         private void LoadServices()
         {
@@ -171,53 +206,67 @@ namespace HairSalon.Pages
             MessageBox.Show("✅ Đã thêm dịch vụ thành công.", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
+        private Booking currentBooking;
+
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
             if (tempBookingDetails.Count > 0)
             {
+                // Chỉ tạo booking trong bộ nhớ, chưa lưu vào DB
                 var booking = new Booking
                 {
                     BookingDate = DateTime.Today,
                     Amount = CalculateTotalAmount(),
                     Status = "Pending",
-                    CreateBy = 1,
+                    CreateBy = userId,
                     Discount = 0,
                     UserId = userId
                 };
 
-                _bookingService.AddBooking(booking);
-
                 int successfulDetails = 0;
                 int failedDetails = 0;
 
-                foreach (var detail in tempBookingDetails)
+                var result = MessageBox.Show("Do you want to book more services? \n - If yes, continue booking \n - If no, payment", "Booking Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+
+                if (result == MessageBoxResult.Yes)
                 {
-                    var service = _serviceService.GetServiceById(detail.Service.ServiceId);
-                    var slot = _availableSlotService.GetAvailableSlotById(detail.AvailableSlot.AvailableSlotId);
+                    return; // Người dùng chọn "Yes", không lưu booking xuống DB
+                }
+                else if (result == MessageBoxResult.No)
+                {
+                    // Chỉ lưu xuống DB khi người dùng chọn "No"
+                    _bookingService.AddBooking(booking);
 
-                    if (service != null && slot != null)
+                    foreach (var detail in tempBookingDetails)
                     {
-                        detail.BookingId = booking.BookingId;
-                        bool success = _bookingDetailService.AddBookingDetail(detail);
+                        var service = _serviceService.GetServiceById(detail.Service.ServiceId);
+                        var slot = _availableSlotService.GetAvailableSlotById(detail.AvailableSlot.AvailableSlotId);
 
-                        if (success)
+                        if (service != null && slot != null)
                         {
-                            _availableSlotService.UpdateSlotStatus(detail.AvailableSlotId, "Booked");
-                            successfulDetails++;
+                            detail.BookingId = booking.BookingId;
+                            bool success = _bookingDetailService.AddBookingDetail(detail);
+
+                            if (success)
+                            {
+                                _availableSlotService.UpdateSlotStatus(detail.AvailableSlotId, "Booked");
+                                successfulDetails++;
+                            }
+                            else
+                            {
+                                failedDetails++;
+                            }
                         }
                         else
                         {
                             failedDetails++;
                         }
                     }
-                    else
-                    {
-                        failedDetails++;
-                    }
-                }
 
-                tempBookingDetails.Clear();
-                LoadBookingSummary();
+                    
+                    tempBookingDetails.Clear();
+                    LoadBookingSummary();
 
                 if (successfulDetails > 0)
                 {
@@ -233,12 +282,16 @@ namespace HairSalon.Pages
                 datePicker.SelectedDate = null;
                 slotComboBox.ItemsSource = null;
                 slotComboBox.Items.Clear();
+                    PaymentPage paymentPage = new PaymentPage(booking.BookingId);
+                    this.NavigationService.Navigate(paymentPage);
+                }
             }
             else
             {
                 MessageBox.Show("⚠️ Không có thông tin đơn hàng để xác nhận.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
+
 
 
         private void LoadBookingSummary()

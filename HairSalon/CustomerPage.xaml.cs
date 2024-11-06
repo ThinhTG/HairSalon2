@@ -30,6 +30,7 @@ namespace HairSalon
         public CustomerPage()
         {
             InitializeComponent();
+            this.Loaded += CustomerPage_Loaded;
         }
 
         public CustomerPage(int id, string name)
@@ -51,13 +52,24 @@ namespace HairSalon
         }
 
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            var HomePage = new CustomerHomePage();
+            navframe.Navigate(HomePage);
+        }
+
+
         /* private void sidebar_SelectionChanged(object sender, SelectionChangedEventArgs e)
          {
              var selected = sidebar.SelectedItem as NavButton;
 
              navframe.Navigate(selected.Navlink);
          }*/
-
+        private void CustomerPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Điều hướng mặc định đến trang CustomerHomePage
+            navframe.Navigate(new Uri("/Pages/CustomerHomePage.xaml", UriKind.Relative));
+        }
         private void CustomerHomePage_Click(object sender, MouseButtonEventArgs e)
         {
             navframe.Navigate(new Uri("/Pages/CustomerHomePage.xaml", UriKind.Relative));

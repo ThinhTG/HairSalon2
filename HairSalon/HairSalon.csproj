@@ -9,7 +9,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HairSalon_Services\HairSalon_Services.csproj" />
+    <None Remove="image\images.png" />
+  </ItemGroup>
+
+
+  <ItemGroup>    
+	<ProjectReference Include="..\HairSalon_Services\HairSalon_Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="image\images.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

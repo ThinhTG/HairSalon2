@@ -1,4 +1,5 @@
 ﻿using HairSalon_BusinessObject.Models;
+using HairSalon_Repository.INTERFACE;
 using HairSalon_Repository.REPOSITORY;
 using HairSalon_Services.INTERFACE;
 using System;
@@ -11,7 +12,7 @@ namespace HairSalon_Services.SERVICE
 {
     public class ServiceService : IServiceService
     {
-        private ServiceRepo servicelistRepo;
+        private IServiceRepo servicelistRepo;
         public ServiceService()
         {
             servicelistRepo = new ServiceRepo();
@@ -29,6 +30,18 @@ namespace HairSalon_Services.SERVICE
         public string GetServiceNameById(int serviceId)
         {
             return servicelistRepo.GetServiceNameById(serviceId);
+
+        public bool AddService(Service service)
+        {
+            return servicelistRepo.AddService(service);
+        }
+        public bool UpdateService(Service service)
+        {
+            return servicelistRepo.UpdateService(service);
+        }
+        public bool DeleteService(int serviceId)
+        {
+            return servicelistRepo.DeleteService(serviceId);
         }
     }
 }

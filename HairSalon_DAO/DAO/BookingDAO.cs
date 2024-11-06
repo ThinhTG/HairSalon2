@@ -32,6 +32,7 @@ namespace HairSalon_DAO.DAO
             dbContext = new HairSalonServiceContext();
         }
 
+
         public List<Booking> GetAll()
         {
             return dbContext.Booking.ToList();
@@ -49,7 +50,6 @@ namespace HairSalon_DAO.DAO
             {
                 if (booking != null)
                 {
-
                     foreach (var detail in booking.BookingDetail)
                     {
                         detail.Booking = booking;
@@ -143,6 +143,28 @@ namespace HairSalon_DAO.DAO
             dbContext.SaveChanges();
             return true;
         }
+      
+        public async Task<bool> UpdateBookingStatusAsync(int bookingId, string newStatus)
+        {
+            bool isSuccess = false;
+            try
+            {
+                var booking = await dbContext.Booking.SingleOrDefaultAsync(b => b.BookingId == bookingId);
+
+                if (booking != null)
+                {
+                    booking.Status = newStatus;
+                    await dbContext.SaveChangesAsync();
+                    isSuccess = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return isSuccess;
+        }
+
         public bool SaveChanges()
         {
             try

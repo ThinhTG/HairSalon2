@@ -7,11 +7,13 @@ namespace HairSalon_BusinessObject.Models;
 
 public partial class DailySalaryOfStylist
 {
-    public DateOnly Date { get; set; }
+    public DateTime Date { get; set; }
 
     public decimal? DailySalary { get; set; }
 
     public int StylistProfileId { get; set; }
+
+    public int DailySalaryOfStylistId { get; set; }
 
     public virtual StylistProfile StylistProfile { get; set; }
 }

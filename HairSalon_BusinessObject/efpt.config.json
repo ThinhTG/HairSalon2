@@ -31,10 +31,6 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Earning]",
-         "ObjectType": 0
-      },
-      {
          "Name": "[dbo].[Payment]",
          "ObjectType": 0
       },
@@ -70,7 +66,7 @@
    "UseFluentApiOnly": true,
    "UseHandleBars": false,
    "UseHierarchyId": false,
-   "UseInflector": false,
+   "UseInflector": true,
    "UseLegacyPluralizer": false,
    "UseManyToManyEntity": false,
    "UseNoDefaultConstructor": false,

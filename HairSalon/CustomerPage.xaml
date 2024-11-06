@@ -5,13 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HairSalon"
         mc:Ignorable="d"
-        Title="CustomerPage" Height="750" Width="1300" WindowStartupLocation="CenterScreen" WindowStyle="None">
+
+        Title="CustomerPage" Height="750" Width="1400" WindowStartupLocation="CenterScreen" WindowStyle="None" Loaded="CustomerPage_Loaded">
     <Window.Resources>
         <PathGeometry x:Key="homeIconData" Figures="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
         <PathGeometry x:Key="bookingIconData" Figures="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V10h14v9zm0-11H5V5h14v3z"/>
         <PathGeometry x:Key="feedbackIconData" Figures="M12 22c4.97 0 9-3.13 9-7 0-3.05-2.94-5.64-7-6.32V7c0-1.1-.9-2-2-2s-2 .9-2 2v1.68C5.94 9.36 3 11.95 3 15c0 3.87 4.03 7 9 7z"/>
         <PathGeometry x:Key="historyIconData" Figures="M12 22c4.97 0 9-3.13 9-7 0-3.05-2.94-5.64-7-6.32V7c0-1.1-.9-2-2-2s-2 .9-2 2v1.68C5.94 9.36 3 11.95 3 15c0 3.87 4.03 7 9 7z"/>
     </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="233*"/>
@@ -19,29 +21,38 @@
             <RowDefinition Height="452*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="144"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <Path Stretch="Uniform" Margin="12,10,12,0" Fill="#2a84f1" VerticalAlignment="Top" Height="25" Width="25" Data="M -56.625 24.75 C -58.28185 24.75 -59.625 26.09315 -59.625 27.75 L -59.625 39.75 C -59.625 41.4069 -58.28185 42.75 -56.625 42.75 L -44.625 42.75 C -42.9681 42.75 -41.625 41.4069 -41.625 39.75 L -41.625 27.75 C -41.625 26.09315 -42.9681 24.75 -44.625 24.75 L -56.625 24.75 z M -56.625 26.75 L -44.625 26.75 C -44.0727 26.75 -43.625 27.19772 -43.625 27.75 L -43.625 39.75 C -43.625 40.3023 -44.0727 40.75 -44.625 40.75 L -56.625 40.75 C -57.17728 40.75 -57.625 40.3023 -57.625 39.75 L -57.625 27.75 C -57.625 27.19772 -57.17728 26.75 -56.625 26.75 z M -54.625 28.75 C -55.17728 28.75 -55.625 29.19772 -55.625 29.75 C -55.625 30.30228 -55.17728 30.75 -54.625 30.75 L -46.625 30.75 C -46.0727 30.75 -45.625 30.30228 -45.625 29.75 C -45.625 29.19772 -46.0727 28.75 -46.625 28.75 L -54.625 28.75 z M -54.625 32.75 C -55.17728 32.75 -55.625 33.1977 -55.625 33.75 C -55.625 34.3023 -55.17728 34.75 -54.625 34.75 C -54.07272 34.75 -53.625 34.3023 -53.625 33.75 C -53.625 33.1977 -54.07272 32.75 -54.625 32.75 z M -50.625 32.75 C -51.1773 32.75 -51.625 33.1977 -51.625 33.75 C -51.625 34.3023 -51.1773 34.75 -50.625 34.75 C -50.0727 34.75 -49.625 34.3023 -49.625 33.75 C -49.625 33.1977 -50.0727 32.75 -50.625 32.75 z M -46.625 32.75 C -47.1773 32.75 -47.625 33.1977 -47.625 33.75 C -47.625 34.3023 -47.1773 34.75 -46.625 34.75 C -46.0727 34.75 -45.625 34.3023 -45.625 33.75 C -45.625 33.1977 -46.0727 32.75 -46.625 32.75 z M -54.625 36.75 C -55.17728 36.75 -55.625 37.1977 -55.625 37.75 C -55.625 38.3023 -55.17728 38.75 -54.625 38.75 C -54.07272 38.75 -53.625 38.3023 -53.625 37.75 C -53.625 37.1977 -54.07272 36.75 -54.625 36.75 z M -50.625 36.75 C -51.1773 36.75 -51.625 37.1977 -51.625 37.75 C -51.625 38.3023 -51.1773 38.75 -50.625 38.75 C -50.0727 38.75 -49.625 38.3023 -49.625 37.75 C -49.625 37.1977 -50.0727 36.75 -50.625 36.75 z M -46.625 36.75 C -47.1773 36.75 -47.625 37.1977 -47.625 37.75 C -47.625 38.3023 -47.1773 38.75 -46.625 38.75 C -46.0727 38.75 -45.625 38.3023 -45.625 37.75 C -45.625 37.1977 -46.0727 36.75 -46.625 36.75 z " />
-        <ListBox x:Name="sidebar" SelectionMode="Single" Margin="0,50,0,316" BorderThickness="0" Grid.RowSpan="3">
 
+        <Path Stretch="Uniform" Margin="20,10,20,0" Fill="#2a84f1" VerticalAlignment="Top" Height="25" Data="M -56.625 24.75 C -58.28185 24.75 -59.625 26.09315 -59.625 27.75 L -59.625 39.75 C -59.625 41.4069 -58.28185 42.75 -56.625 42.75 L -44.625 42.75 C -42.9681 42.75 -41.625 41.4069 -41.625 39.75 L -41.625 27.75 C -41.625 26.09315 -42.9681 24.75 -44.625 24.75 L -56.625 24.75 z M -56.625 26.75 L -44.625 26.75 C -44.0727 26.75 -43.625 27.19772 -43.625 27.75 L -43.625 39.75 C -43.625 40.3023 -44.0727 40.75 -44.625 40.75 L -56.625 40.75 C -57.17728 40.75 -57.625 40.3023 -57.625 39.75 L -57.625 27.75 C -57.625 27.19772 -57.17728 26.75 -56.625 26.75 z M -54.625 28.75 C -55.17728 28.75 -55.625 29.19772 -55.625 29.75 C -55.625 30.30228 -55.17728 30.75 -54.625 30.75 L -46.625 30.75 C -46.0727 30.75 -45.625 30.30228 -45.625 29.75 C -45.625 29.19772 -46.0727 28.75 -46.625 28.75 L -54.625 28.75 z M -54.625 32.75 C -55.17728 32.75 -55.625 33.1977 -55.625 33.75 C -55.625 34.3023 -55.17728 34.75 -54.625 34.75 C -54.07272 34.75 -53.625 34.3023 -53.625 33.75 C -53.625 33.1977 -54.07272 32.75 -54.625 32.75 z M -50.625 32.75 C -51.1773 32.75 -51.625 33.1977 -51.625 33.75 C -51.625 34.3023 -51.1773 34.75 -50.625 34.75 C -50.0727 34.75 -49.625 34.3023 -49.625 33.75 C -49.625 33.1977 -50.0727 32.75 -50.625 32.75 z M -46.625 32.75 C -47.1773 32.75 -47.625 33.1977 -47.625 33.75 C -47.625 34.3023 -47.1773 34.75 -46.625 34.75 C -46.0727 34.75 -45.625 34.3023 -45.625 33.75 C -45.625 33.1977 -46.0727 32.75 -46.625 32.75 z M -54.625 36.75 C -55.17728 36.75 -55.625 37.1977 -55.625 37.75 C -55.625 38.3023 -55.17728 38.75 -54.625 38.75 C -54.07272 38.75 -53.625 38.3023 -53.625 37.75 C -53.625 37.1977 -54.07272 36.75 -54.625 36.75 z M -50.625 36.75 C -51.1773 36.75 -51.625 37.1977 -51.625 37.75 C -51.625 38.3023 -51.1773 38.75 -50.625 38.75 C -50.0727 38.75 -49.625 38.3023 -49.625 37.75 C -49.625 37.1977 -50.0727 36.75 -50.625 36.75 z M -46.625 36.75 C -47.1773 36.75 -47.625 37.1977 -47.625 37.75 C -47.625 38.3023 -47.1773 38.75 -46.625 38.75 C -46.0727 38.75 -45.625 38.3023 -45.625 37.75 C -45.625 37.1977 -46.0727 36.75 -46.625 36.75 z " />
+        <ListBox x:Name="sidebar" SelectionMode="Single" Margin="0,50,0,50" BorderThickness="0">
+          
             <local:NavButton2 Navlink="/Pages/CustomerHomePage.xaml" Margin="3" Padding="6" MouseLeftButtonUp="CustomerHomePage_Click">
-                <Path Data="{StaticResource homeIconData}" Fill="Black" Width="22" Height="22"/>
+                <StackPanel Orientation="Horizontal">
+                    <Path Data="{StaticResource homeIconData}" Fill="Black" Width="22" Height="22"/>
+                    <TextBlock Text="Customer Home" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                </StackPanel>
             </local:NavButton2>
 
             <local:NavButton2 Navlink="/Pages/BookingPage.xaml" Margin="3" Padding="6" MouseLeftButtonUp="BookingPage_Click">
-                <Path Data="{StaticResource bookingIconData}" Fill="Black" Width="22" Height="22"/>
+                <StackPanel Orientation="Horizontal">
+                    <Path Data="{StaticResource bookingIconData}" Fill="Black" Width="22" Height="22"/>
+                    <TextBlock Text="Booking" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                </StackPanel>
             </local:NavButton2>
 
             <local:NavButton2 Navlink="/Pages/FeedbackPage.xaml" Margin="3" Padding="6" MouseLeftButtonUp="FeedbackPage_Click">
-                <Path Data="{StaticResource feedbackIconData}" Fill="Black" Width="22" Height="22"/>
+                <StackPanel Orientation="Horizontal">
+                    <Path Data="{StaticResource feedbackIconData}" Fill="Black" Width="22" Height="22"/>
+                    <TextBlock Text="Feedback" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                </StackPanel>
             </local:NavButton2>
-
+          
             <local:NavButton2 Navlink="/Pages/BookingHistory.xaml" Margin="3" Padding="6" MouseLeftButtonUp="BookingHistory_Click">
                 <Path Fill="Black" Width="22" Height="22"/>
             </local:NavButton2>
-
         </ListBox>
 
 

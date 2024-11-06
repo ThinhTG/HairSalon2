@@ -1,0 +1,39 @@
+﻿<Window x:Class="HairSalon.ServiceManagementWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HairSalon"
+        mc:Ignorable="d"
+        Title="ServiceManagementWindow" Height="480" Width="820" Loaded="Window_Loaded" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Label Content="Service Management" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"/>
+        <!--<DataGrid x:Name="dtgService" Margin="0,184,0,63" SelectionChanged="dtgService_SelectionChanged"/>-->
+        <DataGrid x:Name="dtgService" Margin="0,232,0,63" SelectionChanged="dtgService_SelectionChanged" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Service ID" Binding="{Binding ServiceId}" />
+                <DataGridTextColumn Header="Service Name" Binding="{Binding ServiceName}" />
+                <DataGridTextColumn Header="Price" Binding="{Binding Price}" />
+                <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
+                <DataGridTextColumn Header="Image Url" Binding="{Binding Image}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="btnAdd" Content="Add" HorizontalAlignment="Left" Margin="95,398,0,0" VerticalAlignment="Top" Height="42" Width="89" Click="btnAdd_Click"/>
+        <Button x:Name="btnDelete" Content="Delete" HorizontalAlignment="Left" Margin="418,398,0,0" VerticalAlignment="Top" Height="42" Width="105" Click="btnDelete_Click"/>
+        <Button x:Name="btnUpdate" Content="Update" HorizontalAlignment="Left" Margin="254,398,0,0" VerticalAlignment="Top" Height="42" Width="94" Click="btnUpdate_Click"/>
+        <Label Content="Service Name :" HorizontalAlignment="Left" Margin="10,87,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.726,0.231"/>
+        <Label Content="Price :" HorizontalAlignment="Left" Margin="26,138,0,0" VerticalAlignment="Top" RenderTransformOrigin="-3.474,0.3"/>
+        <Label Content="Description :" HorizontalAlignment="Left" Margin="418,40,0,0" VerticalAlignment="Top"/>
+        <Label Content="Image :" HorizontalAlignment="Left" Margin="418,87,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.542,-0.031"/>
+        <TextBox x:Name="txtServiceName" HorizontalAlignment="Left" Margin="112,91,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="284"/>
+        <TextBox x:Name="txtPrice" HorizontalAlignment="Left" Margin="112,142,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="284"/>
+        <TextBox x:Name="txtDescription" HorizontalAlignment="Left" Margin="506,44,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="284"/>
+        <Label Content="Image:" HorizontalAlignment="Left" Margin="418,87,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtImage" HorizontalAlignment="Left" Margin="506,87,0,355" Width="238"/>
+        <Image x:Name="imgService" HorizontalAlignment="Left" Margin="506,129,0,240" Width="234" />
+        <Label Content="Service Id :" HorizontalAlignment="Left" Margin="13,40,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtServiceId" HorizontalAlignment="Left" Margin="112,44,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="284"/>
+        <Button x:Name="btnBrowse" Content="..." HorizontalAlignment="Left" Margin="759,87,0,0" VerticalAlignment="Top" Width="31" Height="18" Click="btnBrowse_Click"/>
+        <Button x:Name="btnBack" Content="Back" HorizontalAlignment="Left" Margin="584,398,0,0" VerticalAlignment="Top" Height="42" Width="94" Click="btnBack_Click"/>
+    </Grid>
+</Window>

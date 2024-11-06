@@ -26,19 +26,33 @@ namespace HairSalon_DAO.DAO
             }
         }
 
+       
         public UserDAO()
         {
             _context = new HairSalonServiceContext();
         }
 
+       
         public User GetUser(string email, string password)
         {
             return _context.User.Where(u => u.Email == email && u.Password == password).FirstOrDefault();
         }
 
+
+
         public User GetUserByName(string username)
         {
             return _context.User.Where(u => u.UserName == username).FirstOrDefault();
+        }
+
+        public User GetUserById(int id)
+        {
+            return _context.User.Where(u => u.UserId == id).FirstOrDefault();
+        }
+
+        public User GetUserByUserId(int userid)
+        {
+            return _context.User.Where(u => u.UserId == userid).FirstOrDefault();
         }
 
         public User GetUserByEmail(string email)
@@ -50,6 +64,8 @@ namespace HairSalon_DAO.DAO
         {
             return new List<User>(_context.User.ToList());
         }
+
+       
 
         public bool AddUser(User user)
         {

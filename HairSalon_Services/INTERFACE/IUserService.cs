@@ -17,5 +17,10 @@ namespace HairSalon_Services.INTERFACE
         public List<User> GetUsers();
 
         public bool AddUser(User user);
+
+        public string GetUserNameByUserId(int userId);
+
+        public User GetUserById(int id);
+
     }
 }

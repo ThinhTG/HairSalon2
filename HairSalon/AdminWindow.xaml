@@ -1,0 +1,18 @@
+﻿<Window x:Class="HairSalon.AdminWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HairSalon"
+        mc:Ignorable="d"
+        Title="AdminWindow" Height="750" Width="1300" Background="LightSeaGreen" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid>
+        <Grid>
+            <!--<Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"/>-->
+            <Button x:Name="btnServiceManagement" Content="Service Management" HorizontalAlignment="Center" Margin="0,184,0,0" VerticalAlignment="Top" Height="114" Width="468" FontSize="40" Background="AliceBlue" Click="btnServiceManagement_Click"/>
+            <Button x:Name="btnStylistManagement" Content="Stylist Management" HorizontalAlignment="Center" Margin="0,375,0,0" VerticalAlignment="Top" Height="114" Width="468" FontSize="40" Background="AliceBlue" Click="btnStylistManagement_Click"/>
+            <Button x:Name="btnLogout" Content="Logout" HorizontalAlignment="Center" Margin="0,558,0,0" VerticalAlignment="Top" Height="114" Width="468" FontSize="40" Background="AliceBlue" Click="btnLogout_Click"/>
+            <Label Content="Admin Management" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Height="111" Width="618" FontSize="65" Background="LemonChiffon"/>
+        </Grid>
+    </Grid>
+</Window>

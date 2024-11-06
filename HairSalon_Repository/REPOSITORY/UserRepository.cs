@@ -19,5 +19,9 @@ namespace HairSalon_Repository.REPOSITORY
 
         public bool AddUser(User user) => UserDAO.Instance.AddUser(user);
 
+        public User GetUserByUserId(int userId) => UserDAO.Instance.GetUserByUserId(userId);
+
+        public User GetUserById(int id) => UserDAO.Instance.GetUserById(id);
+
     }
 }

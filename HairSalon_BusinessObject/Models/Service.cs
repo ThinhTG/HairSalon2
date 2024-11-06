@@ -15,7 +15,7 @@ public partial class Service
 
     public string Description { get; set; }
 
-    public byte[] Image { get; set; }
+    public string Image { get; set; }
 
-    public virtual ICollection<BookingDetail> BookingDetail { get; set; } = new List<BookingDetail>();
+    public virtual ICollection<BookingDetail> BookingDetails { get; set; } = new List<BookingDetail>();
 }
