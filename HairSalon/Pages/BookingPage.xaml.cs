@@ -53,22 +53,19 @@ namespace HairSalon.Pages
 
         private void StartCancellationTimer()
         {
-            _timer = new System.Timers.Timer(1 * 60 * 1000); // 1 minute in milliseconds
+            _timer = new System.Timers.Timer(2 * 60 * 1000); 
             _timer.Elapsed += OnTimedEvent;
-            _timer.AutoReset = true; // Ensure the timer runs periodically
+            _timer.AutoReset = true; 
             _timer.Enabled = true;
         }
 
         private void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
-            // Get all bookings
             List<Booking> bookings = _bookingService.GetBookings();
             foreach (var booking in bookings)
             {
-                // Check if the booking is paid and if it was created more than 1 minute ago
-                if (!booking.Status.Equals("Paid") && booking.BookingDate.HasValue && (DateTime.Now - booking.BookingDate.Value).TotalMinutes >= 1)
+                if (!booking.Status.Equals("Paid") && booking.BookingDate.HasValue && (DateTime.Now - booking.BookingDate.Value).TotalMinutes >= 2)
                 {
-                    // Cancel the booking
                     _bookingService.UpdateBookingStatus(booking.BookingId, "Cancelled");
                     List<BookingDetail> bookingDetails = _bookingDetailService.GetBookingDetailByBookingId(booking.BookingId);
                     foreach (var bookingDetail in bookingDetails)
@@ -212,10 +209,9 @@ namespace HairSalon.Pages
         {
             if (tempBookingDetails.Count > 0)
             {
-                // Chỉ tạo booking trong bộ nhớ, chưa lưu vào DB
                 var booking = new Booking
                 {
-                    BookingDate = DateTime.Now,
+                    BookingDate = DateTime.Today,
                     Amount = CalculateTotalAmount(),
                     Status = "Pending",
                     CreateBy = userId,
@@ -231,11 +227,10 @@ namespace HairSalon.Pages
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    return; // Người dùng chọn "Yes", không lưu booking xuống DB
+                    return;                 
                 }
                 else if (result == MessageBoxResult.No)
                 {
-                    // Chỉ lưu xuống DB khi người dùng chọn "No"
                     _bookingService.AddBooking(booking);
 
                     foreach (var detail in tempBookingDetails)
@@ -268,28 +263,27 @@ namespace HairSalon.Pages
                     tempBookingDetails.Clear();
                     LoadBookingSummary();
 
-                    if (successfulDetails > 0)
-                    {
-                        MessageBox.Show($"✅ Đã thêm thành công {successfulDetails} booking detail(s).", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
-                    }
-                    if (failedDetails > 0)
-                    {
-                        MessageBox.Show($"❌ Có {failedDetails} booking detail(s) không thể thêm do dịch vụ hoặc slot không tồn tại.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
+                if (successfulDetails > 0)
+                {
+                    MessageBox.Show($"✅ Đã thêm thành công {successfulDetails} đơn hàng.", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                if (failedDetails > 0)
+                {
+                    MessageBox.Show($"❌ Có {failedDetails} đơn hàng không thể thêm do dịch vụ hoặc slot không tồn tại.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
 
-                    serviceComboBox.SelectedItem = null;
-                    stylistComboBox.SelectedItem = null;
-                    datePicker.SelectedDate = null;
-                    slotComboBox.ItemsSource = null;
-                    slotComboBox.Items.Clear();
-
+                serviceComboBox.SelectedItem = null;
+                stylistComboBox.SelectedItem = null;
+                datePicker.SelectedDate = null;
+                slotComboBox.ItemsSource = null;
+                slotComboBox.Items.Clear();
                     PaymentPage paymentPage = new PaymentPage(booking.BookingId);
                     this.NavigationService.Navigate(paymentPage);
                 }
             }
             else
             {
-                MessageBox.Show("⚠️ Không có thông tin booking detail để xác nhận.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("⚠️ Không có thông tin đơn hàng để xác nhận.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 

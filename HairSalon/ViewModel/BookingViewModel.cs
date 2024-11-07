@@ -1,52 +1,61 @@
-﻿using HairSalon.ViewModel;
+using HairSalon.ViewModel;
 using HairSalon_BusinessObject.Models;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-public class BookingViewModel : INotifyPropertyChanged
+namespace HairSalon.ViewModel
 {
-    private HairSalonServiceContext _context;
 
-    private ObservableCollection<BookingUserViewModel> _bookingUserList;
-    public ObservableCollection<BookingUserViewModel> BookingUserList
+    public class BookingViewModel : INotifyPropertyChanged
     {
-        get { return _bookingUserList; }
-        set
+        private HairSalonServiceContext _context;
+
+        private ObservableCollection<BookingUserViewModel> _bookingUserList;
+        public ObservableCollection<BookingUserViewModel> BookingUserList
         {
-            _bookingUserList = value;
-            OnPropertyChanged(nameof(BookingUserList));
+            get { return _bookingUserList; }
+            set
+            {
+                _bookingUserList = value;
+                OnPropertyChanged(nameof(BookingUserList));
+            }
         }
-    }
 
-    public BookingViewModel(HairSalonServiceContext context)
-    {
-        _context = context;
-        LoadData();
-    }
+        public BookingViewModel(HairSalonServiceContext context)
+        {
+            _context = context;
+            LoadData();
+        }
 
-    private void LoadData()
-    {
-        var data = (from booking in _context.Booking.ToList()
-                    join user in _context.User.ToList()
-                    on booking.UserId equals user.UserId
-                    select new BookingUserViewModel
-                    {
-                        BookingId = booking.BookingId,
-                        Status = booking.Status,
-                        BookingDate = booking.BookingDate,
-                        Amount = booking.Amount,
-                        Discount = booking.Discount,
-                        CreatedBy = booking.CreateBy,
-                        UserName = user.UserName,         // Lấy UserName từ bảng User
-                        PhoneNumber = user.PhoneNumber    // Lấy PhoneNumber từ bảng User
-                    }).ToList();
+        private void LoadData()
+        {
+            var data = (from booking in _context.Booking.ToList()
+                        join user in _context.User.ToList()
+                        on booking.UserId equals user.UserId
+                        select new BookingUserViewModel
+                        {
+                            BookingId = booking.BookingId,
+                            Status = booking.Status,
+                            BookingDate = booking.BookingDate,
+                            Amount = booking.Amount,
+                            Discount = booking.Discount,
+                            CreatedBy = booking.CreateBy,
+                            UserName = user.UserName,         // L?y UserName t? b?ng User
+                            PhoneNumber = user.PhoneNumber    // L?y PhoneNumber t? b?ng User
+                        }).ToList();
 
-        BookingUserList = new ObservableCollection<BookingUserViewModel>(data);
-    }
+            BookingUserList = new ObservableCollection<BookingUserViewModel>(data);
+        }
 
-    public event PropertyChangedEventHandler PropertyChanged;
-    protected void OnPropertyChanged(string propertyName)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

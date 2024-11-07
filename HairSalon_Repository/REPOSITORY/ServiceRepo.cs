@@ -16,7 +16,10 @@ namespace HairSalon_Repository.REPOSITORY
 
         public List<Service> GetServiceList()
             => ServiceDAO.Instance.GetServiceList();
-
+            
+        public string GetServiceNameById(int serviceId)
+            => ServiceDAO.Instance.GetServiceNameById(serviceId);
+            
         public bool AddService(Service service)
             => ServiceDAO.Instance.AddService(service);
 
@@ -25,6 +28,5 @@ namespace HairSalon_Repository.REPOSITORY
 
         public bool DeleteService(int serviceId)
             => ServiceDAO.Instance.DeleteService(serviceId);
-
     }
 }

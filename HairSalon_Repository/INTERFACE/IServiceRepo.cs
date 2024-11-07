@@ -13,11 +13,12 @@ namespace HairSalon_Repository.INTERFACE
 
         public List<Service> GetServiceList();
 
+        public string GetServiceNameById(int serviceId);
+
         public bool AddService(Service service);
 
         public bool UpdateService(Service service);
 
         public bool DeleteService(int serviceId);
-
     }
 }

@@ -17,7 +17,7 @@ namespace HairSalon_Repository.REPOSITORY
             => AvailableSlotDAO.Instance.GetAvailableSlotsByDate(date);
        
 
-        public void UpdateSlotStatus(int availableSlotId, string status)
+        public bool UpdateSlotStatus(int availableSlotId, string status)
             => AvailableSlotDAO.Instance.UpdateSlotStatus(availableSlotId, status);  
        
 
@@ -38,6 +38,9 @@ namespace HairSalon_Repository.REPOSITORY
        
 
         public List<User> GetAvailableStylistsBySlotAndDate(int slotId, DateTime date)
-            => AvailableSlotDAO.Instance.GetAvailableStylistsBySlotAndDate(slotId, date);      
+            => AvailableSlotDAO.Instance.GetAvailableStylistsBySlotAndDate(slotId, date);
+
+        public (string userName, TimeOnly? startTime) GetUserAndSlotInfoByAvailableSlotId(int availableSlotId)
+        => AvailableSlotDAO.Instance.GetUserAndSlotInfoByAvailableSlotId((int)availableSlotId);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using HairSalon_BusinessObject.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,10 @@ namespace HairSalon_Repository.INTERFACE
         public List<Booking> GetBookingsByUserId(int userId);
 
         
+        public List<Booking> SearchBookingByDate(int userId, DateTime fromDate, DateTime toDate);
+        public List<Booking> GetPendingBookingsByUserId(int userId);
+        public bool CancelBookingAndDetails(int bookingId);
+
     }
 
 }

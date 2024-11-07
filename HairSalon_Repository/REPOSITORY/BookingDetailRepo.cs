@@ -12,10 +12,6 @@ namespace HairSalon_Repository.REPOSITORY
 {
     public class BookingDetailRepo : IBookingDetailRepo
     {
-        public List<BookingDetail> GetBookingDetailsByBookingId(int bookingId)
-          => BookingDetailDAO.Instance.GetBookingDetailsByBookingId(bookingId);
-
-
         public bool AddBookingDetail(BookingDetail bookingDetail)
             => BookingDetailDAO.Instance.AddBookingDetail(bookingDetail);
 
@@ -29,10 +25,15 @@ namespace HairSalon_Repository.REPOSITORY
         public bool SaveChanges()
           => BookingDetailDAO.Instance.SaveChanges();
 
-        public List<BookingDetail> GetBookingDetailByBookingId(int bookingId)
-            => BookingDetailDAO.Instance.GetBookingDetailByBookingId(bookingId);
+        public List<BookingDetailDTO> GetBookingDetailsByBookingId(int bookingId)
+          => BookingDetailDAO.Instance.GetBookingDetailsByBookingId((int)bookingId);
 
-       // public List<BookingDetail> GetAllBookingDetailCompleted()
-       //=> BookingDetailDAO.Instance.GetCompletedBookingDetails();
+
+        public BookingDetail GetBookingDetailById(int bookingDetailId)
+         => BookingDetailDAO.Instance.GetBookingDetailById((int)bookingDetailId);
+
+        public List<BookingDetail> GetBookingDetailByBookingId(int bookingId)
+         => BookingDetailDAO.Instance.GetBookingDetailByBookingId((int)bookingId);
+
     }
 }

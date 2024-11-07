@@ -40,10 +40,9 @@ namespace HairSalon_Services.SERVICE
             return _availableSlotRepo.GetSlots();
         }
 
-        public void UpdateSlotStatus(int availableSlotId, string status)
+        public bool UpdateSlotStatus(int availableSlotId, string status)
         {
-            _availableSlotRepo.UpdateSlotStatus(availableSlotId, status);
-            SaveChanges();
+           return _availableSlotRepo.UpdateSlotStatus(availableSlotId, status);
         }
 
         public void SaveChanges()
@@ -54,6 +53,11 @@ namespace HairSalon_Services.SERVICE
         public List<User> GetAvailableStylistsBySlotAndDate(int slotId, DateTime date)
         {
             return _availableSlotRepo.GetAvailableStylistsBySlotAndDate(slotId, date);
+        }
+
+        public (string userName, TimeOnly? startTime) GetUserAndSlotInfoByAvailableSlotId(int availableSlotId)
+        {
+           return _availableSlotRepo.GetUserAndSlotInfoByAvailableSlotId(availableSlotId);
         }
     }
 }

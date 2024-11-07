@@ -15,10 +15,11 @@ namespace HairSalon_Services.INTERFACE
         List<AvailableSlot> GetAvailableSlotsByDate(DateTime date);
         List<AvailableSlot> GetAvailableSlotsByStylist(int stylistId, DateTime date);
         List<User> GetAvailableStylistsBySlotAndDate(int slotId, DateTime date);
-        void UpdateSlotStatus(int availableSlotId, string status);
+        bool UpdateSlotStatus(int availableSlotId, string status);
         void SaveChanges();
         List<User> GetStylists();
 
         List<Slot> GetSlots();
+        (string userName, TimeOnly? startTime) GetUserAndSlotInfoByAvailableSlotId(int availableSlotId);
     }
 }
