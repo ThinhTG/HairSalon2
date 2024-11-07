@@ -273,7 +273,7 @@ namespace HairSalon.Pages
             var button = sender as Button;
             if (button != null && button.Tag is int bookingDetailId)
             {
-                var feedbackPage = new FeedbackPage(bookingDetailId);
+                var feedbackPage = new BookingFeedback(bookingDetailId);
                 this.NavigationService.Navigate(feedbackPage);
             }
         }
