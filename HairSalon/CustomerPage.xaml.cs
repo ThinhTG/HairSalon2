@@ -116,5 +116,19 @@ namespace HairSalon
                 selected.RaiseOnNavigateToPage(userId);
             }
         }
+
+
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Perform logout action here
+            MessageBox.Show("Logging out...");
+
+            // Close the current window and show the login window
+            LoginWindow loginWindow = new LoginWindow();
+            loginWindow.Show();
+            this.Close();
+        }
+
     }
 }
