@@ -25,6 +25,8 @@ public partial class HairSalonServiceContext : DbContext
 
     public virtual DbSet<DailySalaryOfStylist> DailySalaryOfStylist { get; set; }
 
+    public virtual DbSet<Feedback> Feedback { get; set; }
+
     public virtual DbSet<Payment> Payment { get; set; }
 
     public virtual DbSet<Role> Role { get; set; }
@@ -39,7 +41,7 @@ public partial class HairSalonServiceContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=MSI;Initial Catalog=HairSalonService;User ID=sa;Password=12345;Encrypt=False");
+        => optionsBuilder.UseSqlServer("Data Source=LAPTOPTHINH;Initial Catalog=HairSalonDB;User ID=sa;Password=12345;Encrypt=False");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -147,6 +149,24 @@ public partial class HairSalonServiceContext : DbContext
                 .HasForeignKey(d => d.StylistProfileId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_DailySalaryOfStylist_StylistProfile");
+        });
+
+        modelBuilder.Entity<Feedback>(entity =>
+        {
+            entity.ToTable("Feedback");
+
+            entity.Property(e => e.FeedbackId).HasColumnName("feedbackId");
+            entity.Property(e => e.BookingdetailId).HasColumnName("bookingdetailId");
+            entity.Property(e => e.Description)
+                .HasMaxLength(50)
+                .HasColumnName("description");
+            entity.Property(e => e.Interest)
+                .HasMaxLength(50)
+                .HasColumnName("interest");
+
+            entity.HasOne(d => d.Bookingdetail).WithMany(p => p.Feedbacks)
+                .HasForeignKey(d => d.BookingdetailId)
+                .HasConstraintName("FK_Feedback_BookingDetail");
         });
 
         modelBuilder.Entity<Payment>(entity =>

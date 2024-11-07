@@ -28,6 +28,9 @@ namespace HairSalon_Repository.REPOSITORY
 
         public List<Booking> GetBookingsList() => BookingDAO.Instance.GetAll();
 
+        public List<Booking> GetBookingsByUserId(int userId)
+            => BookingDAO.Instance.GetBookingByUserId(userId);
+        
     }
 
 }

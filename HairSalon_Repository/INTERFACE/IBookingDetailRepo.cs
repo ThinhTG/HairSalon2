@@ -17,6 +17,8 @@ namespace HairSalon_Repository.INTERFACE
 
         List<BookingDetail> GetBookingDetailByBookingId(int bookingId);
 
+        //List<BookingDetail> GetAllBookingDetailCompleted();
+
     }
 
 }

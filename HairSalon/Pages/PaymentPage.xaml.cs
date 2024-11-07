@@ -34,7 +34,7 @@ namespace HairSalon.Pages
             InitializeComponent();
             iBookingService = null!;
             iBookingDetailService = null!;
-            this.DataContext = new AvailableSlotViewModel();
+            //this.DataContext = new AvailableSlotViewModel();
         }
 
         public PaymentPage(int bookingId)
@@ -44,7 +44,7 @@ namespace HairSalon.Pages
             iBookingService = new BookingService();
             iBookingDetailService = new BookingDetailService();
             iUserService = new UserService();
-            this.DataContext = new AvailableSlotViewModel();
+            //this.DataContext = new AvailableSlotViewModel();
             iPaymentService = new PaymentService();
             LoadData();
 

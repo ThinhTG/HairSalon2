@@ -16,5 +16,7 @@ namespace HairSalon_Services.INTERFACE
         bool SaveChanges();
 
         List<BookingDetail> GetBookingDetailByBookingId(int bookingId);
+
+        //List<BookingDetail> GetCompletedBookingDetails();
     }
 }

@@ -73,6 +73,10 @@ namespace HairSalon_DAO.DAO
             return isSuccess;
         }
 
+        public List<Booking> GetBookingByUserId(int userId)
+        {
+            return dbContext.Booking.Where(b => b.UserId == userId).ToList();
+        }
 
         public bool UpdateBookingStatus(int bookingId, string newStatus)
         {

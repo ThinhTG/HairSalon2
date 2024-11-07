@@ -1,0 +1,32 @@
+﻿<Window x:Class="HairSalon.CusFeedbackWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HairSalon"
+        mc:Ignorable="d"
+        Title="CusFeedbackWindow"  Background="AliceBlue" Height="400" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid Height="400" VerticalAlignment="Bottom">
+        <TextBlock Text="Share your feedback" FontSize="16" FontWeight="Bold" Foreground="#303F9F" HorizontalAlignment="Left" Margin="77,47,0,-47"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="54,-10,0,119" >
+            <Button Content="😢" FontSize="20" Width="40" Height="40" Click="OnEmojiButtonClick"/>
+            <Button Content="🙁" FontSize="20" Width="40" Height="40" Click="OnEmojiButtonClick"/>
+            <Button Content="😐" FontSize="20" Width="40" Height="40" Click="OnEmojiButtonClick"/>
+            <Button Content="🙂" FontSize="20" Width="40" Height="40" Click="OnEmojiButtonClick"/>
+            <Button Content="😁" FontSize="20" Width="40" Height="40" Click="OnEmojiButtonClick"/>
+        </StackPanel>
+        <Button Content="Submit" Width="80" Height="30" Background="#7C4DFF" Foreground="White" FontWeight="Bold"
+             Margin="0,330,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Click="Button_Click"/>
+        <!-- Placeholder TextBlock on top of the TextBox -->
+        <TextBox x:Name="txtDescription" Width="205" Height="128" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                 Margin="51,183,0,0" TextWrapping="Wrap" 
+                 TextChanged="txtDescription_TextChanged"/>
+
+        <!-- Placeholder Text -->
+        <TextBlock x:Name="PlaceholderText" Text="Add a Comment..." Foreground="#888888" 
+                   IsHitTestVisible="False" 
+                   VerticalAlignment="Top" HorizontalAlignment="Left"
+                   Margin="56,188,0,0" FontStyle="Italic"/>
+        <TextBlock HorizontalAlignment="Left" Height="29" Margin="56,87,0,0" TextWrapping="Wrap" Text="How do you feel about our services?" VerticalAlignment="Top" Width="216" FontWeight="Bold"/>
+    </Grid>
+</Window> 

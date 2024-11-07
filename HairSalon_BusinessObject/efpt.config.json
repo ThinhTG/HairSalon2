@@ -31,6 +31,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[Feedback]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Payment]",
          "ObjectType": 0
       },

@@ -50,6 +50,11 @@ namespace HairSalon_Services.SERVICE
         {
             return _bookingDetailRepo.SaveChanges();
         }
+
+        //public List<BookingDetail> GetCompletedBookingDetails()
+        //{
+        //    return _bookingDetailRepo.GetAllBookingDetailCompleted();
+        //}
     }
 
 }

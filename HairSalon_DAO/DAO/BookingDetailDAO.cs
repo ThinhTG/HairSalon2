@@ -122,6 +122,13 @@ namespace HairSalon_DAO.DAO
                              .ToList();
         }
 
+        //public List<BookingDetail> GetCompletedBookingDetails(booking)
+        //{
+        //    return dbContext.BookingDetail
+        //                     .Where(b => b.Status.Equals("Completed"))
+        //                     .ToList();
+        //}
+
         public bool SaveChanges()
         {
             try

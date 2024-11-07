@@ -16,6 +16,8 @@ namespace HairSalon_Repository.INTERFACE
         bool SaveChanges();
         public List<Booking> GetBookingsList();
 
+        public List<Booking> GetBookingsByUserId(int userId);
+
         
     }
 

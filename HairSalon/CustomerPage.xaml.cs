@@ -91,7 +91,16 @@ namespace HairSalon
 
         private void FeedbackPage_Click(object sender, MouseButtonEventArgs e)
         {
-            navframe.Navigate(new Uri("/Pages/FeedbackPage.xaml", UriKind.Relative));
+            var selected = sender as NavButton2;
+            if (selected != null)
+            {
+                selected.OnNavigateToPage += userId =>
+                {
+                    BookingFeedback feedbackPage = new BookingFeedback(userId);
+                    navframe.Navigate(feedbackPage);
+                };
+                selected.RaiseOnNavigateToPage(userId);
+            }
         }
 
 
