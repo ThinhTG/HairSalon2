@@ -1,5 +1,6 @@
 ﻿using HairSalon.ViewModel;
 using HairSalon_BusinessObject.Models;
+using HairSalon_DAO.DAO;
 using HairSalon_Services.INTERFACE;
 using HairSalon_Services.SERVICE;
 using System;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -24,11 +26,15 @@ namespace HairSalon.Pages
     /// </summary>
     public partial class PaymentPage : Page
     {
+        private static readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
+        private System.Timers.Timer? _timer;
+        private static readonly object _lockObject = new object();
         int bookingID;
         IBookingService iBookingService;
         IBookingDetailService iBookingDetailService;
         IUserService iUserService;
         IPaymentService iPaymentService;
+        IAvailableSlotService iAvailableSlotService;
         public PaymentPage()
         {
             InitializeComponent();
@@ -39,16 +45,59 @@ namespace HairSalon.Pages
 
         public PaymentPage(int bookingId)
         {
-            bookingID = bookingId;
+            this.bookingID = bookingId;
             InitializeComponent();
             iBookingService = new BookingService();
             iBookingDetailService = new BookingDetailService();
             iUserService = new UserService();
-            //this.DataContext = new AvailableSlotViewModel();
+            this.DataContext = new AvailableSlotViewModel();
             iPaymentService = new PaymentService();
+            iAvailableSlotService = new AvailableSlotService();
             LoadData();
+            StartCancellationTimer();
 
         }
+
+        private void StartCancellationTimer()
+        {
+            _timer = new System.Timers.Timer(0.01 * 60 * 1000); // Every 2 minutes
+            _timer.Elapsed += OnTimedEvent;
+            _timer.AutoReset = true;
+            _timer.Enabled = true;
+        }
+
+        private async void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {
+            await _semaphore.WaitAsync(); // Ensure that only one thread can enter this block at a time
+
+            try
+            {
+                Booking booking = await iBookingService.GetBookingByIdAsync(bookingID);
+
+                if (booking.Status.Equals("Pending") && booking.BookingDate.HasValue && (DateTime.Now - booking.BookingDate.Value).TotalMinutes >= 0.5)
+                {
+                    iBookingService.UpdateBookingStatus(booking.BookingId, "Cancelled");
+                    MessageBox.Show($"Booking was cancelled because of non-payment");
+                    List<BookingDetail> bookingDetails = iBookingDetailService.GetBookingDetailByBookingId(booking.BookingId);
+
+                    foreach (var bookingDetail in bookingDetails)
+                    {
+                        iAvailableSlotService.UpdateSlotStatus(bookingDetail.AvailableSlotId, "Unbooked");
+                        iBookingDetailService.UpdateBookingDetailStatus(bookingDetail.BookingDetailId, "Cancelled");
+                    }
+                    Console.WriteLine($"Booking {booking.BookingId} has been canceled due to non-payment.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during booking cancellation: {ex.Message}");
+            }
+            finally
+            {
+                _semaphore.Release(); // Release the semaphore to allow other operations
+            }
+        }
+
 
         private void NavigateToCustomerPage()
         {
@@ -126,48 +175,57 @@ namespace HairSalon.Pages
 
         public decimal Subtotal { get; set; }
 
-        private void Button_PayNow_Click(object sender, RoutedEventArgs e)
+        private async void Button_PayNow_Click(object sender, RoutedEventArgs e)
         {
-            Payment payment = new Payment();
+            await _semaphore.WaitAsync(); // Wait for the semaphore to be available before proceeding with payment
 
-            Booking booking = iBookingService.GetBookingById(bookingID);
-
-            List<BookingDetail> bookingDetails = iBookingDetailService.GetBookingDetailByBookingId(bookingID);
-
-           if(booking.Status.Equals("Paid") ||booking.Status.Equals("Cancelled"))
+            try
             {
-                MessageBox.Show("This booking has been paid or cancelled");
-                return;
+                Payment payment = new Payment();
+
+                Booking booking = await iBookingService.GetBookingByIdAsync(bookingID);
+                List<BookingDetail> bookingDetails = iBookingDetailService.GetBookingDetailByBookingId(bookingID);
+
+                if (booking.Status.Equals("Paid") || booking.Status.Equals("Cancelled"))
+                {
+                    MessageBox.Show("This booking has been paid or cancelled");
+                    return;
+                }
+
+                payment.BookingId = bookingID;
+                payment.TransactionDate = DateTime.Now;
+                payment.TransactionType = "Cash";
+                payment.Status = "Paid";
+                payment.Amount = booking.Amount ?? bookingDetails.Sum(detail => detail.Price ?? 0);
+
+                bool isSuccess = iPaymentService.AddPayment(payment);
+
+                if (isSuccess)
+                {
+                    MessageBox.Show("Payment successful");
+                    booking.Status = "Paid";
+                    iBookingService.UpdateBookingStatus(booking.BookingId, "Paid");
+                    User user = iUserService.GetUserById(booking.UserId);
+                    CustomerPage customerPage = new CustomerPage(user.UserId, user.UserName);
+                    customerPage.Show();
+                    Window.GetWindow(this).Close();
+                }
+                else
+                {
+                    MessageBox.Show("Payment failed");
+                }
+
+                LoadData();
             }
-
-            payment.BookingId = bookingID;
-            payment.TransactionDate = DateTime.Now;
-            payment.TransactionType = "Cash";
-            payment.Status = "Paid";
-            payment.Amount = booking.Amount ?? bookingDetails.Sum(detail => detail.Price ?? 0);
-
-
-
-            bool isSuccess = iPaymentService.AddPayment(payment);
-
-            if (isSuccess)
+            catch (Exception ex)
             {
-                MessageBox.Show("Payment successful");
-                booking.Status = "Paid";
-                iBookingService.UpdateBookingStatus(booking.BookingId,"Paid");
-                User user = iUserService.GetUserById(booking.UserId);
-                CustomerPage customerPage = new CustomerPage(user.UserId, user.UserName);
-                customerPage.Show();
-                Window.GetWindow(this).Close();
+                MessageBox.Show($"Error processing payment: {ex.Message}");
             }
-            else
+            finally
             {
-                MessageBox.Show("Payment failed");
+                _semaphore.Release(); // Release the semaphore after payment operation completes
             }
-
-            LoadData();
-
-
         }
+
     }
 }

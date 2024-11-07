@@ -42,5 +42,9 @@ namespace HairSalon_Repository.REPOSITORY
 
         public bool CancelBookingAndDetails(int bookingId)
          => BookingDAO.Instance.CancelBookingAndDetails(bookingId);
+
+
+        public async Task<Booking> GetBookingByIdAsync(int bookingId)
+            => await BookingDAO.Instance.GetBookingByIdAsync(bookingId);
     }
 }

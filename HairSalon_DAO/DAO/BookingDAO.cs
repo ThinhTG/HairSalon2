@@ -15,6 +15,7 @@ namespace HairSalon_DAO.DAO
 
         private static BookingDAO instance = null;
 
+
         public static BookingDAO Instance
         {
             get
@@ -41,6 +42,15 @@ namespace HairSalon_DAO.DAO
         public Booking GetBookingById(int bookingId)
         {
             return dbContext.Booking.SingleOrDefault(b => b.BookingId == bookingId);
+        }
+
+        public async Task<Booking> GetBookingByIdAsync(int bookingId)
+        {
+            // Use a new DbContext instance to ensure thread safety
+            using (var context = new HairSalonServiceContext())
+            {
+                return await context.Booking.FindAsync(bookingId);
+            }
         }
 
         public bool AddBooking(Booking booking)

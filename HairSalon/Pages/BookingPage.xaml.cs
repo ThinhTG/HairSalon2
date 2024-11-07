@@ -15,6 +15,7 @@ namespace HairSalon.Pages
     public partial class BookingPage : Page
     {
         private System.Timers.Timer? _timer;
+        private static readonly object _lockObject = new object();
 
         private int userId;
         private readonly AvailableSlotService _availableSlotService;
@@ -47,36 +48,11 @@ namespace HairSalon.Pages
             bookingSummaryDataGrid.ItemsSource = tempBookingDetails;
             datePicker.DisplayDateStart = DateTime.Now;
             datePicker.DisplayDateEnd = DateTime.Now.AddDays(31);
-            StartCancellationTimer();
 
         }
 
-        private void StartCancellationTimer()
-        {
-            _timer = new System.Timers.Timer(2 * 60 * 1000); 
-            _timer.Elapsed += OnTimedEvent;
-            _timer.AutoReset = true; 
-            _timer.Enabled = true;
-        }
+  
 
-        private void OnTimedEvent(Object source, ElapsedEventArgs e)
-        {
-            List<Booking> bookings = _bookingService.GetBookings();
-            foreach (var booking in bookings)
-            {
-                if (!booking.Status.Equals("Paid") && booking.BookingDate.HasValue && (DateTime.Now - booking.BookingDate.Value).TotalMinutes >= 2)
-                {
-                    _bookingService.UpdateBookingStatus(booking.BookingId, "Cancelled");
-                    List<BookingDetail> bookingDetails = _bookingDetailService.GetBookingDetailByBookingId(booking.BookingId);
-                    foreach (var bookingDetail in bookingDetails)
-                    {
-                        _availableSlotService.UpdateSlotStatus(bookingDetail.AvailableSlotId, "Unbooked");
-                        bookingDetail.Status = "Cancelled";
-                    }
-                    Console.WriteLine($"Booking {booking.BookingId} has been canceled due to non-payment.");
-                }
-            }
-        }
 
 
         private void LoadServices()
@@ -211,7 +187,7 @@ namespace HairSalon.Pages
             {
                 var booking = new Booking
                 {
-                    BookingDate = DateTime.Today,
+                    BookingDate = DateTime.Now,
                     Amount = CalculateTotalAmount(),
                     Status = "Pending",
                     CreateBy = userId,

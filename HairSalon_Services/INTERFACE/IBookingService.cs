@@ -19,6 +19,8 @@ namespace HairSalon_Services.INTERFACE
         public List<Booking> GetBookingsByUserId(int userId);
 
         public List<Booking> SearchBookingByDate(int userId, DateTime fromDate, DateTime toDate);
+
+        Task<Booking> GetBookingByIdAsync(int bookingId);
     }
 }
 

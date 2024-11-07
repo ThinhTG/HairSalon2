@@ -64,6 +64,11 @@ namespace HairSalon_Services.SERVICE
         {
             return _bookingRepo.CancelBookingAndDetails(bookingId);
         }
+
+        public async Task<Booking> GetBookingByIdAsync(int bookingId)
+        {
+            return await _bookingRepo.GetBookingByIdAsync(bookingId);
+        }
     }
 }
 

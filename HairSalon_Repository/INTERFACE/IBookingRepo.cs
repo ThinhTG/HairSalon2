@@ -24,6 +24,8 @@ namespace HairSalon_Repository.INTERFACE
         public List<Booking> GetPendingBookingsByUserId(int userId);
         public bool CancelBookingAndDetails(int bookingId);
 
+        Task<Booking> GetBookingByIdAsync(int bookingId);
+
     }
 
 }
