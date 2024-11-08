@@ -46,5 +46,7 @@ namespace HairSalon_Repository.REPOSITORY
 
         public async Task<Booking> GetBookingByIdAsync(int bookingId)
             => await BookingDAO.Instance.GetBookingByIdAsync(bookingId);
+
+
     }
 }

@@ -13,6 +13,7 @@ namespace HairSalon.Pages
         private BookingDetailService bookingDetailService;
         private AvailableSlotService availableSlotService;
         private ServiceService serviceService;
+        private UserService userService;
         private int UserId;
         private System.Timers.Timer _timer;
 
@@ -33,66 +34,14 @@ namespace HairSalon.Pages
             bookingDetailService = new BookingDetailService();
             availableSlotService = new AvailableSlotService();
             serviceService = new ServiceService();
+            userService = new UserService();
             this.UserId = userId;
             LoadBookingHistory();
             var pendingBookings = bookingService.GetPendingBookingsByUserId(userId);
-            foreach (var booking in pendingBookings)
-            {
-                StartCancellationTimerForBooking(booking.BookingId);
-            }
+           
         }
 
-        private Dictionary<int, System.Timers.Timer> bookingTimers = new Dictionary<int, System.Timers.Timer>();
-        private void StartCancellationTimerForBooking(int bookingId)
-        {
-            StopTimerForBooking(bookingId);
-
-            var timer = new System.Timers.Timer(1 * 60 * 1000);
-            timer.Elapsed += (sender, e) => OnTimedEvent(sender, e, bookingId);
-            timer.AutoReset = true;
-            timer.Enabled = true;
-
-            bookingTimers[bookingId] = timer;
-        }
-
-        private void OnTimedEvent(object sender, ElapsedEventArgs e, int bookingId)
-        {
-            var pendingBookings = bookingService.GetPendingBookingsByUserId(UserId);
-
-            foreach (var booking in pendingBookings)
-            {
-                if (booking.Status == "Pending" && booking.BookingId == bookingId &&
-                    booking.BookingDate.HasValue &&
-                    (DateTime.Now - booking.BookingDate.Value).TotalMinutes >= 1)
-                {
-                    bookingService.UpdateBookingStatus(booking.BookingId, "Cancelled");
-
-                    var bookingDetails = bookingDetailService.GetBookingDetailsByBookingId(booking.BookingId);
-                    foreach (var detail in bookingDetails)
-                    {
-                        availableSlotService.UpdateSlotStatus(detail.AvailableSlotId, "Unbooked");
-                        bookingDetailService.UpdateBookingDetailStatus(detail.BookingDetailId, "Cancelled");
-                    }
-
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        MessageBox.Show($"Your booking has been canceled due to non-payment.",
-                                         "Cancellation", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        LoadBookingHistory();
-                        LoadBookingDetailHistory(bookingId);
-                    });
-                }
-            }
-        }
-        private void StopTimerForBooking(int bookingId)
-        {
-            if (bookingTimers.ContainsKey(bookingId))
-            {
-                bookingTimers[bookingId].Stop();
-                bookingTimers[bookingId].Dispose();
-                bookingTimers.Remove(bookingId);
-            }
-        }
+        
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -109,7 +58,7 @@ namespace HairSalon.Pages
             {
                 BookingDate = booking.BookingDate,
                 Amount = booking.Amount,
-                UserName = booking.User?.UserName ?? "Unknown User",
+                UserName = userService.GetUserNameByUserId(booking.UserId) ?? "Unknown User",
                 Status = booking.Status,
                 Discount = booking.Discount,
                 BookingId = booking.BookingId
@@ -165,7 +114,7 @@ namespace HairSalon.Pages
                     {
                         BookingDate = booking.BookingDate,
                         Amount = booking.Amount,
-                        UserName = booking.User?.UserName ?? "Unknown User",
+                        UserName = userService.GetUserNameByUserId(booking.UserId),
                         Status = booking.Status,
                         Discount = booking.Discount,
                         BookingId = booking.BookingId
@@ -198,7 +147,6 @@ namespace HairSalon.Pages
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    StopTimerForBooking(bookingId);
 
                     var cancelResult = bookingService.CancelBookingAndDetails(bookingId);
 

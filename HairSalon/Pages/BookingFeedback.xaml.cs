@@ -18,6 +18,8 @@ namespace HairSalon.Pages
         private readonly UserService _userService;
         private readonly ServiceService _serviceService;
         private readonly StylistService stylistService;
+        private readonly SlotService slotService;
+        private readonly AvailableSlotService availableSlotService;
         private int userid;
 
         public BookingFeedback(int id)
@@ -27,16 +29,19 @@ namespace HairSalon.Pages
             _bookingDetailService = new BookingDetailService();
             _bookingService = new BookingService();
             _serviceService = new ServiceService();
+            _userService = new UserService();
             stylistService = new StylistService();
+            slotService = new SlotService();
+            availableSlotService = new AvailableSlotService();
             this.DataContext = new ServiceViewModel();
         }
 
 
-     
+
 
         private async void LoadCompletedBookingDetails()
         {
-            List<Booking> bookings = _bookingService.GetBookingsByUserId(userid).ToList();
+            List<Booking> bookings =  _bookingService.GetBookingsByUserId(userid).ToList();
             if (bookings == null || !bookings.Any())
             {
                 Console.WriteLine("No bookings found.");
@@ -48,7 +53,7 @@ namespace HairSalon.Pages
 
             foreach (var booking in bookings)
             {
-                var bookingDetails = _bookingDetailService.GetBookingDetailByBookingId(booking.BookingId);
+                var bookingDetails =  _bookingDetailService.GetBookingDetailByBookingId(booking.BookingId);
                 if (bookingDetails == null)
                 {
                     Console.WriteLine($"No booking details found for BookingId {booking.BookingId}");
@@ -61,16 +66,19 @@ namespace HairSalon.Pages
 
             var bookingSummary = completedBookingDetails.Select(detail => new
             {
-                ServiceName = _serviceService.GetServiceById(detail.ServiceId).ServiceName,
-                Stylist = detail.AvailableSlot?.User?.UserName ?? "Unknown Stylist",
+
+                ServiceName = detail.ServiceId != null ? _serviceService.GetServiceById(detail.ServiceId)?.ServiceName ?? "Unknown Service" : "Unknown Service",
+                Stylist = _userService.GetUserNameByUserId(availableSlotService.GetAvailableSlotById(detail.AvailableSlotId).UserId),
                 Date = detail.ScheduledWorkingDay?.ToShortDateString() ?? "No Date",
-                Slot = detail.AvailableSlot?.Slot?.StartTime.ToString() ?? "No Start Time",
+                Slot = slotService.GetSlotById(availableSlotService.GetAvailableSlotById(detail.AvailableSlotId).SlotId).StartTime,
+                Price = detail.Service?.Price ?? 0,
                 BookingDetailId = detail.BookingDetailId  // Make sure this exists
             }).ToList();
 
 
             dtgBookingFeedback.ItemsSource = bookingSummary;
         }
+
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {

@@ -1,12 +1,12 @@
 ﻿using HairSalon.ViewModel;
 using HairSalon_BusinessObject.Models;
-using HairSalon_DAO.DAO;
 using HairSalon_Services.INTERFACE;
 using HairSalon_Services.SERVICE;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
@@ -35,17 +35,18 @@ namespace HairSalon.Pages
         IUserService iUserService;
         IPaymentService iPaymentService;
         IAvailableSlotService iAvailableSlotService;
+        ISlotService slotService;
         public PaymentPage()
         {
             InitializeComponent();
             iBookingService = null!;
             iBookingDetailService = null!;
-            //this.DataContext = new AvailableSlotViewModel();
+            this.DataContext = new AvailableSlotViewModel();
         }
 
         public PaymentPage(int bookingId)
         {
-            this.bookingID = bookingId;
+            bookingID = bookingId;
             InitializeComponent();
             iBookingService = new BookingService();
             iBookingDetailService = new BookingDetailService();
@@ -53,51 +54,11 @@ namespace HairSalon.Pages
             this.DataContext = new AvailableSlotViewModel();
             iPaymentService = new PaymentService();
             iAvailableSlotService = new AvailableSlotService();
-            LoadData();
+            slotService = new SlotService();
             StartCancellationTimer();
+            LoadData();
 
         }
-
-        private void StartCancellationTimer()
-        {
-            _timer = new System.Timers.Timer(0.01 * 60 * 1000); // Every 2 minutes
-            _timer.Elapsed += OnTimedEvent;
-            _timer.AutoReset = true;
-            _timer.Enabled = true;
-        }
-
-        private async void OnTimedEvent(Object source, ElapsedEventArgs e)
-        {
-            await _semaphore.WaitAsync(); // Ensure that only one thread can enter this block at a time
-
-            try
-            {
-                Booking booking = await iBookingService.GetBookingByIdAsync(bookingID);
-
-                if (booking.Status.Equals("Pending") && booking.BookingDate.HasValue && (DateTime.Now - booking.BookingDate.Value).TotalMinutes >= 0.5)
-                {
-                    iBookingService.UpdateBookingStatus(booking.BookingId, "Cancelled");
-                    MessageBox.Show($"Booking was cancelled because of non-payment");
-                    List<BookingDetail> bookingDetails = iBookingDetailService.GetBookingDetailByBookingId(booking.BookingId);
-
-                    foreach (var bookingDetail in bookingDetails)
-                    {
-                        iAvailableSlotService.UpdateSlotStatus(bookingDetail.AvailableSlotId, "Unbooked");
-                        iBookingDetailService.UpdateBookingDetailStatus(bookingDetail.BookingDetailId, "Cancelled");
-                    }
-                    Console.WriteLine($"Booking {booking.BookingId} has been canceled due to non-payment.");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error during booking cancellation: {ex.Message}");
-            }
-            finally
-            {
-                _semaphore.Release(); // Release the semaphore to allow other operations
-            }
-        }
-
 
         private void NavigateToCustomerPage()
         {
@@ -118,10 +79,51 @@ namespace HairSalon.Pages
 
         }
 
+        private void StartCancellationTimer()
+        {
+            _timer = new System.Timers.Timer(0.01 * 60 * 1000); // Every 2 minutes
+            _timer.Elapsed += OnTimedEvent;
+            _timer.AutoReset = true;
+            _timer.Enabled = true;
+        }
+
+        private async void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {
+            await _semaphore.WaitAsync();
+
+            try
+            {
+                Booking booking = await iBookingService.GetBookingByIdAsync(bookingID);
+
+                if (booking.Status.Equals("Pending") && booking.BookingDate.HasValue && (DateTime.Now - booking.BookingDate.Value).TotalMinutes >= 0.5)
+                {
+                    iBookingService.UpdateBookingStatus(booking.BookingId, "Cancelled");
+                    MessageBox.Show($"Booking was cancelled because of non-payment");
+                    List<BookingDetail> bookingDetails = iBookingDetailService.GetBookingDetailByBookingId(booking.BookingId);
+
+                    foreach (var bookingDetail in bookingDetails)
+                    {
+                        MessageBox.Show($"Booking was cancelled because of non-payment");
+                        iAvailableSlotService.UpdateSlotStatus(bookingDetail.AvailableSlotId, "Unbooked");
+                        iBookingDetailService.UpdateBookingDetailStatus(bookingDetail.BookingDetailId, "Cancelled");
+                    }
+                    Console.WriteLine($"Booking {booking.BookingId} has been canceled due to non-payment.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during booking cancellation: {ex.Message}");
+            }
+            finally
+            {
+                _semaphore.Release();
+            }
+        }
+
         private void Button_Back_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.GoBack();
-        
+
         }
 
         private async void LoadData()
@@ -153,14 +155,15 @@ namespace HairSalon.Pages
 
             grdAppointmentDetail.ItemsSource = null;
 
+
+
             var bookingSummary = bookingDetails.Select(detail => new
             {
                 Service = detail.Service?.ServiceName ?? "Unknown Service",
-                Stylist = detail.AvailableSlot?.User?.UserName ?? "Unknown Stylist",
+                Stylist = iUserService.GetUserNameByUserId(detail.AvailableSlot.UserId),
                 Date = detail.ScheduledWorkingDay?.ToShortDateString() ?? "No Date",
-                Slot = detail.AvailableSlot?.Slot?.StartTime.ToString() ?? "No Start Time",
+                Slot = slotService.GetSlotById(detail.AvailableSlot.SlotId).StartTime,
                 Price = detail.Service?.Price,
-                Image = detail.Service?.Image,
             }).ToList();
 
             foreach (var detail in bookingDetails)
@@ -177,8 +180,7 @@ namespace HairSalon.Pages
 
         private async void Button_PayNow_Click(object sender, RoutedEventArgs e)
         {
-            await _semaphore.WaitAsync(); // Wait for the semaphore to be available before proceeding with payment
-
+            await _semaphore.WaitAsync();
             try
             {
                 Payment payment = new Payment();
@@ -223,9 +225,8 @@ namespace HairSalon.Pages
             }
             finally
             {
-                _semaphore.Release(); // Release the semaphore after payment operation completes
+                _semaphore.Release();
             }
         }
-
     }
 }

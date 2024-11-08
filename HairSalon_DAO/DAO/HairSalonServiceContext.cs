@@ -26,8 +26,6 @@ public partial class HairSalonServiceContext : DbContext
 
     public virtual DbSet<DailySalaryOfStylist> DailySalaryOfStylist { get; set; }
 
-    public virtual DbSet<Feedback> Feedback { get; set; }
-
     public virtual DbSet<Payment> Payment { get; set; }
 
     public virtual DbSet<Role> Role { get; set; }
@@ -40,9 +38,7 @@ public partial class HairSalonServiceContext : DbContext
 
     public virtual DbSet<User> User { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-
-  => optionsBuilder.UseSqlServer(GetConnectionString("DefaultConnection"));
+    public virtual DbSet<Feedback> Feedback { get; set; }
 
     public static string GetConnectionString(string connectionStringName)
     {
@@ -54,12 +50,16 @@ public partial class HairSalonServiceContext : DbContext
         string connectionString = config.GetConnectionString(connectionStringName);
         return connectionString;
     }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder.UseSqlServer(GetConnectionString("DefaultConnection"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<AvailableSlot>(entity =>
         {
             entity.HasKey(e => e.AvailableSlotId).HasName("PK_ServiceSlot");
+
+            entity.ToTable("AvailableSlot");
 
             entity.Property(e => e.AvailableSlotId).HasColumnName("availableSlotId");
             entity.Property(e => e.Date)
@@ -84,6 +84,8 @@ public partial class HairSalonServiceContext : DbContext
 
         modelBuilder.Entity<Booking>(entity =>
         {
+            entity.ToTable("Booking");
+
             entity.Property(e => e.BookingId).HasColumnName("bookingId");
             entity.Property(e => e.Amount)
                 .HasColumnType("money")
@@ -108,6 +110,8 @@ public partial class HairSalonServiceContext : DbContext
 
         modelBuilder.Entity<BookingDetail>(entity =>
         {
+            entity.ToTable("BookingDetail");
+
             entity.Property(e => e.BookingDetailId).HasColumnName("bookingDetailId");
             entity.Property(e => e.AvailableSlotId).HasColumnName("availableSlotId");
             entity.Property(e => e.BookingId).HasColumnName("bookingId");
@@ -122,7 +126,7 @@ public partial class HairSalonServiceContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("status");
 
-            entity.HasOne(d => d.AvailableSlot).WithMany(p => p.BookingDetail)
+            entity.HasOne(d => d.AvailableSlot).WithMany(p => p.BookingDetails)
                 .HasForeignKey(d => d.AvailableSlotId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_BookingDetail_AvailableSlot");
@@ -140,6 +144,8 @@ public partial class HairSalonServiceContext : DbContext
 
         modelBuilder.Entity<DailySalaryOfStylist>(entity =>
         {
+            entity.ToTable("DailySalaryOfStylist");
+
             entity.Property(e => e.DailySalaryOfStylistId).HasColumnName("dailySalaryOfStylistId");
             entity.Property(e => e.DailySalary)
                 .HasColumnType("money")
@@ -155,27 +161,10 @@ public partial class HairSalonServiceContext : DbContext
                 .HasConstraintName("FK_DailySalaryOfStylist_StylistProfile");
         });
 
-        modelBuilder.Entity<Feedback>(entity =>
-        {
-            entity.ToTable("Feedback");
-
-
-            entity.Property(e => e.FeedbackId).HasColumnName("feedbackId");
-            entity.Property(e => e.BookingdetailId).HasColumnName("bookingdetailId");
-            entity.Property(e => e.Description)
-                .HasMaxLength(50)
-                .HasColumnName("description");
-            entity.Property(e => e.Interest)
-                .HasMaxLength(50)
-                .HasColumnName("interest");
-
-            entity.HasOne(d => d.Bookingdetail).WithMany(p => p.Feedback)
-                .HasForeignKey(d => d.BookingdetailId)
-                .HasConstraintName("FK_Feedback_BookingDetail");
-        });
-
         modelBuilder.Entity<Payment>(entity =>
         {
+            entity.ToTable("Payment");
+
             entity.Property(e => e.PaymentId).HasColumnName("paymentId");
             entity.Property(e => e.Amount)
                 .HasColumnType("money")
@@ -199,6 +188,8 @@ public partial class HairSalonServiceContext : DbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
+            entity.ToTable("Role");
+
             entity.Property(e => e.RoleId).HasColumnName("roleId");
             entity.Property(e => e.RoleName)
                 .HasMaxLength(50)
@@ -207,12 +198,14 @@ public partial class HairSalonServiceContext : DbContext
 
         modelBuilder.Entity<Service>(entity =>
         {
+            entity.ToTable("Service");
+
             entity.Property(e => e.ServiceId).HasColumnName("serviceId");
             entity.Property(e => e.Description)
                 .HasMaxLength(50)
                 .HasColumnName("description");
             entity.Property(e => e.Image)
-                .HasMaxLength(100)
+                .HasColumnType("image")
                 .HasColumnName("image");
             entity.Property(e => e.Price)
                 .HasColumnType("money")
@@ -224,6 +217,8 @@ public partial class HairSalonServiceContext : DbContext
 
         modelBuilder.Entity<Slot>(entity =>
         {
+            entity.ToTable("Slot");
+
             entity.Property(e => e.SlotId).HasColumnName("slotId");
             entity.Property(e => e.EndTime).HasColumnName("endTime");
             entity.Property(e => e.StartTime).HasColumnName("startTime");
@@ -231,6 +226,8 @@ public partial class HairSalonServiceContext : DbContext
 
         modelBuilder.Entity<StylistProfile>(entity =>
         {
+            entity.ToTable("StylistProfile");
+
             entity.Property(e => e.StylistProfileId).HasColumnName("stylistProfileId");
             entity.Property(e => e.Salary)
                 .HasColumnType("money")
@@ -245,6 +242,8 @@ public partial class HairSalonServiceContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
+            entity.ToTable("User");
+
             entity.Property(e => e.UserId).HasColumnName("userId");
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
@@ -267,6 +266,25 @@ public partial class HairSalonServiceContext : DbContext
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_User_Role");
+        });
+
+        modelBuilder.Entity<Feedback>(entity =>
+        {
+            entity.ToTable("Feedback");
+
+
+            entity.Property(e => e.FeedbackId).HasColumnName("feedbackId");
+            entity.Property(e => e.BookingdetailId).HasColumnName("bookingdetailId");
+            entity.Property(e => e.Description)
+                .HasMaxLength(50)
+                .HasColumnName("description");
+            entity.Property(e => e.Interest)
+                .HasMaxLength(50)
+                .HasColumnName("interest");
+
+            entity.HasOne(d => d.Bookingdetail).WithMany(p => p.Feedback)
+                .HasForeignKey(d => d.BookingdetailId)
+                .HasConstraintName("FK_Feedback_BookingDetail");
         });
 
         OnModelCreatingPartial(modelBuilder);

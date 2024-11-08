@@ -7,11 +7,11 @@ namespace HairSalon.ViewModel
 {
     public class AvailableSlotViewModel
     {
-        public ObservableCollection<AvailableSlot> AvailableSlots { get; set; }
+        public ObservableCollection<AvailableSlot> AvailableSlot { get; set; }
 
         public AvailableSlotViewModel()
         {
-            AvailableSlots = new ObservableCollection<AvailableSlot>();
+            AvailableSlot = new ObservableCollection<AvailableSlot>();
             LoadAvailableSlots();
         }
 
@@ -20,13 +20,13 @@ namespace HairSalon.ViewModel
             using (var context = new HairSalonServiceContext())
             {
                 var slots = context.AvailableSlot
-                    .Include(a => a.Slot)  // Include Slot information
-                    .Include(a => a.User)  // Include User information
+                    .Include(a => a.Slot) 
+                    .Include(a => a.User) 
                     .ToList();
 
                 foreach (var slot in slots)
                 {
-                    AvailableSlots.Add(slot);
+                    AvailableSlot.Add(slot);
                 }
             }
         }

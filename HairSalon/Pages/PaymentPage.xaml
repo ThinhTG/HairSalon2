@@ -47,7 +47,7 @@
         <!-- DataGrid with Appointment Details -->
         <StackPanel Grid.Row="2" Margin="0,0,0,99">
             <StackPanel Height="400">
-                <DataGrid x:Name="grdAppointmentDetail" AutoGenerateColumns="False" CanUserAddRows="False" Height="490" AlternatingRowBackground="LightGray" RowBackground="White" GridLinesVisibility="None" HorizontalGridLinesBrush="Gray" VerticalGridLinesBrush="Gray" ColumnHeaderHeight="32" SelectionChanged="grdAppointmentDetail_SelectionChanged">
+                <DataGrid x:Name="grdAppointmentDetail" AutoGenerateColumns="False" CanUserAddRows="False" Height="490" AlternatingRowBackground="LightGray" RowBackground="White" GridLinesVisibility="None" HorizontalGridLinesBrush="Gray" VerticalGridLinesBrush="Gray" ColumnHeaderHeight="32">
                     <DataGrid.Resources>
 
                         <Style x:Key="DataGridRowStyle" TargetType="{x:Type DataGridRow}">
