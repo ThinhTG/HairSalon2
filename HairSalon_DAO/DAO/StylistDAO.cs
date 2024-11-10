@@ -156,10 +156,10 @@ namespace HairSalon_DAO.DAO
 
                 // Calculate the daily salary for the stylist based on the selected date and userId
                 var dailySalary = _context.BookingDetail
-                    .Where(bd => bd.Status == "completed"
+                    .Where(bd => bd.Status == "Completed"
                               && bd.ScheduledWorkingDay == selectedDate.Value.Date
                               && bd.AvailableSlot.UserId == userId)
-                    .Sum(bd => bd.Price * 0.05m) + _context.StylistProfile
+                    .Sum(bd => bd.Price * 0.1m) + _context.StylistProfile
                     .Where(sp => sp.UserId == userId)
                     .Select(sp => sp.Salary)
                     .FirstOrDefault();

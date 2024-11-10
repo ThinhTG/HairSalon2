@@ -39,7 +39,7 @@
             <!-- Feedback Page Button -->
             <ListBoxItem>
                 <StackPanel Orientation="Horizontal">
-                    <local:NavButton Navlink="/Pages/FeedbackPage.xaml" Margin="3" Padding="6"
+                    <local:NavButton Navlink="/Pages/BookingFeedback.xaml" Margin="3" Padding="6"
                            Icon="M 12 2 L 15 10 L 24 10 L 17 15 L 20 22 L 12 17 L 4 22 L 7 15 L 0 10 L 9 10 Z"/>
                     <TextBlock Text="Feedback Management" VerticalAlignment="Center" Margin="10,0,0,0"/>
                 </StackPanel>

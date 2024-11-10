@@ -38,10 +38,10 @@ namespace HairSalon.Pages
             this.UserId = userId;
             LoadBookingHistory();
             var pendingBookings = bookingService.GetPendingBookingsByUserId(userId);
-           
+
         }
 
-        
+
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -133,7 +133,7 @@ namespace HairSalon.Pages
                 MessageBox.Show("Please select both 'From Date' and 'To Date'.", "Search Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
-      
+
         private void CancelBookingButton_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
@@ -154,7 +154,7 @@ namespace HairSalon.Pages
                     {
                         var bookingDetails = bookingDetailService.GetBookingDetailsByBookingId(bookingId);
                         foreach (var detail in bookingDetails)
-                        {                          
+                        {
                             availableSlotService.UpdateSlotStatus(detail.AvailableSlotId, "Unbooked");
                         }
 
@@ -215,7 +215,7 @@ namespace HairSalon.Pages
                 }
             }
         }
-        
+
         private void FeedbackButton_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
@@ -228,17 +228,37 @@ namespace HairSalon.Pages
 
         private void PaymentButton_Click(object sender, RoutedEventArgs e)
         {
+            var button = sender as Button;
+            if (button != null && button.Tag is int bookinngId)
+            {
+                Booking booking = bookingService.GetBookingById(bookinngId);
 
+                if (booking.Status.Equals("Cancelled"))
+                {
+                    
+                    LoadBookingHistory();
+                    MessageBox.Show("Booking deleted ", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                }
+                else
+                {
+                    PaymentPage paymentPage = new PaymentPage(booking.BookingId);
+                    this.NavigationService.Navigate(paymentPage);
+
+                }
+            }
+            
         }
+    
 
-        private void ResetButton_Click(object sender, RoutedEventArgs e)
-        {        
-            FromDatePicker.SelectedDate = null;
-            ToDatePicker.SelectedDate = null;
-            LoadBookingHistory();
-        }
-
+    private void ResetButton_Click(object sender, RoutedEventArgs e)
+    {
+        FromDatePicker.SelectedDate = null;
+        ToDatePicker.SelectedDate = null;
+        LoadBookingHistory();
     }
+
+}
 }
 
 

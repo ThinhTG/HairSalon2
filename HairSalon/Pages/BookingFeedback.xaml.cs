@@ -36,6 +36,20 @@ namespace HairSalon.Pages
             this.DataContext = new ServiceViewModel();
         }
 
+        public BookingFeedback()
+        {
+            InitializeComponent();
+            _bookingDetailService = new BookingDetailService();
+            _bookingService = new BookingService();
+            _serviceService = new ServiceService();
+            _userService = new UserService();
+            stylistService = new StylistService();
+            slotService = new SlotService();
+            availableSlotService = new AvailableSlotService();
+            this.DataContext = new ServiceViewModel();
+        }
+
+
 
 
 

@@ -44,7 +44,7 @@ namespace HairSalon.Pages
             var confirmedBookings = (from booking in bookingService.GetBookings()
                                      join user in userService.GetUsers()
                                      on booking.UserId equals user.UserId
-                                     where booking.Status == "Confirmed"
+                                     where booking.Status == "Paid"
                                      select new
                                      {
                                          booking.BookingId,
