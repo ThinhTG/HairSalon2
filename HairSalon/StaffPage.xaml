@@ -48,5 +48,7 @@
 
 
         <Frame Grid.Column="1" x:Name="navframe" NavigationUIVisibility="Hidden" Background="#e9ecef"/>
+
+        <Button Grid.Column="1" x:Name="btnClose" Content="Logout" FontSize="14" Click="ExitButton_Click" Style="{StaticResource buttonCircle}" Background="AliceBlue" Margin="1054,16,27,677"/>
     </Grid>
 </Window>

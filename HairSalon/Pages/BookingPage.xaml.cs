@@ -276,7 +276,6 @@ namespace HairSalon.Pages
                 Date = detail.ScheduledWorkingDay?.ToShortDateString() ?? "No Date",
                 Slot = detail.AvailableSlot?.Slot?.StartTime.ToString() ?? "No Start Time",
                 Price = detail.Service?.Price,
-                Image = detail.Service?.Image,
             }).ToList();
 
             bookingSummaryDataGrid.ItemsSource = bookingSummary;

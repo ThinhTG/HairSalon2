@@ -12,7 +12,7 @@
         <Grid.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                 <GradientStop Color="#FFB2E1FF" Offset="0.0"/>
-                <GradientStop Color="#FF7C9AEE" Offset="1.0"/>
+                <GradientStop Color="AliceBlue" Offset="1.0"/>
             </LinearGradientBrush>
         </Grid.Background>
 
@@ -234,25 +234,7 @@
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                <!-- Feedback Button -->
-                                <Button Content="Feedback" Width="85" Margin="5,0" Background="MediumPurple"
-                        Click="FeedbackButton_Click"
-                        Tag="{Binding BookingDetailId}"
-                        HorizontalAlignment="Center">
-                                    <Button.Style>
-                                        <Style TargetType="Button">
-                                            <Setter Property="IsEnabled" Value="False"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsBookingDetailActive}" Value="False">
-                                                    <Setter Property="IsEnabled" Value="False"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding Status}" Value="Confirm">
-                                                    <Setter Property="IsEnabled" Value="True"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
-                                </Button>
+                            
 
                                 <!-- Cancel Button -->
                                 <Button Content="Cancel" Width="70" Margin="5,0" Background="LightPink"

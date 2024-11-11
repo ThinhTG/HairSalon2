@@ -5,60 +5,72 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="BookingFeedback" Background="AliceBlue" Loaded="Page_Loaded">
+      Title="BookingFeedback"  Loaded="Page_Loaded">
 
-    <StackPanel Margin="20,84,20,20">
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,10" Width="858">
-            <!-- Date Picker for Date Filter -->
-            <Label Content="Date:" VerticalAlignment="Center"/>
-            <DatePicker x:Name="datePicker" Width="150" Margin="5,0"/>
+    <Grid>
 
-            <!-- ComboBox for Service Filter -->
-            <Label Content="Service:" VerticalAlignment="Center" Margin="10,0,0,0"/>
-            <ComboBox x:Name="cmbService" Width="150" Margin="5,0"/>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#FFB2E1FF" Offset="0.0"/>
+                <GradientStop Color="AliceBlue" Offset="1.0"/>
+            </LinearGradientBrush>
+        </Grid.Background>
 
-            <!-- ComboBox for Stylist Filter -->
-            <Label Content="Stylist:" VerticalAlignment="Center" Margin="10,0,0,0"/>
-            <ComboBox x:Name="cmbStylist" Width="150" Margin="5,0"/>
+        <StackPanel Margin="20,84,20,20">
 
-            <!-- Search and Reset Buttons -->
-            <Button Content="Search" Width="100" Margin="10,0,0,0" Click="Button_Click" />
-            <Button Content="Reset" Width="100" Margin="10,0,0,0" Click="Button_Click_1" />
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,10" Width="858">
+                <!-- Date Picker for Date Filter -->
+                <Label Content="Date:" VerticalAlignment="Center"/>
+                <DatePicker x:Name="datePicker" Width="150" Margin="5,0"/>
+
+                <!-- ComboBox for Service Filter -->
+                <Label Content="Service:" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                <ComboBox x:Name="cmbService" Width="150" Margin="5,0"/>
+
+                <!-- ComboBox for Stylist Filter -->
+                <Label Content="Stylist:" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                <ComboBox x:Name="cmbStylist" Width="150" Margin="5,0"/>
+
+                <!-- Search and Reset Buttons -->
+                <Button Content="Search" Width="100" Margin="10,0,0,0" Click="Button_Click" />
+                <Button Content="Reset" Width="100" Margin="10,0,0,0" Click="Button_Click_1" />
+            </StackPanel>
+
+            <!-- Styled DataGrid with Centered Content -->
+            <DataGrid x:Name="dtgBookingFeedback" AutoGenerateColumns="False" 
+              FontFamily="Segoe UI" 
+              FontSize="14" 
+              RowHeight="35" 
+              AlternatingRowBackground="LightBlue" 
+              HorizontalGridLinesBrush="Gray"
+              VerticalGridLinesBrush="Gray"
+              BorderBrush="LightGray" 
+              BorderThickness="1" 
+              CanUserAddRows="False">
+
+                <!-- Column Headers and Styling here... -->
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Service Name" Binding="{Binding ServiceName}" Width="*"/>
+                    <DataGridTextColumn Header="Stylist" Binding="{Binding Stylist}" Width="*"/>
+                    <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="*"/>
+                    <DataGridTextColumn Header="Slot" Binding="{Binding Slot}" Width="*"/>
+                    <DataGridTemplateColumn Header="Feedback" Width="100">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Feedback" Width="80" Height="30"
+                                Background="DarkBlue" 
+                                Foreground="White" 
+                                FontWeight="Bold" 
+                                BorderBrush="Transparent"
+                                Tag="{Binding BookingDetailId}" 
+                                Click="FeedbackButton_Click"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
         </StackPanel>
-
-        <!-- Styled DataGrid with Centered Content -->
-        <DataGrid x:Name="dtgBookingFeedback" AutoGenerateColumns="False" 
-                  FontFamily="Segoe UI" 
-                  FontSize="14" 
-                  RowHeight="35" 
-                  AlternatingRowBackground="LightBlue" 
-                  HorizontalGridLinesBrush="Gray"
-                  VerticalGridLinesBrush="Gray"
-                  BorderBrush="LightGray" 
-                  BorderThickness="1" 
-                  CanUserAddRows="False">
-
-            <!-- Column Headers and Styling here... -->
-
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Service Name" Binding="{Binding ServiceName}" Width="*"/>
-                <DataGridTextColumn Header="Stylist" Binding="{Binding Stylist}" Width="*"/>
-                <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="*"/>
-                <DataGridTextColumn Header="Slot" Binding="{Binding Slot}" Width="*"/>
-                <DataGridTemplateColumn Header="Feedback" Width="100">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="Feedback" Width="80" Height="30"
-                                    Background="DarkBlue" 
-                                    Foreground="White" 
-                                    FontWeight="Bold" 
-                                    BorderBrush="Transparent"
-                                    Tag="{Binding BookingDetailId}" 
-                                    Click="FeedbackButton_Click"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-    </StackPanel>
+    </Grid>
 </Page>

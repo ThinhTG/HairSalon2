@@ -62,10 +62,10 @@ namespace HairSalon_DAO.DAO
             bool isSuccess = false;
             try
             {
-                // Tìm kiếm StylistProfile dựa trên UserId
+
                 var stylistProfile = _context.StylistProfile
                     .FirstOrDefault(sp => sp.UserId == userId);
-                // Nếu tìm thấy, cập nhật Salary
+
                 if (stylistProfile != null)
                 {
                     stylistProfile.Salary = newSalary;
@@ -75,7 +75,7 @@ namespace HairSalon_DAO.DAO
             }
             catch (Exception ex)
             {
-                // Ghi log hoặc xử lý ngoại lệ
+
                 throw new Exception("An error occurred while updating the salary: " + ex.Message);
             }
             return isSuccess;
@@ -85,10 +85,10 @@ namespace HairSalon_DAO.DAO
 
         public IEnumerable<dynamic> GetStylistServicesByUserId(int userId, DateTime? selectedDate)
         {
-            // Lọc theo stylist và status
+
             var query = _context.BookingDetail
                                 .Where(bd => bd.Status == "completed" && bd.AvailableSlot.UserId == userId);
-            // Nếu có ngày đã chọn, thêm điều kiện lọc theo ngày
+
             if (selectedDate.HasValue)
             {
                 query = query.Where(bd => bd.ScheduledWorkingDay.HasValue &&
@@ -109,17 +109,17 @@ namespace HairSalon_DAO.DAO
 
         public IEnumerable<DailySalaryOfStylist> GetStylistDailySalaryByUserId(int userId, DateTime? selectedDate)
         {
-            // Query to filter by stylist and date
+
             var query = _context.DailySalaryOfStylist
                                 .Where(ds => ds.StylistProfile.UserId == userId);
 
-            // If a specific date is selected, add a filter for the date
+
             if (selectedDate.HasValue)
             {
                 query = query.Where(ds => ds.Date.Date == selectedDate.Value.Date);
             }
 
-            // Select the required data
+
             return query.Select(ds => new DailySalaryOfStylist
             {
                 DailySalary = ds.DailySalary,
@@ -140,38 +140,30 @@ namespace HairSalon_DAO.DAO
                 {
                     throw new ArgumentNullException(nameof(selectedDate), "Selected date must not be null.");
                 }
-
-                // Check if the selected date is in the past
                 if (selectedDate.Value.Date < DateTime.Now.Date)
                 {
-                    // Do not allow inserting for past dates
                     return false;
                 }
-
-                // Retrieve the corresponding StylistProfileId for the given userId
                 var stylistProfileId = _context.StylistProfile
                     .Where(sp => sp.UserId == userId)
                     .Select(sp => sp.StylistProfileId)
                     .FirstOrDefault();
 
-                // Calculate the daily salary for the stylist based on the selected date and userId
                 var dailySalary = _context.BookingDetail
-                    .Where(bd => bd.Status == "Completed"
+                    .Where(bd => bd.Status == "completed"
                               && bd.ScheduledWorkingDay == selectedDate.Value.Date
                               && bd.AvailableSlot.UserId == userId)
                     .Sum(bd => bd.Price * 0.1m) + _context.StylistProfile
                     .Where(sp => sp.UserId == userId)
                     .Select(sp => sp.Salary)
                     .FirstOrDefault();
-
-                // Insert the calculated daily salary into DailySalaryOfStylist
-                if (stylistProfileId != 0 && dailySalary > 0) // Ensure StylistProfileId exists (not 0) and dailySalary is valid
+                if (stylistProfileId != 0 && dailySalary > 0)
                 {
                     var dailySalaryRecord = new DailySalaryOfStylist
                     {
-                        Date = selectedDate.Value, // Convert DateTime to DateOnly
+                        Date = selectedDate.Value,
                         DailySalary = dailySalary,
-                        StylistProfileId = stylistProfileId, // Use the retrieved StylistProfileId directly
+                        StylistProfileId = stylistProfileId,
                     };
 
                     _context.DailySalaryOfStylist.Add(dailySalaryRecord);
@@ -181,7 +173,6 @@ namespace HairSalon_DAO.DAO
             }
             catch (Exception ex)
             {
-                // Log or handle the exception as necessary
                 throw new Exception("An error occurred while inserting daily salary: " + ex.Message);
             }
             return isSuccess;
@@ -192,11 +183,11 @@ namespace HairSalon_DAO.DAO
 
         public List<StylistSalaryDTO> GetStylistsSalary(int userId, int month, int year)
         {
-            return (from u in _context.User 
+            return (from u in _context.User
                     join sp in _context.StylistProfile on u.UserId equals sp.UserId
                     join ds in _context.DailySalaryOfStylist on sp.StylistProfileId equals ds.StylistProfileId
                     where u.UserId == userId &&
-                          ds.Date.Month == month && 
+                          ds.Date.Month == month &&
                           ds.Date.Year == year
                     select new StylistSalaryDTO
                     {
@@ -228,7 +219,7 @@ namespace HairSalon_DAO.DAO
                     where u.UserId == userId &&
                           ds.Date.Month == month &&
                           ds.Date.Year == year
-                    select ds.DailySalary).Sum() ?? 0m; 
+                    select ds.DailySalary).Sum() ?? 0m;
         }
 
 
@@ -237,16 +228,16 @@ namespace HairSalon_DAO.DAO
 
         public bool CheckIfSalaryExists(DateTime? selectedDate, int userId)
         {
-            // Lấy StylistProfileId dựa trên UserId
             var stylistProfileId = _context.StylistProfile
                                             .Where(sp => sp.UserId == userId)
                                             .Select(sp => sp.StylistProfileId)
                                             .FirstOrDefault();
 
-            // Kiểm tra xem có bản ghi nào tồn tại trong DailySalaryOfStylist không
             return _context.DailySalaryOfStylist
                            .Any(d => d.Date == selectedDate && d.StylistProfileId == stylistProfileId);
         }
 
     }
 }
+
+

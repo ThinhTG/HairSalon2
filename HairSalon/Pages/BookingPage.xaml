@@ -10,8 +10,8 @@
     <Grid>
         <Grid.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color="#FFF99CB2" Offset="0.0"/>
-                <GradientStop Color="#66b2ff" Offset="1.0"/>
+                <GradientStop Color="#FFB2E1FF" Offset="0.0"/>
+                <GradientStop Color="AliceBlue" Offset="1.0"/>
             </LinearGradientBrush>
         </Grid.Background>
         <Grid>
@@ -25,7 +25,7 @@
                     </TransformGroup>
                 </TextBlock.RenderTransform>
             </TextBlock>
-            <TextBlock Text="HAIR SALON BOOKING" HorizontalAlignment="Left" Margin="293,32,0,0" VerticalAlignment="Top" FontSize="50" FontFamily="Bodoni MT Black" Foreground="#ff6f61" TextAlignment="Center"/>
+            <TextBlock Text="HAIR SALON BOOKING" HorizontalAlignment="Left" Margin="293,32,0,0" VerticalAlignment="Top" FontSize="50" FontFamily="Bodoni MT Black" Foreground="#FF415C81" TextAlignment="Center"/>
         </Grid>
         <Label Content="Please select Date and Stylist before selecting Slot" HorizontalAlignment="Center" Margin="0,102,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="Bodoni MT" FontWeight="Bold" Foreground="#555555"/>
         <Label Content="SELECT SERVICE :" HorizontalAlignment="Left" Margin="42,161,0,0" VerticalAlignment="Top" FontSize="23" FontFamily="Bodoni MT Black" Foreground="#333333"/>
@@ -40,7 +40,7 @@
         <Button x:Name="UpdateButton" Content="Update" HorizontalAlignment="Left" Margin="141,339,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Bodoni MT" FontWeight="Bold" Width="79" BorderBrush="Black" BorderThickness="2" Background="#FFE6E800" Foreground="#FF131313" Click="UpdateButton_Click"/>
         <Button x:Name="AddButton" Content="Add" HorizontalAlignment="Left" Margin="42,339,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Bodoni MT" FontWeight="Bold" Width="79" BorderBrush="Black" BorderThickness="2" Background="#FF07B138" Foreground="#FF0C0C0C" Click="AddButton_Click"/>
         <Button x:Name="DeleteButton" Content="Delete" HorizontalAlignment="Left" Margin="242,339,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Bodoni MT" FontWeight="Bold" Width="79" BorderBrush="Black" BorderThickness="2" Background="#FFF75B4C" Foreground="#FF1B1B1B" Click="DeleteButton_Click"/>
-        <Button x:Name="ConfirmButton" Content="Book" HorizontalAlignment="Left" Margin="543,676,0,0" VerticalAlignment="Top" FontFamily="Bodoni MT" FontWeight="Bold" FontSize="35" Width="110" BorderBrush="Black" BorderThickness="2" Background="#FFEA5190" Foreground="Black" Click="ConfirmButton_Click"/>
+        <Button x:Name="ConfirmButton" Content="Book" HorizontalAlignment="Left" Margin="543,676,0,0" VerticalAlignment="Top" FontFamily="Bodoni MT" FontWeight="Bold" FontSize="35" Width="110" BorderBrush="Black" BorderThickness="2" Background="#FF4A5783" Foreground="White" Click="ConfirmButton_Click"/>
         <Label Content="+ Booking Detail Summary :" HorizontalAlignment="Left" Margin="42,399,0,0" VerticalAlignment="Top" FontSize="27" FontFamily="Bodoni MT" FontWeight="Bold" Foreground="#FF0070AD"/>
         <DataGrid x:Name="bookingSummaryDataGrid" AutoGenerateColumns="False" Width="1112" Height="200" Margin="42,446,0,104" HorizontalAlignment="Left" CanUserAddRows="False" HeadersVisibility="Column" RowBackground="#ffffff" AlternatingRowBackground="#f1f1f1" BorderThickness="1" BorderBrush="#dcdcdc" FontFamily="Bodoni MT" FontWeight="Bold" FontSize="20" SelectionChanged="bookingSummaryDataGrid_SelectionChanged" VerticalAlignment="Center" Background="#FFE4F3F3" Foreground="#FF0A2252">
             <DataGrid.Resources>
@@ -96,14 +96,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Image" Binding="{Binding Image}" Width="*">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="TextAlignment" Value="Center"/>
-                            <Setter Property="VerticalAlignment" Value="Center"/>
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
+
             </DataGrid.Columns>
         </DataGrid>
         <Label Content="Please check your booking carefully before submitting" HorizontalAlignment="Left" Margin="42,652,0,0" VerticalAlignment="Top" FontSize="18" FontFamily="Bodoni MT" Foreground="#FF1D1D1D"/>

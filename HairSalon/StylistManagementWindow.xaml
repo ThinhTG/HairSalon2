@@ -13,6 +13,7 @@
                 <DataGridTextColumn Header="User ID" Binding="{Binding UserId}" />
                 <DataGridTextColumn Header="Stylist ID" Binding="{Binding StylistProfileId}" />
                 <DataGridTextColumn Header="Salary" Binding="{Binding Salary}" />
+                <DataGridTextColumn Header="Full Name" Binding="{Binding User.UserName}" />
             </DataGrid.Columns>
         </DataGrid>
 

@@ -9,7 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="image\close.png" />
+    <None Remove="image\diachi.jpg" />
+    <None Remove="image\haircut.png" />
     <None Remove="image\images.png" />
+    <None Remove="image\password.png" />
+    <None Remove="image\png-200x200.png" />
+    <None Remove="image\qrCode.png" />
   </ItemGroup>
 
 
@@ -18,8 +24,26 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="image\close.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="image\diachi.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="image\haircut.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="image\images.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="image\password.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="image\png-200x200.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="image\qrCode.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
 

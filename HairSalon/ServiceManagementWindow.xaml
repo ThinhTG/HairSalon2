@@ -7,6 +7,14 @@
         mc:Ignorable="d"
         Title="ServiceManagementWindow" Height="480" Width="820" Loaded="Window_Loaded" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
+
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#FFE4F3F3" Offset="0.0"/>
+                <GradientStop Color="#FF051523" Offset="1.0"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
         <Label Content="Service Management" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"/>
         <!--<DataGrid x:Name="dtgService" Margin="0,184,0,63" SelectionChanged="dtgService_SelectionChanged"/>-->
         <DataGrid x:Name="dtgService" Margin="0,232,0,63" SelectionChanged="dtgService_SelectionChanged" AutoGenerateColumns="False">
@@ -28,9 +36,9 @@
         <TextBox x:Name="txtServiceName" HorizontalAlignment="Left" Margin="112,91,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="284"/>
         <TextBox x:Name="txtPrice" HorizontalAlignment="Left" Margin="112,142,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="284"/>
         <TextBox x:Name="txtDescription" HorizontalAlignment="Left" Margin="506,44,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="284"/>
-        <Label Content="Image:" HorizontalAlignment="Left" Margin="418,87,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtImage" HorizontalAlignment="Left" Margin="506,87,0,355" Width="238"/>
-        <Image x:Name="imgService" HorizontalAlignment="Left" Margin="506,129,0,240" Width="234" />
+        <Label Content="Image :" HorizontalAlignment="Left" Margin="418,87,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtImage" HorizontalAlignment="Left" Margin="506,87,0,376" Width="248"/>
+        <Image x:Name="imgService" HorizontalAlignment="Left" Margin="506,87,0,240" Width="234" />
         <Label Content="Service Id :" HorizontalAlignment="Left" Margin="13,40,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="txtServiceId" HorizontalAlignment="Left" Margin="112,44,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="284"/>
         <Button x:Name="btnBrowse" Content="..." HorizontalAlignment="Left" Margin="759,87,0,0" VerticalAlignment="Top" Width="31" Height="18" Click="btnBrowse_Click"/>

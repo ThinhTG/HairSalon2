@@ -8,7 +8,15 @@
       d:DesignHeight="750" d:DesignWidth="1200"
       Title="BookingManagement">
 
-    <Grid Background="#5483B3" Loaded="WindowLoad">
+    <Grid Loaded="WindowLoad">
+
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#FFE4F3F3" Offset="0.0"/>
+                <GradientStop Color="AliceBlue" Offset="1.0"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -53,7 +61,7 @@
                    FontFamily="Arial" 
                    FontSize="24" 
                    FontWeight="Bold"
-                   Foreground="White"
+                   Foreground="#FF0A2252"
                    HorizontalAlignment="Center"
                    Margin="0,10,0,5"/>
 
@@ -64,7 +72,7 @@
                   Width="1100" 
                   AutoGenerateColumns="False" 
                   IsReadOnly="True"
-                  ItemsSource="{Binding BookingUserList}">
+                  ItemsSource="{Binding BookingUserList}" Background="#FFEFF7E1">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Booking ID" Binding="{Binding BookingId}" Width="*" />
                 <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*" />
@@ -92,7 +100,7 @@
                    FontFamily="Arial" 
                    FontSize="24" 
                    FontWeight="Bold"
-                   Foreground="White"
+                   Foreground="#FF0A2252"
                    HorizontalAlignment="Center"
                    Margin="0,10,0,5"/>
 
@@ -103,7 +111,7 @@
                   Width="1100" 
                   AutoGenerateColumns="False" 
                   IsReadOnly="True"
-                  ItemsSource="{Binding BookingDetailList}">
+                  ItemsSource="{Binding BookingDetailList}" Background="#FFEFF7E1">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="BookingDetail ID" Binding="{Binding BookingDetailId}" Width="*" />
                 <DataGridTextColumn Header="Service" Binding="{Binding ServiceName}" Width="*" />

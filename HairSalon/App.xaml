@@ -10,6 +10,7 @@
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Foreground" Value="#ffffff"/>
             <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="Bodoni MT"/>
         </Style>
 
         <Style x:Key="normalText" TargetType="TextBlock">

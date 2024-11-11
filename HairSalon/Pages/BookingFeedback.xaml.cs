@@ -74,7 +74,7 @@ namespace HairSalon.Pages
                     continue;
                 }
 
-                var completedDetails = bookingDetails.Where(bd => bd.Status == "Pending").ToList();
+                var completedDetails = bookingDetails.Where(bd => bd.Status == "Completed").ToList();
                 completedBookingDetails.AddRange(completedDetails);
             }
 
@@ -148,7 +148,7 @@ namespace HairSalon.Pages
 
             var filteredBookingDetails = _bookingService.GetBookingsByUserId(userid)
                 .SelectMany(b => _bookingDetailService.GetBookingDetailByBookingId(b.BookingId))
-                .Where(bd => bd.Status == "Pending")
+                .Where(bd => bd.Status == "Completed")
                 .Where(bd => !selectedDate.HasValue || bd.ScheduledWorkingDay == selectedDate)
                 .Where(bd => !selectedServiceId.HasValue || bd.ServiceId == selectedServiceId)
                 .Where(bd => !selectedStylistId.HasValue || bd.AvailableSlot?.UserId == selectedStylistId)
