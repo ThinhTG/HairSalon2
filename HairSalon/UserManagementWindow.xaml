@@ -7,6 +7,14 @@
         mc:Ignorable="d"
         Title="StylistManagementWindow" Height="480" Width="820" Loaded="Window_Loaded" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
+
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#FFE4F3F3" Offset="0.0"/>
+                <GradientStop Color="#FF051523" Offset="1.0"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
         <Label Content="User Management" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"/>
         <DataGrid x:Name="dtgUser" Margin="0,203,0,84" SelectionChanged="dtgUser_SelectionChanged" AutoGenerateColumns="False">
             <DataGrid.Columns>

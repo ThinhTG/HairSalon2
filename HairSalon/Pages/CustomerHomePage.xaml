@@ -12,20 +12,28 @@
         <local:ImagePathConverter x:Key="imagePathConverter"/>
     </Page.Resources>
 
-    <Grid Background="#f1f3f5">
+
+
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#FFB2E1FF" Offset="0.0"/>
+                <GradientStop Color="AliceBlue" Offset="1.0"/>
+            </LinearGradientBrush>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- Title -->
-        <TextBlock Text="Our Services" 
-               FontFamily="Ubuntu" 
+        <TextBlock Text="Our Service" 
+               FontFamily="Bodoni MT" 
                HorizontalAlignment="Center" 
-               Margin="0,20,0,30"
+               Margin="0,20,0,10"
                Foreground="#FFB197FC" 
-               FontSize="36" 
-               FontWeight="Bold"/>
+               FontSize="50" 
+               FontWeight="Bold" Width="259"/>
 
         <!-- Services Container -->
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">

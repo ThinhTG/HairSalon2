@@ -1,4 +1,5 @@
-﻿using HairSalon_BusinessObject.Models;
+﻿
+using HairSalon_BusinessObject.Models;
 using HairSalon_DAO.DTO;
 using HairSalon_Services.INTERFACE;
 using HairSalon_Services.SERVICE;
@@ -51,10 +52,6 @@ namespace HairSalon.Pages
 
         }
 
-  
-
-
-
         private void LoadServices()
         {
             serviceComboBox.ItemsSource = _serviceService.GetServiceList();
@@ -84,7 +81,7 @@ namespace HairSalon.Pages
 
                 if (availableSlots == null || !availableSlots.Any())
                 {
-                    MessageBox.Show("❌ Không có slot nào cho stylist và ngày đã chọn.", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("❌ There are no slots available for the selected stylist and date.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
                 else
                 {
@@ -98,7 +95,7 @@ namespace HairSalon.Pages
 
                     if (!filteredSlots.Any())
                     {
-                        MessageBox.Show("❌ Không có slot nào hợp lệ cho stylist và ngày đã chọn.", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        MessageBox.Show("❌ There are no slots available for the selected stylist and date.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                     }
                     else
                     {
@@ -115,25 +112,25 @@ namespace HairSalon.Pages
         {
             if (serviceComboBox.SelectedItem == null)
             {
-                MessageBox.Show("⚠️ Vui lòng chọn một dịch vụ.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("⚠️ Please select a service.", "Notification", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
             if (stylistComboBox.SelectedItem == null)
             {
-                MessageBox.Show("⚠️ Vui lòng chọn stylist.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("⚠️ Please choose a stylist.", "Notification", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
             if (datePicker.SelectedDate == null)
             {
-                MessageBox.Show("⚠️ Vui lòng chọn một ngày.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("⚠️ Please choose a date.", "Notification", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
             if (slotComboBox.SelectedItem == null)
             {
-                MessageBox.Show("⚠️ Vui lòng chọn một slot.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("⚠️ Please select a slot.", "Notification", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
@@ -142,7 +139,7 @@ namespace HairSalon.Pages
 
             if (selectedSlot == null)
             {
-                MessageBox.Show("⚠️ Slot không hợp lệ.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("⚠️ Invalid slot.", "Notification", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
@@ -152,7 +149,7 @@ namespace HairSalon.Pages
 
             if (existingDetail != null)
             {
-                MessageBox.Show("⚠️ Slot này đã được thêm vào danh sách bên dưới. Vui lòng chọn slot khác.", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("⚠️ This slot has been added to the list below. Please choose another slot.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -176,7 +173,7 @@ namespace HairSalon.Pages
             slotComboBox.ItemsSource = null;
             slotComboBox.Items.Clear();
 
-            MessageBox.Show("✅ Đã thêm dịch vụ thành công.", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("✅ Service added successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private Booking currentBooking;
@@ -203,7 +200,7 @@ namespace HairSalon.Pages
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    return;                 
+                    return;
                 }
                 else if (result == MessageBoxResult.No)
                 {
@@ -235,31 +232,31 @@ namespace HairSalon.Pages
                         }
                     }
 
-                    
+
                     tempBookingDetails.Clear();
                     LoadBookingSummary();
 
-                if (successfulDetails > 0)
-                {
-                    MessageBox.Show($"✅ Đã thêm thành công {successfulDetails} đơn hàng.", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-                if (failedDetails > 0)
-                {
-                    MessageBox.Show($"❌ Có {failedDetails} đơn hàng không thể thêm do dịch vụ hoặc slot không tồn tại.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                    if (successfulDetails > 0)
+                    {
+                        MessageBox.Show($"✅ Successfully added {successfulDetails} order.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    if (failedDetails > 0)
+                    {
+                        MessageBox.Show($"❌ There are {failedDetails} orders that cannot be added because the service or slot does not exist.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
 
-                serviceComboBox.SelectedItem = null;
-                stylistComboBox.SelectedItem = null;
-                datePicker.SelectedDate = null;
-                slotComboBox.ItemsSource = null;
-                slotComboBox.Items.Clear();
+                    serviceComboBox.SelectedItem = null;
+                    stylistComboBox.SelectedItem = null;
+                    datePicker.SelectedDate = null;
+                    slotComboBox.ItemsSource = null;
+                    slotComboBox.Items.Clear();
                     PaymentPage paymentPage = new PaymentPage(booking.BookingId);
                     this.NavigationService.Navigate(paymentPage);
                 }
             }
             else
             {
-                MessageBox.Show("⚠️ Không có thông tin đơn hàng để xác nhận.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("⚠️ There is no order information to confirm.", "Notification", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -276,7 +273,7 @@ namespace HairSalon.Pages
                 Date = detail.ScheduledWorkingDay?.ToShortDateString() ?? "No Date",
                 Slot = detail.AvailableSlot?.Slot?.StartTime.ToString() ?? "No Start Time",
                 Price = detail.Service?.Price,
-                Image = detail.Service?.Image,
+
             }).ToList();
 
             bookingSummaryDataGrid.ItemsSource = bookingSummary;
@@ -341,14 +338,14 @@ namespace HairSalon.Pages
         {
             if (bookingSummaryDataGrid.SelectedItem == null)
             {
-                MessageBox.Show("⚠️ Vui lòng chọn một dòng để cập nhật.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("⚠️ Please select a line to update.", "Notification", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
             var selectedDetail = bookingSummaryDataGrid.SelectedItem as dynamic;
 
             if (selectedDetail == null)
             {
-                MessageBox.Show("⚠️ Không có thông tin để cập nhật.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("⚠️ There is no information to update.", "Notification", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
@@ -357,10 +354,11 @@ namespace HairSalon.Pages
 
             if (selectedService == null || selectedSlot == null || datePicker.SelectedDate == null)
             {
-                MessageBox.Show("⚠️ Vui lòng điền đầy đủ thông tin để cập nhật.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("⚠️ Please fill in all information to update.", "Notification", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 return;
             }
+
 
             var detailToUpdate = tempBookingDetails.FirstOrDefault(detail =>
                 detail.Service.ServiceName == selectedDetail.Service &&
@@ -368,6 +366,16 @@ namespace HairSalon.Pages
                 detail.ScheduledWorkingDay.Value.ToShortDateString() == selectedDetail.Date &&
                 detail.AvailableSlot.Slot.StartTime.ToString() == selectedDetail.Slot);
 
+            var existingDetail = tempBookingDetails
+            .FirstOrDefault(detail => detail.AvailableSlotId == selectedSlot.AvailableSlotId
+                                  && detail.ScheduledWorkingDay == datePicker.SelectedDate.Value
+                                  && detail != detailToUpdate);
+
+            if (existingDetail != null)
+            {
+                MessageBox.Show("⚠️ This slot has been added to the list below. Please choose another slot.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             if (detailToUpdate != null)
             {
                 detailToUpdate.ServiceId = selectedService.ServiceId;
@@ -379,7 +387,7 @@ namespace HairSalon.Pages
 
 
                 LoadBookingSummary();
-                MessageBox.Show("✅ Đã cập nhật dịch vụ thành công.", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("✅ Service updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 serviceComboBox.SelectedItem = null;
                 stylistComboBox.SelectedItem = null;
@@ -389,7 +397,7 @@ namespace HairSalon.Pages
             }
             else
             {
-                MessageBox.Show("❌ Không tìm thấy thông tin để cập nhật.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("❌ No information found to update.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -397,7 +405,7 @@ namespace HairSalon.Pages
         {
             if (bookingSummaryDataGrid.SelectedItem == null)
             {
-                MessageBox.Show("⚠️ Vui lòng chọn một dòng để xóa.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("⚠️ Please select a line to delete.", "Notification", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
             var selectedDetail = bookingSummaryDataGrid.SelectedItem as dynamic;
@@ -411,7 +419,7 @@ namespace HairSalon.Pages
             {
                 tempBookingDetails.Remove(detailToDelete);
                 LoadBookingSummary();
-                MessageBox.Show("✅ Đã xóa dịch vụ thành công.", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("✅Service deleted successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 serviceComboBox.SelectedItem = null;
                 stylistComboBox.SelectedItem = null;
@@ -421,8 +429,10 @@ namespace HairSalon.Pages
             }
             else
             {
-                MessageBox.Show("⚠️ Không tìm thấy dịch vụ để xóa.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("⚠️ No service found to delete.", "Notification", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
     }
 }
+
+

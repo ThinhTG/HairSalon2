@@ -56,7 +56,7 @@ namespace HairSalon.Pages
                 return;
             }
 
-            int roleId = 1;
+            int roleId = 3;
             DateTime createdAt = DateTime.Now;
             User user = new User();
             user.UserName = username;

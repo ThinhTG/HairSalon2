@@ -106,6 +106,9 @@
     </Page.Resources>
 
     <Grid Background="#F7FAFC">
+        
+        
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -113,14 +116,14 @@
 
         <!-- Header -->
         <Border Grid.Row="0" Background="White" BorderBrush="{StaticResource BorderColor}" BorderThickness="0,0,0,1">
-            <Grid>
+            <Grid Margin="0,0,0,31">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Salon Manager Pro" FontSize="24" FontWeight="Bold" Foreground="{StaticResource PrimaryColor}" Margin="20,15"/>
                 <Menu Grid.Column="1" Background="Transparent" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0">
-                    <Button x:Name="btnClose" Content="Thoát" FontSize="14" Click="ExitButton_Click" Style="{StaticResource ButtonStyle}" Background="#FF0A2252"/>
+                    
                 </Menu>
             </Grid>
         </Border>
@@ -253,17 +256,14 @@
                                  VerticalContentAlignment="Center">
                                 <ComboBoxItem Content="Chọn Tháng" IsSelected="True" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </ComboBox>
+                            <Border BorderBrush="Black" BorderThickness="0.5" Padding="5" CornerRadius="0" Background="#FFE5E5E5" Height="40" Width="141" Margin="0,0,20,0" >
+                                <TextBlock x:Name="txtYear" 
+                                    Text="Year : " 
+                                    VerticalAlignment="Center" Foreground="Black" 
+                                    />
+                            </Border>
 
-                            <ComboBox 
-                                        x:Name="cmbYear" 
-                                        Style="{StaticResource ComboBoxStyle}" 
-                                        Margin="0,0,20,0" 
-                                        SelectedIndex="0" 
-                                        Width="120" 
-                                        SelectionChanged="CmbYear_SelectionChanged" 
-                                        VerticalAlignment="Center" 
-                                        VerticalContentAlignment="Center" 
-                                       />
+
 
 
                             <ComboBox x:Name="cmbStylist1" 
@@ -337,3 +337,4 @@
         </TabControl>
     </Grid>
 </Page>
+

@@ -93,6 +93,19 @@ namespace HairSalon
 
         private void dtgStylist_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (dtgStylist.SelectedItem != null)
+            {
+                btnUpdate.IsEnabled = true;
+                btnDelete.IsEnabled = true;
+                btnAdd.IsEnabled = false;
+            }
+            else
+            {
+                btnUpdate.IsEnabled = false;
+                btnDelete.IsEnabled = false;
+                btnAdd.IsEnabled = true;
+            }
+
             DataGrid dataGrid = sender as DataGrid;
             DataGridRow row = dataGrid.ItemContainerGenerator.ContainerFromIndex(dataGrid.SelectedIndex) as DataGridRow;
             if (row != null)

@@ -40,7 +40,7 @@ namespace HairSalon_DAO.DAO
 
         public List<StylistProfile> GetStylistList()
         {
-            return dbContext.StylistProfile.ToList();
+            return dbContext.StylistProfile.Include("User").ToList();
         }
 
         public bool AddStylist(StylistProfile Stylist)
