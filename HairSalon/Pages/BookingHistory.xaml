@@ -16,10 +16,8 @@
             </LinearGradientBrush>
         </Grid.Background>
 
-        <!-- Header -->
         <TextBlock Text="BOOKING HISTORY" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" FontSize="50" FontFamily="Bodoni MT Black" Foreground="#FF856BE4" TextAlignment="Center"/>
 
-        <!-- Search Panel -->
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="200,91,0,0">
             <TextBlock Text="From Date:" VerticalAlignment="Center" FontSize="20" Margin="5,0" FontFamily="Bodoni MT" FontWeight="Bold"/>
             <DatePicker x:Name="FromDatePicker" Width="150" Margin="5,0" FontSize="20" FontFamily="Bodoni MT"/>
@@ -34,7 +32,6 @@
         <DataGrid x:Name="BookingHistoryDataGrid" AutoGenerateColumns="False" Width="1124" Height="284" Margin="0,165,0,0" HorizontalAlignment="Center" CanUserAddRows="False" HeadersVisibility="Column" RowBackground="#ffffff" AlternatingRowBackground="#f1f1f1" BorderThickness="1" 
                   BorderBrush="#dcdcdc" FontFamily="Bodoni MT" FontWeight="Bold" FontSize="20" VerticalAlignment="Top" Background="#FFE4F3F3" Foreground="#FF0A2252" SelectionChanged="BookingHistoryDataGrid_SelectionChanged"  >
             <DataGrid.Resources>
-                <!-- Style for Center Aligning Column Headers -->
                 <Style TargetType="DataGridColumnHeader">
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
                     <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -90,7 +87,6 @@
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                <!-- Payment Button -->
                                 <Button Content="Payment" Width="80" Margin="5,0" 
                         Click="PaymentButton_Click" 
                         Tag="{Binding BookingId}" 
@@ -120,7 +116,6 @@
                                     </Button.Style>
                                 </Button>
 
-                                <!-- Cancel Button -->
                                 <Button Content="Cancel" Width="80" Margin="5,0" 
                         Click="CancelBookingButton_Click" 
                         Tag="{Binding BookingId}" 
@@ -154,11 +149,9 @@
         </DataGrid>
 
 
-        <!-- Detail DataGrid -->
         <Label Content="+ Booking Details (Select your booking to see details):" HorizontalAlignment="Left" Margin="28,448,0,0" VerticalAlignment="Top" Height="38" Width="506" Foreground="#FF00529E" FontFamily="Bodoni MT" FontSize="22" FontWeight="Bold"/>
         <DataGrid x:Name="BookingDetailDataGrid" AutoGenerateColumns="False" Width="1124" Height="158" Margin="0,486,0,0" HorizontalAlignment="Center" CanUserAddRows="False" HeadersVisibility="Column" RowBackground="#ffffff" AlternatingRowBackground="#f1f1f1" BorderThickness="1" BorderBrush="#dcdcdc" FontFamily="Bodoni MT" FontWeight="Bold" FontSize="20" VerticalAlignment="Top" Background="#FFCFE8EC" Foreground="#FF0A2252" SelectionChanged="BookingHistoryDataGrid_SelectionChanged">
             <DataGrid.Resources>
-                <!-- Style for Center Aligning Column Headers -->
                 <Style TargetType="DataGridColumnHeader">
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
                     <Setter Property="FontSize" Value="18"/>
@@ -169,7 +162,6 @@
 
 
             <DataGrid.Columns>
-                <!-- Date Column -->
                 <DataGridTextColumn Header="Date" Binding="{Binding ScheduledWorkingDay, StringFormat=d}" Width="*">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
@@ -179,7 +171,6 @@
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
 
-                <!-- Stylist Column -->
                 <DataGridTextColumn Header="Stylist" Binding="{Binding UserName}" Width="*">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
@@ -189,7 +180,6 @@
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
 
-                <!-- Slot Column -->
                 <DataGridTextColumn Header="Slot" Binding="{Binding StartTime}" Width="*">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
@@ -199,7 +189,6 @@
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
 
-                <!-- Service Column -->
                 <DataGridTextColumn Header="Service" Binding="{Binding ServiceName}" Width="*">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
@@ -209,7 +198,6 @@
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
 
-                <!-- Price Column -->
                 <DataGridTextColumn Header="Price" Binding="{Binding Price, StringFormat={}{0:C}}" Width="*">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
@@ -219,7 +207,7 @@
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
 
-                <!-- Status Column -->
+
                 <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
@@ -250,6 +238,9 @@
                                                 </DataTrigger>
                                                 <DataTrigger Binding="{Binding Status}" Value="Cancelled">
                                                     <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="feedbacked">
+                                                <Setter Property="IsEnabled" Value="False"/>
                                                 </DataTrigger>
                                                 <DataTrigger Binding="{Binding IsPastScheduledDate}" Value="True">
                                                     <Setter Property="IsEnabled" Value="False"/>

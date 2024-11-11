@@ -87,7 +87,7 @@ namespace HairSalon_DAO.DAO
         {
 
             var query = _context.BookingDetail
-                                .Where(bd => bd.Status == "completed" && bd.AvailableSlot.UserId == userId);
+                                .Where(bd => (bd.Status == "Completed" || bd.Status == "feedbacked") && bd.AvailableSlot.UserId == userId);
 
             if (selectedDate.HasValue)
             {
@@ -150,7 +150,7 @@ namespace HairSalon_DAO.DAO
                     .FirstOrDefault();
 
                 var dailySalary = _context.BookingDetail
-                    .Where(bd => bd.Status == "completed"
+                    .Where(bd => (bd.Status == "completed" || bd.Status == "feedbacked")
                               && bd.ScheduledWorkingDay == selectedDate.Value.Date
                               && bd.AvailableSlot.UserId == userId)
                     .Sum(bd => bd.Price * 0.1m) + _context.StylistProfile
@@ -207,10 +207,10 @@ namespace HairSalon_DAO.DAO
                     where u.UserId == userId &&
                           bd.ScheduledWorkingDay.HasValue &&
                           bd.ScheduledWorkingDay.Value.Month == month &&
-                          bd.ScheduledWorkingDay.Value.Year == year
+                          bd.ScheduledWorkingDay.Value.Year == year &&
+                          (bd.Status == "Completed" || bd.Status == "feedbacked")
                     select bd.ServiceId).Count();
         }
-
         public decimal GetTotalDailySalary(int userId, int month, int year)
         {
             return (from u in _context.User

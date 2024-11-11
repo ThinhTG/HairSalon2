@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace HairSalon.Pages
 {
@@ -125,13 +126,11 @@ namespace HairSalon.Pages
 
         private void InitializeStylistDropdown()
         {
-            // Get the user with UserId = 2, assuming _userService.GetUserById exists
             List<User> stylist = stylistService.GetAllStylist();
 
             // Check if stylist exists
             if (stylist != null)
             {
-                // Create a list with the single stylist to set as ItemsSource
                 cmbStylist.ItemsSource = stylist;
                 cmbStylist.DisplayMemberPath = "UserName";
                 cmbStylist.SelectedValuePath = "UserId";
@@ -146,12 +145,13 @@ namespace HairSalon.Pages
             int? selectedServiceId = cmbService.SelectedValue as int?;
             int? selectedStylistId = cmbStylist.SelectedValue as int?;
 
+
             var filteredBookingDetails = _bookingService.GetBookingsByUserId(userid)
                 .SelectMany(b => _bookingDetailService.GetBookingDetailByBookingId(b.BookingId))
                 .Where(bd => bd.Status == "Completed")
                 .Where(bd => !selectedDate.HasValue || bd.ScheduledWorkingDay == selectedDate)
                 .Where(bd => !selectedServiceId.HasValue || bd.ServiceId == selectedServiceId)
-                .Where(bd => !selectedStylistId.HasValue || bd.AvailableSlot?.UserId == selectedStylistId)
+                .Where(bd => !selectedStylistId.HasValue || (availableSlotService.GetAvailableSlotById(bd.AvailableSlotId).UserId) == selectedStylistId)
                 .Select(detail => new
                 {
                     ServiceName = _serviceService.GetServiceById(detail.ServiceId).ServiceName,

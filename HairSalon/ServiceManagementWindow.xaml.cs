@@ -232,6 +232,20 @@ namespace HairSalon
 
         private void dtgService_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+
+            if (dtgService.SelectedItem != null)
+            {
+                btnUpdate.IsEnabled = true;
+                btnDelete.IsEnabled = true;
+                btnAdd.IsEnabled = false;
+            }
+            else
+            {
+                btnUpdate.IsEnabled = false;
+                btnDelete.IsEnabled = false;
+                btnAdd.IsEnabled = true;
+            }
+
             DataGrid dataGrid = sender as DataGrid;
             DataGridRow row = dataGrid.ItemContainerGenerator.ContainerFromIndex(dataGrid.SelectedIndex) as DataGridRow;
 

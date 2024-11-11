@@ -20,19 +20,16 @@
 
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,10" Width="858">
-                <!-- Date Picker for Date Filter -->
+
                 <Label Content="Date:" VerticalAlignment="Center"/>
                 <DatePicker x:Name="datePicker" Width="150" Margin="5,0"/>
 
-                <!-- ComboBox for Service Filter -->
                 <Label Content="Service:" VerticalAlignment="Center" Margin="10,0,0,0"/>
                 <ComboBox x:Name="cmbService" Width="150" Margin="5,0"/>
 
-                <!-- ComboBox for Stylist Filter -->
                 <Label Content="Stylist:" VerticalAlignment="Center" Margin="10,0,0,0"/>
                 <ComboBox x:Name="cmbStylist" Width="150" Margin="5,0"/>
 
-                <!-- Search and Reset Buttons -->
                 <Button Content="Search" Width="100" Margin="10,0,0,0" Click="Button_Click" />
                 <Button Content="Reset" Width="100" Margin="10,0,0,0" Click="Button_Click_1" />
             </StackPanel>
@@ -49,7 +46,6 @@
               BorderThickness="1" 
               CanUserAddRows="False">
 
-                <!-- Column Headers and Styling here... -->
 
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Service Name" Binding="{Binding ServiceName}" Width="*"/>

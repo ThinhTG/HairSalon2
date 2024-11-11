@@ -13,7 +13,7 @@ namespace HairSalon
         private readonly BookingDetailService _bookingDetailService;
         private int _id;
         private string _interest = string.Empty;
-        private Button _lastSelectedButton; // Store reference to last selected button
+        private Button _lastSelectedButton; 
         public Action FeedbackSavedCallback { get; set; }
 
         public CusFeedbackWindow()
@@ -44,7 +44,7 @@ namespace HairSalon
 
             if (isSaved)
             {
-                MessageBox.Show("Phản hồi của bạn đã được lưu thành công!");
+                MessageBox.Show("Your feedback has been saved successfully!");
                 // Trigger the FeedbackSavedCallback action if it’s set
                 _bookingDetailService.UpdateBookingDetailStatus(_id, "feedbacked");
                 // Store reference to current button as last selected
@@ -53,7 +53,7 @@ namespace HairSalon
             }
             else
             {
-                MessageBox.Show("Đã xảy ra lỗi khi lưu phản hồi của bạn.");
+                MessageBox.Show("An error occurred while saving your feedback.");
             }
         }
 
@@ -65,45 +65,49 @@ namespace HairSalon
                 switch (button.Content.ToString())
                 {
                     case "😢":
-                        _interest = "Rất không hài lòng";
+                        _interest = "Very dissatisfied";
                         break;
                     case "🙁":
-                        _interest = "Không hài lòng";
+                        _interest = "Dissatisfied";
                         break;
                     case "😐":
-                        _interest = "Bình thường";
+                        _interest = "Neutral";
                         break;
                     case "🙂":
-                        _interest = "Hài lòng";
+                        _interest = "Satisfied";
                         break;
                     case "😁":
-                        _interest = "Rất hài lòng";
+                        _interest = "Very satisfied";
                         break;
                 }
-
-                // Reset appearance of last selected button
                 if (_lastSelectedButton != null)
                 {
                     _lastSelectedButton.ClearValue(Button.BackgroundProperty);
                     _lastSelectedButton.FontWeight = FontWeights.Normal;
                 }
 
-                // Update appearance of current selected button
-                button.Background = Brushes.LightBlue;  // Highlight the selected button
+                button.Background = Brushes.LightBlue;
                 button.FontWeight = FontWeights.Bold;
 
-                
                 _lastSelectedButton = button;
             }
         }
 
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+
             string description = txtDescription.Text;
-            SaveFeedbackToDatabase(_interest, description);
-            
+
+            if (_interest != null) { 
+
+                SaveFeedbackToDatabase(_interest, description);
+
             this.Close();
         }
+
+        }
+        
 
         private void txtDescription_TextChanged(object sender, TextChangedEventArgs e)
         {

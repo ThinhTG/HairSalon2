@@ -120,15 +120,68 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <!-- Define the Check-In button style with triggers -->
                                 <Button Content="Check In" 
-                                        Width="80" 
-                                        Click="CheckInButton_Click" 
-                                        Tag="{Binding BookingDetailId}" />
+            Width="80" 
+            Click="CheckInButton_Click" 
+            Tag="{Binding BookingDetailId}">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <!-- Default Background -->
+                                            <Setter Property="Background" Value="LightGreen"/>
+
+                                            <!-- Trigger for MouseOver -->
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="DarkGreen"/>
+                                                    <Setter Property="Foreground" Value="White"/>
+                                                </Trigger>
+                                                <!-- Trigger for Disabled state -->
+                                                <Trigger Property="IsEnabled" Value="False">
+                                                    <Setter Property="Background" Value="Gray"/>
+                                                    <Setter Property="Foreground" Value="White"/>
+                                                </Trigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="feedbacked">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="Completed">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+
+                                <!-- Define the Checkout button style with triggers -->
                                 <Button Content="Checkout" 
-                                        Width="80" 
-                                        Click="CheckoutButton_Click" 
-                                        Tag="{Binding BookingDetailId}" />
+            Width="80" 
+            Click="CheckoutButton_Click" 
+            Tag="{Binding BookingDetailId}">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <!-- Default Background -->
+                                            <Setter Property="Background" Value="LightSalmon"/>
+
+                                            <!-- Trigger for MouseOver -->
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="DarkRed"/>
+                                                    <Setter Property="Foreground" Value="White"/>
+                                                </Trigger>
+                                                <!-- Trigger for Disabled state -->
+                                                <Trigger Property="IsEnabled" Value="False">
+                                                    <Setter Property="Background" Value="Gray"/>
+                                                    <Setter Property="Foreground" Value="White"/>
+                                                </Trigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="feedbacked">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
                             </StackPanel>
+
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

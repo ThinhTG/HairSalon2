@@ -28,19 +28,14 @@ namespace HairSalon
 
         private void sidebar_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // Get the selected ListBoxItem
             var selectedItem = sidebar.SelectedItem as ListBoxItem;
 
-            // Check if the selected item is not null
             if (selectedItem != null)
             {
-                // Find the StackPanel within the ListBoxItem
                 var stackPanel = selectedItem.Content as StackPanel;
 
-                // Check if the StackPanel is not null
                 if (stackPanel != null)
                 {
-                    // Get the NavButton from the StackPanel
                     var navButton = stackPanel.Children[0] as NavButton;
 
                     // Check if navButton is not null and navigate
@@ -70,7 +65,6 @@ namespace HairSalon
                 {
                     try
                     {
-                        // Lấy Frame chứa Page hiện tại
                         var frame = Window.GetWindow(this)?.Content as Frame;
                         if (frame != null)
                         {

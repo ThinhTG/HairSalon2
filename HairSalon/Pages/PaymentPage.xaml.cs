@@ -81,7 +81,7 @@ namespace HairSalon.Pages
 
         private void StartCancellationTimer()
         {
-            _timer = new System.Timers.Timer(0.01 * 60 * 1000); // Every 2 minutes
+            _timer = new System.Timers.Timer(0.01 * 60 * 1000); 
             _timer.Elapsed += OnTimedEvent;
             _timer.AutoReset = true;
             _timer.Enabled = true;

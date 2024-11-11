@@ -87,12 +87,14 @@ namespace HairSalon.Pages
         {
             string userName = txtUserName.Text.Trim();
             string phoneNumber = txtPhoneNumber.Text.Trim();
-            DateTime? selectedDate = txtDatePicker.SelectedDate;
+            DateOnly? selectedDate = txtDatePicker.SelectedDate.HasValue
+                ? DateOnly.FromDateTime(txtDatePicker.SelectedDate.Value)
+                : (DateOnly?)null;
 
             var filteredBookings = (from booking in bookingService.GetBookings()
                                     join user in userService.GetUsers()
                                     on booking.UserId equals user.UserId
-                                    where booking.Status == "Confirmed"
+                                    where booking.Status == "Paid"
                                     select new
                                     {
                                         booking.BookingId,
@@ -117,7 +119,8 @@ namespace HairSalon.Pages
 
             if (selectedDate.HasValue)
             {
-                filteredBookings = filteredBookings.Where(b => b.BookingDate == selectedDate.Value.Date);
+                filteredBookings = filteredBookings.Where(b => b.BookingDate.HasValue &&
+                                                               DateOnly.FromDateTime(b.BookingDate.Value) == selectedDate.Value);
             }
 
             dtgBooking.ItemsSource = filteredBookings.ToList();
@@ -133,7 +136,7 @@ namespace HairSalon.Pages
             var allBookings = (from booking in bookingService.GetBookings()
                                join user in userService.GetUsers()
                                on booking.UserId equals user.UserId
-                               where booking.Status == "Confirmed"
+                               where booking.Status == "Paid"
                                select new
                                {
                                    booking.BookingId,
@@ -156,12 +159,12 @@ namespace HairSalon.Pages
             {
                 bookingDetailService.UpdateBookingDetailStatus(BookingDetailId, "Checked In");
                 UpdateBookingDetailList(viewStateBookingId);
-                MessageBox.Show("Khách hàng đã check-in thành công.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Customer has successfully checked in.", "Notification", MessageBoxButton.OK, MessageBoxImage.Information);
                 
             }
             else
             {
-                MessageBox.Show("Lỗi: Không thể lấy ID chi tiết đặt chỗ.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Error: Unable to retrieve booking detail ID.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -182,11 +185,11 @@ namespace HairSalon.Pages
 
                 }
 
-                MessageBox.Show("Khách hàng đã checkout thành công.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Customer has successfully checked out.", "Notification", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
-                MessageBox.Show("Lỗi: Không thể lấy ID chi tiết đặt chỗ.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Error: Unable to retrieve booking detail ID.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -218,7 +221,6 @@ namespace HairSalon.Pages
 
         private void UpdateBookingDetailList(int bookingId)
         {
-            // Giả sử bạn có phương thức để lấy danh sách BookingDetail theo BookingId
           List<BookingDetailDTO> BookingDetailList = bookingDetailService.GetBookingDetailsByBookingId(bookingId);
             BookingDetailDataGrid.ItemsSource = BookingDetailList;
             BookingDetailDataGrid.Items.Refresh();

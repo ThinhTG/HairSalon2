@@ -14,7 +14,7 @@ namespace HairSalon
         public static readonly DependencyProperty IconProperty =
              DependencyProperty.Register("Icon", typeof(ImageSource), typeof(NavButton2), new PropertyMetadata(null));
 
-        public string Navlink { get; set; } = string.Empty; // Initialize with a default value
+        public string Navlink { get; set; } = string.Empty;
 
 
         public ImageSource Icon
