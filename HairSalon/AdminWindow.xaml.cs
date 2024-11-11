@@ -49,6 +49,13 @@ namespace HairSalon
             loginWindow.Show();
             this.Close();
         }
+
+        private void btnUserManagement_Click(object sender, RoutedEventArgs e)
+        {
+            UserManagementWindow userManagementWindow = new UserManagementWindow();
+            userManagementWindow.Show();
+            this.Close();
+        }
     }
 }
 //using System.Windows;

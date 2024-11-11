@@ -1,0 +1,43 @@
+﻿<Window x:Class="HairSalon.UserManagementWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HairSalon"
+        mc:Ignorable="d"
+        Title="StylistManagementWindow" Height="480" Width="820" Loaded="Window_Loaded" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Label Content="User Management" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"/>
+        <DataGrid x:Name="dtgUser" Margin="0,203,0,84" SelectionChanged="dtgUser_SelectionChanged" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="User ID" Binding="{Binding UserId}" />
+                <DataGridTextColumn Header="User Name" Binding="{Binding UserName}" />
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}" />
+                <DataGridTextColumn Header="Password" Binding="{Binding Password}" />
+                <DataGridTextColumn Header="Date Created" Binding="{Binding CreatedAt}" />
+                <DataGridTextColumn Header="Role ID" Binding="{Binding RoleId}" />
+                <DataGridTextColumn Header="Phone Number" Binding="{Binding PhoneNumber}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Button x:Name="btnAdd" Content="Add" HorizontalAlignment="Left" Margin="87,387,0,0" VerticalAlignment="Top" Height="42" Width="105" Click="btnAdd_Click"/>
+        <Button x:Name="btnDelete" Content="Delete" HorizontalAlignment="Left" Margin="430,387,0,0" VerticalAlignment="Top" Height="42" Width="105" Click="btnDelete_Click"/>
+        <Button x:Name="btnUpdate" Content="Update" HorizontalAlignment="Left" Margin="258,387,0,0" VerticalAlignment="Top" Height="42" Width="105" Click="btnUpdate_Click"/>
+        <Button x:Name="btnBack" Content="Back" HorizontalAlignment="Left" Margin="596,387,0,0" VerticalAlignment="Top" Height="42" Width="104" Click="btnBack_Click"/>
+        <Label Content="User Id :" HorizontalAlignment="Left" Margin="23,40,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.726,0.231"/>
+        <Label Content="User Name :" HorizontalAlignment="Left" Margin="23,80,0,0" VerticalAlignment="Top" RenderTransformOrigin="-3.474,0.3"/>
+        <Label Content="Date Created :" HorizontalAlignment="Left" Margin="418,40,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtUserId" HorizontalAlignment="Left" Margin="116,44,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="284" IsEnabled="False"/>
+        <TextBox x:Name="txtUserName" HorizontalAlignment="Left" Margin="116,87,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="284"/>
+        <TextBox x:Name="txtDateCreated" HorizontalAlignment="Left" Margin="508,44,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="284" IsEnabled="False"/>
+        <TextBox x:Name="txtEmail" HorizontalAlignment="Left" Margin="116,128,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="284"/>
+        <Label Content="Email :" HorizontalAlignment="Left" Margin="23,120,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.129,0.106"/>
+        <Label Content="Password :" HorizontalAlignment="Left" Margin="23,160,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtPassword" HorizontalAlignment="Left" Margin="116,166,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="284"/>
+        
+        <TextBox x:Name="txtPhoneNumber" HorizontalAlignment="Left" Margin="508,128,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="284"/>
+        <Label Content="Role ID :" HorizontalAlignment="Left" Margin="418,80,0,0" VerticalAlignment="Top"/>
+        <Label Content="Phone :" HorizontalAlignment="Left" Margin="418,120,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="cmbRoleId" HorizontalAlignment="Left" Margin="508,87,0,0" VerticalAlignment="Top" Width="284"/>
+    </Grid>
+</Window>
