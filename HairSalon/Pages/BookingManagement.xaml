@@ -6,34 +6,65 @@
       xmlns:local="clr-namespace:HairSalon.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="750" d:DesignWidth="1200"
-      Title="BookingManagement"  >
+      Title="BookingManagement">
 
+    <Grid Background="#5483B3" Loaded="WindowLoad">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-    <Grid Background="#5483B3" Loaded="WindowLoad" VerticalAlignment="Bottom">
+        <!-- Tiêu đề -->
         <TextBlock Text="BOOKING MANAGEMENT" 
-           FontFamily="Arial" 
-           HorizontalAlignment="Center" 
-           VerticalAlignment="Top" 
-           Foreground="White" 
-           FontSize="40" 
-           FontWeight="Bold" 
-           Margin="0,20,0,0" 
-           Width="Auto" 
-           TextAlignment="Center">
-    <!-- Thêm hiệu ứng đổ bóng -->
+                   Grid.Row="0"
+                   FontFamily="Arial" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Top" 
+                   Foreground="White" 
+                   FontSize="40" 
+                   FontWeight="Bold" 
+                   Margin="0,20,0,0" 
+                   Width="Auto" 
+                   TextAlignment="Center">
             <TextBlock.Effect>
                 <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="5" Direction="320"/>
             </TextBlock.Effect>
         </TextBlock>
-        <DataGrid x:Name="dtgBooking" 
-          HorizontalAlignment="Center" 
-          Height="573" 
-          Margin="0,167,0,0" 
-          VerticalAlignment="Top" 
-          Width="1180" 
-          AutoGenerateColumns="False" 
-          ItemsSource="{Binding BookingUserList}">
 
+        <!-- Khu vực tìm kiếm -->
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" Margin="0,10,0,10">
+            <Label Content="USERNAME" Background="#AFB3B7" FontWeight="Bold" Margin="0,0,5,0"/>
+            <TextBox x:Name="txtUserName" Width="150" Margin="0,0,10,0"/>
+            <Label Content="PHONENUMBER" Background="#AFB3B7" FontWeight="Bold" Margin="0,0,5,0"/>
+            <TextBox x:Name="txtPhoneNumber" Width="150" Margin="0,0,10,0"/>
+            <Label Content="DATE" Background="#AFB3B7" FontWeight="Bold" Margin="0,0,5,0"/>
+            <DatePicker x:Name="txtDatePicker" Width="150" Margin="0,0,10,0"/>
+            <Button x:Name="Search_Button" Content="SEARCH" Width="100" Click="Search_Button_Click" FontSize="14" FontWeight="Bold" Background="#C1E8FF" Margin="0,0,10,0"/>
+            <Button x:Name="Cancel" Content="CANCEL" Width="100" Click="Cancel_Button_Click" FontSize="14" FontWeight="Bold" Background="#C1E8FF"/>
+        </StackPanel>
+
+        <!-- Tiêu đề cho Booking List -->
+        <TextBlock Text="Booking List" 
+                   Grid.Row="2"
+                   FontFamily="Arial" 
+                   FontSize="24" 
+                   FontWeight="Bold"
+                   Foreground="White"
+                   HorizontalAlignment="Center"
+                   Margin="0,10,0,5"/>
+
+        <!-- DataGrid dtgBooking -->
+        <DataGrid x:Name="dtgBooking" 
+                  Grid.Row="3"
+                  HorizontalAlignment="Center" 
+                  Width="1100" 
+                  AutoGenerateColumns="False" 
+                  IsReadOnly="True"
+                  ItemsSource="{Binding BookingUserList}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Booking ID" Binding="{Binding BookingId}" Width="*" />
                 <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*" />
@@ -41,38 +72,59 @@
                 <DataGridTextColumn Header="Amount" Binding="{Binding Amount}" Width="*" />
                 <DataGridTextColumn Header="Discount" Binding="{Binding Discount}" Width="*" />
                 <DataGridTextColumn Header="User Name" Binding="{Binding UserName}" Width="*" />
-                <!-- Hiển thị UserName -->
                 <DataGridTextColumn Header="Phone Number" Binding="{Binding PhoneNumber}" Width="*" />
-                <!-- Hiển thị PhoneNumber -->
-                <DataGridTemplateColumn Header="Action" Width="100">
+                <DataGridTemplateColumn Header="Actions" Width="150">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Check In" 
-                            Width="80" 
-                            Click="CheckInButton_Click" 
-                            Tag="{Binding BookingId}" />
+                            <Button Content="View" 
+                                    Width="100" 
+                                    Click="ViewButton_Click" 
+                                    Tag="{Binding BookingId}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBox x:Name="txtUserName" HorizontalAlignment="Left" Height="27" Margin="159,119,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="189" />
-        <TextBox x:Name="txtPhoneNumber" HorizontalAlignment="Left" Height="27" Margin="465,119,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="188" />
-        <DatePicker x:Name="txtDatePicker" Background="#AFB3B7" HorizontalAlignment="Left" Height="27" Margin="761,118,0,0" VerticalAlignment="Top" Width="201"/>
 
-        <Button x:Name="Search_Button" BorderBrush="Black" BorderThickness="2" Background="#C1E8FF" Content="SEARCH" HorizontalAlignment="Left" Height="28" Margin="1081,118,0,0" VerticalAlignment="Top" Width="109" Click="Search_Button_Click" FontSize="14" FontWeight="Bold"/>
+        <!-- Tiêu đề cho BookingDetail List -->
+        <TextBlock Text="BookingDetail List" 
+                   Grid.Row="4"
+                   FontFamily="Arial" 
+                   FontSize="24" 
+                   FontWeight="Bold"
+                   Foreground="White"
+                   HorizontalAlignment="Center"
+                   Margin="0,10,0,5"/>
 
-        <Button Content="X" HorizontalAlignment="Left" BorderBrush="Black" BorderThickness="2" Background="#AFB3B7" Height="21" Margin="1152,22,0,0" VerticalAlignment="Top" Width="38" Click="Button_Click"/>
-        <Label BorderBrush="Black" 
-        BorderThickness="2" 
-        Foreground="Black"  Content="USERNAME" HorizontalAlignment="Left" Height="28" Margin="63,119,0,0" Background="#AFB3B7" VerticalAlignment="Top" Width="91" FontWeight="Bold"/>
-        <Label  BorderBrush="Black" 
-        BorderThickness="2"  Content="PHONENUMBER" HorizontalAlignment="Left" Height="27" Margin="353,118,0,0"  Background="#AFB3B7" VerticalAlignment="Top" Width="107" FontWeight="Bold"/>
-        <Button x:Name="Cancel" BorderBrush="Black" BorderThickness="2" Background="#C1E8FF" Content="CANCEL" HorizontalAlignment="Left" Height="28" Margin="967,118,0,0" VerticalAlignment="Top" Width="109" Click="Cancel_Button_Click" FontSize="14" FontWeight="Bold"/>
-        <Label  BorderBrush="Black" 
-            BorderThickness="2"  Content="DATE" HorizontalAlignment="Left" Height="28" Margin="667,118,0,0"  Background="#AFB3B7" VerticalAlignment="Top" Width="89" FontWeight="Bold" Panel.ZIndex="1" RenderTransformOrigin="1.217,1.161"/>
-
-
-
+        <!-- DataGrid BookingDetailDataGrid -->
+        <DataGrid x:Name="BookingDetailDataGrid" 
+                  Grid.Row="5"
+                  HorizontalAlignment="Center" 
+                  Width="1100" 
+                  AutoGenerateColumns="False" 
+                  IsReadOnly="True"
+                  ItemsSource="{Binding BookingDetailList}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="BookingDetail ID" Binding="{Binding BookingDetailId}" Width="*" />
+                <DataGridTextColumn Header="Service" Binding="{Binding ServiceName}" Width="*" />
+                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*" />
+                <DataGridTemplateColumn Header="Action" Width="300">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button Content="Check In" 
+                                        Width="80" 
+                                        Click="CheckInButton_Click" 
+                                        Tag="{Binding BookingDetailId}" />
+                                <Button Content="Checkout" 
+                                        Width="80" 
+                                        Click="CheckoutButton_Click" 
+                                        Tag="{Binding BookingDetailId}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Page>

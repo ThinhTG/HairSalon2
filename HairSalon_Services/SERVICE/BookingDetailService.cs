@@ -54,6 +54,11 @@ namespace HairSalon_Services.SERVICE
         {
             return _bookingDetailRepo.GetBookingDetailByBookingId(bookingId);
         }
+
+        public bool AreAllBookingDetailsCompleted(int bookingId)
+        {
+            return _bookingDetailRepo.AreAllBookingDetailsCompleted((int)bookingId);
+        }
     }
 
 }

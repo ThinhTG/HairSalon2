@@ -62,6 +62,15 @@ namespace HairSalon_DAO.DAO
                             .ToList();
         }
 
+        public bool AreAllBookingDetailsCompleted(int bookingId)
+        {
+            // Lấy danh sách tất cả BookingDetail của Booking
+            var bookingDetails = GetBookingDetailsByBookingId(bookingId);
+
+            // Kiểm tra nếu tất cả các BookingDetail đều có trạng thái là "Completed"
+            return bookingDetails.All(detail => detail.Status == "Completed");
+        }
+
         public BookingDetail GetBookingDetailById(int bookingDetailId)
         {
             return dbContext.BookingDetail.SingleOrDefault(b => b.BookingDetailId == bookingDetailId);

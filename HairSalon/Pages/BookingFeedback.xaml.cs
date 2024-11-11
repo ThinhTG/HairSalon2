@@ -155,9 +155,9 @@ namespace HairSalon.Pages
                 .Select(detail => new
                 {
                     ServiceName = _serviceService.GetServiceById(detail.ServiceId).ServiceName,
-                    Stylist = detail.AvailableSlot?.User?.UserName ?? "Unknown Stylist",
+                    Stylist = _userService.GetUserNameByUserId(availableSlotService.GetAvailableSlotById(detail.AvailableSlotId).UserId),
                     Date = detail.ScheduledWorkingDay?.ToShortDateString() ?? "No Date",
-                    Slot = detail.AvailableSlot?.Slot?.StartTime.ToString() ?? "No Start Time",
+                    Slot = slotService.GetSlotById(availableSlotService.GetAvailableSlotById(detail.AvailableSlotId).SlotId).StartTime,
                     BookingDetailId = detail.BookingDetailId
                 })
                 .ToList();
